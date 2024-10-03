@@ -20,4 +20,3 @@ class ScoreWindow(BaseScoreWindow):
             "SuitWindow": SuitWindow,
             "SetWindow": SetWindow
         })
-

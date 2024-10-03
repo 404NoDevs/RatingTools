@@ -14,12 +14,12 @@ from PySide6.QtWidgets import (
 
 
 class BaseSetWindow(QWidget):
-    def __init__(self,params):
+    def __init__(self, params):
         super().__init__()
 
         # 获取子类参数
-        self.data       = params.get("data",{})
-        self.position   = params.get("position",(0,0))
+        self.data = params.get("data", {})
+        self.position = params.get("position", (0, 0))
 
         # 初始化数值
         self.character = "全属性"
@@ -27,7 +27,6 @@ class BaseSetWindow(QWidget):
 
         # 初始化UI
         self.initUI()
-
 
     def initUI(self):
         self.setWindowFlags(Qt.WindowStaysOnTopHint)

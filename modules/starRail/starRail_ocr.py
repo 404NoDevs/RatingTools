@@ -4,6 +4,7 @@ import re
 from modules.base.base_ocr import BaseOCR
 from utils import markPrint, strReplace
 
+
 class OCR(BaseOCR):
     def __init__(self):
         self.data_length = 13
@@ -46,10 +47,9 @@ class OCR(BaseOCR):
             result.append("0")
             is_corrected = True
 
-
         # 校验数据长度
         if len(result) != self.data_length:
-            markPrint("数据长度不符合要求",result)
+            markPrint("数据长度不符合要求", result)
             return False
 
         # 千位符（含误识别的.）兼容
@@ -116,5 +116,6 @@ class OCR(BaseOCR):
 
         markPrint(result)
         return result
+
 
 ocr = OCR()

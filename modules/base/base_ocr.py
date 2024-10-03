@@ -4,11 +4,12 @@ import re, time
 from PIL import ImageGrab
 from rapidocr_onnxruntime import RapidOCR
 
+
 class BaseOCR:
     def __init__(self):
         self.ocr = RapidOCR()
         self.start_time = 0
-        self.error_text = ["+", "S", "s", "孩","×","0"]
+        self.error_text = ["+", "S", "s", "孩", "×", "0"]
 
     def orcImage(self, index, x, y, w, h):
         print(f"图像{index}识别开始...{time.time() - self.start_time}")

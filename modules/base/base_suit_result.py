@@ -18,8 +18,8 @@ class BaseSuitResultWindow(QWidget):
         super().__init__()
 
         # 获取子类参数
-        self.data       = params.get("data",{})
-        self.position   = params.get("position",(0,0))
+        self.data = params.get("data", {})
+        self.position = params.get("position", (0, 0))
 
         # 初始化变量
         self.character = "全属性"
@@ -27,7 +27,6 @@ class BaseSuitResultWindow(QWidget):
 
         # 初始化UI
         self.initUI()
-
 
     def initUI(self):
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
@@ -85,7 +84,6 @@ class BaseSuitResultWindow(QWidget):
         self.programmeCombobox.currentIndexChanged.connect(self.programmeCurrentIndexChanged)
         self.equipButton.clicked.connect(self.allEquip)
 
-
     def updateUI(self):
         oldArtifactsData = self.data.getArtifactOwner(self.character)
         newArtifactsData = self.resultArray[self.programmeCombobox.currentIndex()]["combinationName"]
@@ -124,10 +122,10 @@ class BaseSuitResultWindow(QWidget):
                 self.artifactOwnerLabel1[posItem].setText("")
 
             scoreSub = round(newScore - oldScore, 1)
-            if scoreSub>0:
+            if scoreSub > 0:
                 scoreSub = "+" + str(scoreSub)
                 scoreStyle = "color:green;"
-            elif scoreSub<0:
+            elif scoreSub < 0:
                 scoreStyle = "color:red;"
             else:
                 scoreStyle = "color:black;"

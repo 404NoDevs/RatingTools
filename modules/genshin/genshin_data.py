@@ -114,6 +114,7 @@ average = {
     '元素充能效率': 5.5
 }
 
+
 class Data:
     def __init__(self):
         # 初始化常量
@@ -226,7 +227,7 @@ class Data:
 
     # 保存圣遗物
     def saveArtifactList(self, data):
-        #判定数据是否被矫正过
+        # 判定数据是否被矫正过
         if "isCorrected" in data:
             if data["isCorrected"]:
                 print("数据发生过矫正，无法保存")
@@ -518,5 +519,6 @@ class Data:
                 print("没有推荐结果")
                 pass
         return result
+
 
 data = Data()

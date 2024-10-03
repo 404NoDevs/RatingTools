@@ -193,7 +193,7 @@ class Data:
 
     # 保存圣遗物
     def saveArtifactList(self, data):
-        #判定数据是否被矫正过
+        # 判定数据是否被矫正过
         if "isCorrected" in data:
             if data["isCorrected"]:
                 print("数据发生过矫正，无法保存")
@@ -346,6 +346,7 @@ class Data:
 
         # print(scores, round(sums, 1), powerupArray, round(entriesSum, 1))
         return scores, round(sums, 1), powerupArray, round(entriesSum, 1)
+
     # 推荐圣遗物
     def recommend(self, params):
         # 获取组合类型
@@ -561,7 +562,7 @@ class Data:
             params["suitA"] = scheme["suitA"]
             params["suitB"] = scheme["suitB"]
             params["suitC"] = scheme["suitC"]
-            params["needMainTag"] ={
+            params["needMainTag"] = {
                 "躯干": scheme["躯干"],
                 "脚部": scheme["脚部"],
                 "位面球": scheme["位面球"],
@@ -584,5 +585,6 @@ class Data:
                 print("没有推荐结果")
                 pass
         return result
+
 
 data = Data()

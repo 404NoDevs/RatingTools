@@ -12,11 +12,12 @@ from PySide6.QtWidgets import (
     QGridLayout
 )
 
+
 class BaseSuitWindow(QWidget):
 
     def __init__(self, params):
         super().__init__()
-        
+
         # 子类参数
         self.enter_params = params.get("enter_params", 0)
         self.character = params.get("character", "全属性")
@@ -82,7 +83,6 @@ class BaseSuitWindow(QWidget):
         self.heroNameCombobox.setCurrentIndex(self.data.getCharacterIndex(self.character))
         self.scoreButton.setEnabled(self.enter_params != 1)
 
-
     def closeEvent(self, event):
         if self.setWindow:
             self.setWindow.close()
@@ -95,7 +95,6 @@ class BaseSuitWindow(QWidget):
             self.selectType = 1
         elif btn.text() == '全部' and btn.isChecked() == True:
             self.selectType = 2
-
 
     # 英雄名称
     def heroNameCurrentIndexChanged(self):
@@ -119,8 +118,8 @@ class BaseSuitWindow(QWidget):
 
     def checkButtonClicked(self):
         updateArray = self.data.checkUpdate()
-        if len(updateArray)>0:
-            tipsStr = "、".join(updateArray)+" 需要更新"
+        if len(updateArray) > 0:
+            tipsStr = "、".join(updateArray) + " 需要更新"
         else:
             tipsStr = "没有需要更新的套装"
         self.tipsText.setText(tipsStr)

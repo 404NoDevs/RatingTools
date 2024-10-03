@@ -7,6 +7,6 @@ from modules.starRail.starRail_data import data
 class SetWindow(BaseSetWindow):
     def __init__(self):
         super().__init__({
-            "data":data,
-            "position":[340,0]
+            "data": data,
+            "position": [340, 0]
         })

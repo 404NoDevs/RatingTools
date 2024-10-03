@@ -14,13 +14,14 @@ from PySide6.QtWidgets import (
     QGridLayout
 )
 
+
 class BaseScoreWindow(QWidget):
 
     def __init__(self, params):
         super().__init__()
 
         # 获取子类参数
-        self.equipment_name = params.get('equipmentName',"圣遗物")
+        self.equipment_name = params.get('equipmentName', "圣遗物")
         self.data = params.get('data')
         self.location = params.get('location')
         self.ocr = params.get('ocr')

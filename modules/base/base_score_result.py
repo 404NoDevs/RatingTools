@@ -10,7 +10,7 @@ class BaseScoreResultWindow(QWidget):
         super().__init__()
 
         # 获取子类参数
-        self.location = params.get('location',{})
+        self.location = params.get('location', {})
 
         # 初始化参数
         self.scale = self.location.w_width / 1280 / self.location.SCALE
@@ -53,13 +53,12 @@ class BaseScoreResultWindow(QWidget):
             pass
         self.label.setText(str(text))
 
-
     # 按键关闭/重置对应贴图窗口
     # def keyPressEvent(self, event):
     #     if event.key() == Qt.Key_Z:
     #         print('freshed')
     #         self.hide()
-    
+
     # Ctrl+Z关闭窗口
     def close(self):
         # print('canceled!')
