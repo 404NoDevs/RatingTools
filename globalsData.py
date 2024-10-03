@@ -7,7 +7,7 @@ gamesMap = {
     "zzz": "绝区零"
 }
 gamesWindowParams = {
-    "genshin":["UnityWndClass","原神"],
-    "starRail":["UnityWndClass","崩坏：星穹铁道"],
-    "zzz":["UnityWndClass","绝区零"]
+    "genshin": ["UnityWndClass", "原神"],
+    "starRail": ["UnityWndClass", "崩坏：星穹铁道"],
+    "zzz": ["UnityWndClass", "绝区零"]
 }
