@@ -69,7 +69,7 @@ class MainWindow(QMainWindow):
             # elif gameKey == "zzz":
             #     from modules.zzz.zzz_score import ScoreWindow
             else:
-                self.tipsLabel.setText(f"{gameName}模块正在施工")
+                self.tipsLabel.setText(f"{gameName} 模块正在施工")
 
             if ScoreWindow:
                 mainWindow = ScoreWindow()
@@ -85,12 +85,11 @@ class MainWindow(QMainWindow):
             # elif gameKey == "zzz":
             #     from modules.zzz.zzz_suit import SuitWindow
             else:
-                self.tipsLabel.setText(f"{gameName}模块正在施工")
+                self.tipsLabel.setText(f"{gameName} 模块正在施工")
 
             if SuitWindow:
-                mainWindow = SuitWindow()
-                mainWindow.initParams({
-                    "enter_params": 1
+                mainWindow = SuitWindow({
+                    "enterParam": 1
                 })
                 mainWindow.show()
                 self.close()

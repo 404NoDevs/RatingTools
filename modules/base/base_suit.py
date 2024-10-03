@@ -1,7 +1,7 @@
 '''圣遗物推荐参数选择弹窗'''
 
 import os, copy
-from extention import ExtendedComboBox, XCombobox
+from extention import ExtendedComboBox
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
@@ -14,179 +14,119 @@ from PySide6.QtWidgets import (
 
 class BaseSuitWindow(QWidget):
 
-    def __init__(self):
+    def __init__(self, params):
         super().__init__()
-#
-#         self.setWindowFlags(Qt.WindowStaysOnTopHint)
-#         self.setWindowIcon(QIcon(os.path.join(os.path.dirname(__file__), 'src/keqing.ico')))
-#         self.setWindowTitle("圣遗物套装推荐")
-#         self.setFocusPolicy(Qt.StrongFocus)
-#         self.move(0, 0)
-#
-#         # 初始化子窗口
-#         self.setWindow = None
-#         self.suitResultWindow = None
-#
-#         # 初始化变量
-#         self.suitProgrammeWindow = None
-#         self.character = "全属性"
-#         self.selectType = 1
-#
-#         # 创建界面UI
-#         self.scoreButton = QPushButton('圣遗物评分→')
-#         self.checkButton = QPushButton('检查更新')
-#
-#         self.heroNameCombobox = ExtendedComboBox()
-#         for herName in data.getCharacters():
-#             self.heroNameCombobox.addItem(herName)
-#         self.setButton = QPushButton('设置>')
-#         self.suitCombobox1 = ExtendedComboBox()
-#         self.suitCombobox2 = ExtendedComboBox()
-#         self.suitCombobox1.addItem("选择套装")
-#         self.suitCombobox2.addItem("选择套装")
-#         for key in data.getSuitConfig():
-#             self.suitCombobox1.addItem(key)
-#             self.suitCombobox2.addItem(key)
-#         self.mainTagCombobox = {}
-#         MainTagType = data.getMainTagType()
-#         for key in MainTagType:
-#             mainTagCombobox = XCombobox("任意属性")
-#             mainTagCombobox.add_items(MainTagType[key])
-#             self.mainTagCombobox[key] = mainTagCombobox
-#         self.radiobtn1 = QRadioButton('仅未装备')
-#         self.radiobtn1.setChecked(True)
-#         self.radiobtn2 = QRadioButton('全部')
-#         self.startButton = QPushButton('生成方案')
-#         self.tipsText = QLabel('提示文本')
-#         self.tipsText.setStyleSheet("qproperty-alignment: 'AlignCenter';color:red;")
-#
-#         # 弹窗内容
-#         layout = QGridLayout()
-#         layout.addWidget(self.checkButton, 0, 0, 1, 2)
-#         layout.addWidget(self.scoreButton, 0, 2, 1, 2)
-#
-#         layout.addWidget(QLabel('当前角色：'), 11, 0, 1, 1)
-#         layout.addWidget(self.heroNameCombobox, 11, 1, 1, 2)
-#         layout.addWidget(self.setButton, 11, 3, 1, 1)
-#         layout.addWidget(QLabel('套装类型:'), 12, 0, 1, 1)
-#         # layout.addWidget(QLabel('(选一个4+1,选两个2+2+1,不选散搭)'), 2, 1, 1, 4)
-#         layout.addWidget(QLabel('套装A'), 13, 1, 1, 1)
-#         layout.addWidget(self.suitCombobox1, 13, 2, 1, 2)
-#         layout.addWidget(QLabel('套装B'), 14, 1, 1, 1)
-#         layout.addWidget(self.suitCombobox2, 14, 2, 1, 2)
-#         layout.addWidget(QLabel('主要属性:'), 15, 0, 1, 1)
-#         layout.addWidget(QLabel('(不选默认不限制主词条)'), 15, 1, 1, 4)
-#         index = 0
-#         for key in self.mainTagCombobox:
-#             layout.addWidget(QLabel(key), 16 + index, 1, 1, 2)
-#             layout.addWidget(self.mainTagCombobox[key], 16 + index, 2, 1, 2)
-#             index += 1
-#         layout.addWidget(QLabel('其他选择:'), 19, 0, 1, 1)
-#         layout.addWidget(self.radiobtn1, 20, 1, 1, 1)
-#         layout.addWidget(self.radiobtn2, 20, 2, 1, 1)
-#         layout.addWidget(self.startButton, 21, 0, 1, 4)
-#         layout.addWidget(self.tipsText, 22, 0, 1, 4)
-#
-#         self.setLayout(layout)
-#         self.updateUI()
-#
-#         # 注册事件
-#         self.scoreButton.clicked.connect(self.swichMainWindow)
-#         self.heroNameCombobox.currentIndexChanged.connect(self.heroNameCurrentIndexChanged)
-#         self.radiobtn1.toggled.connect(lambda: self.radiobtn_state(self.radiobtn1))
-#         self.radiobtn2.toggled.connect(lambda: self.radiobtn_state(self.radiobtn2))
-#         self.startButton.clicked.connect(self.startRating)
-#         self.setButton.clicked.connect(self.openSetWindow)
-#         self.checkButton.clicked.connect(self.checkButtonClicked)
-#
-#     def closeEvent(self, event):
-#         # print("关闭窗口")
-#         if self.setWindow:
-#             self.setWindow.close()
-#         if self.suitResultWindow:
-#             self.suitResultWindow.close()
-#
-#     def initParams(self, params):
-#         enter_params = params.get("enter_params", 0)
-#         self.scoreButton.setEnabled(enter_params != 1)
-#
-#     # 自定义方法
-#     def startRating(self):
-#
-#         params = {}
-#         params["suitA"] = self.suitCombobox1.currentText()
-#         params["suitB"] = self.suitCombobox2.currentText()
-#         needMainTag = {}
-#         for key in self.mainTagCombobox:
-#             mainTag = self.mainTagCombobox[key].get_selected()
-#             needMainTag[key] = mainTag
-#             params[key] = mainTag
-#
-#         # 保存方案
-#         saveParams = copy.deepcopy(params)
-#         data.setArtifactScheme(self.character, saveParams)
-#
-#         params["needMainTag"] = needMainTag
-#         params["character"] = self.character
-#         params["selectType"] = self.selectType
-#
-#         # 获取推荐数据
-#         result = data.recommend(params)
-#         if result:
-#             self.suitResultWindow = SuitResultWindow()
-#             self.suitResultWindow.update(self.character, result)
-#             self.suitResultWindow.show()
-#         else:
-#             print("无可用方案")
-#
-#     # 单选框按钮
-#     def radiobtn_state(self, btn):
-#         if btn.text() == '仅未装备' and btn.isChecked() == True:
-#             self.selectType = 1
-#         elif btn.text() == '全部' and btn.isChecked() == True:
-#             self.selectType = 2
-#
-#     def initUI(self, character):
-#         index = data.getCharacterIndex(character)
-#         self.heroNameCombobox.setCurrentIndex(index)
-#         self.updateUI()
-#
-#     def updateUI(self):
-#         indexObj = data.getIndexByCharacter(self.character)
-#         for key in indexObj:
-#             if key == "suitA":
-#                 self.suitCombobox1.setCurrentIndex(indexObj[key])
-#             elif key == "suitB":
-#                 self.suitCombobox2.setCurrentIndex(indexObj[key])
-#             else:
-#                 if key in self.mainTagCombobox:
-#                     self.mainTagCombobox[key].set_selected(indexObj[key])
-#
-#     # 英雄名称
-#     def heroNameCurrentIndexChanged(self):
-#         self.character = self.heroNameCombobox.currentText()
-#         if self.setWindow:
-#             self.setWindow.update(self.character)
-#         self.updateUI()
-#
-#     # 切换为评分
-#     def swichMainWindow(self):
-#         from modules.genshin.genshin_score import ScoreWindow
-#         global mainWindow
-#         mainWindow = ScoreWindow()
-#         mainWindow.initCombobox(self.character)
-#         mainWindow.show()
-#         self.close()
-#
-#     def openSetWindow(self):
-#         self.setWindow = SetWindow()
-#         self.setWindow.update(self.character)
-#         self.setWindow.show()
-#
-#     def checkButtonClicked(self):
-#         updateArray = data.checkUpdate()
-#         if len(updateArray)>0:
-#             tipsStr = "、".join(updateArray)+" 需要更新"
-#         else:
-#             tipsStr = "没有需要更新的套装"
-#         self.tipsText.setText(tipsStr)
+        
+        # 子类参数
+        self.enter_params = params.get("enter_params", 0)
+        self.character = params.get("character", "全属性")
+        self.equipment_name = params.get('equipmentName', "圣遗物")
+        self.data = params.get("data")
+        self.SuitResultWindow = params.get("SuitResultWindow")
+        self.SetWindow = params.get("SetWindow")
+
+        # 初始化变量
+        self.setWindow = None
+        self.suitResultWindow = None
+        self.character = "全属性"
+        self.selectType = 1
+
+        self.initUI()
+        self.updateUI()
+
+    def initUI(self):
+        self.setWindowFlags(Qt.WindowStaysOnTopHint)
+        self.setWindowIcon(QIcon(os.path.join(os.path.dirname(__file__), '../../src/keqing.ico')))
+        self.setWindowTitle(f"{self.equipment_name}套装推荐")
+        self.setFocusPolicy(Qt.StrongFocus)
+        self.move(0, 0)
+
+        # 创建界面UI
+        self.layout = QGridLayout()
+        self.setLayout(self.layout)
+        # 上半部分
+        self.checkButton = QPushButton('检查更新')
+        self.layout.addWidget(self.checkButton, 0, 0, 1, 2)
+        self.scoreButton = QPushButton(f'{self.equipment_name}评分→')
+        self.layout.addWidget(self.scoreButton, 0, 2, 1, 2)
+        self.layout.addWidget(QLabel('当前角色：'), 1, 0, 1, 1)
+        self.heroNameCombobox = ExtendedComboBox()
+        for herName in self.data.getCharacters():
+            self.heroNameCombobox.addItem(herName)
+        self.layout.addWidget(self.heroNameCombobox, 1, 1, 1, 2)
+        self.setButton = QPushButton('设置>')
+        self.layout.addWidget(self.setButton, 1, 3, 1, 1)
+        # 下半部分
+        self.layout.addWidget(QLabel('其他选择:'), 20, 0, 1, 1)
+        self.radiobtn1 = QRadioButton('仅未装备')
+        self.radiobtn2 = QRadioButton('全部')
+        self.radiobtn1.setChecked(True)
+        self.layout.addWidget(self.radiobtn1, 21, 1, 1, 1)
+        self.layout.addWidget(self.radiobtn2, 21, 2, 1, 1)
+        self.startButton = QPushButton('生成方案')
+        self.layout.addWidget(self.startButton, 22, 0, 1, 4)
+        self.tipsText = QLabel('提示文本')
+        self.tipsText.setStyleSheet("qproperty-alignment: 'AlignCenter';color:red;")
+        self.layout.addWidget(self.tipsText, 23, 0, 1, 4)
+
+        # 注册事件
+        self.scoreButton.clicked.connect(self.swichMainWindow)
+        self.heroNameCombobox.currentIndexChanged.connect(self.heroNameCurrentIndexChanged)
+        self.radiobtn1.toggled.connect(lambda: self.radiobtn_state(self.radiobtn1))
+        self.radiobtn2.toggled.connect(lambda: self.radiobtn_state(self.radiobtn2))
+        self.startButton.clicked.connect(self.startRating)
+        self.setButton.clicked.connect(self.openSetWindow)
+        self.checkButton.clicked.connect(self.checkButtonClicked)
+
+        # 根据创建参数调整页面
+        self.heroNameCombobox.setCurrentIndex(self.data.getCharacterIndex(self.character))
+        self.scoreButton.setEnabled(self.enter_params != 1)
+
+
+    def closeEvent(self, event):
+        if self.setWindow:
+            self.setWindow.close()
+        if self.suitResultWindow:
+            self.suitResultWindow.close()
+
+    # 单选框按钮
+    def radiobtn_state(self, btn):
+        if btn.text() == '仅未装备' and btn.isChecked() == True:
+            self.selectType = 1
+        elif btn.text() == '全部' and btn.isChecked() == True:
+            self.selectType = 2
+
+
+    # 英雄名称
+    def heroNameCurrentIndexChanged(self):
+        self.character = self.heroNameCombobox.currentText()
+        if self.setWindow:
+            self.setWindow.update(self.character)
+        self.updateUI()
+
+    # 切换为评分
+    def swichMainWindow(self, window):
+        global mainWindow
+        mainWindow = window()
+        mainWindow.initCombobox(self.character)
+        mainWindow.show()
+        self.close()
+
+    def openSetWindow(self):
+        self.setWindow = self.SetWindow()
+        self.setWindow.update(self.character)
+        self.setWindow.show()
+
+    def checkButtonClicked(self):
+        updateArray = self.data.checkUpdate()
+        if len(updateArray)>0:
+            tipsStr = "、".join(updateArray)+" 需要更新"
+        else:
+            tipsStr = "没有需要更新的套装"
+        self.tipsText.setText(tipsStr)
+
+    def startRating(self):
+        pass
+
+    def updateUI(self):
+        pass

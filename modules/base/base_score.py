@@ -227,8 +227,9 @@ class BaseScoreWindow(QWidget):
     # 切换为套装推荐
     def swich_suit_window(self):
         global mainWindow
-        mainWindow = self.SuitWindow()
-        mainWindow.initUI(self.character)
+        mainWindow = self.SuitWindow({
+            "character": self.character
+        })
         mainWindow.show()
         self.close()
 
