@@ -31,7 +31,8 @@ class OCR(BaseOCR):
         super().__init__()
 
     def process_result(self, result):
-        result = super().process_result(result)
+        # 移除异常文本
+        result = [item for item in result if item not in self.error_text]
 
         # 原神数据不进行矫正
         is_corrected = False
