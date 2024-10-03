@@ -19,7 +19,7 @@ class BaseSuitWindow(QWidget):
         super().__init__()
 
         # 子类参数
-        self.enter_params = params.get("enter_params", 0)
+        self.enter_params = params.get("enterParam", 0)
         self.character = params.get("character", "全属性")
         self.equipment_name = params.get('equipmentName', "圣遗物")
         self.data = params.get("data")

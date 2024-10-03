@@ -13,6 +13,7 @@ from PySide6.QtWidgets import (
     QApplication
 )
 
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -60,7 +61,8 @@ class MainWindow(QMainWindow):
         gameKey = utils.getKeyByValue(globalsData.gamesMap, gameName)
 
         global mainWindow
-        if utils.checkWinow(gameKey):
+        window_state = utils.checkWinowState(gameKey)
+        if window_state == 0:
             ScoreWindow = None
             if gameKey == "genshin":
                 from modules.genshin.genshin_score import ScoreWindow
@@ -76,7 +78,7 @@ class MainWindow(QMainWindow):
                 mainWindow.initParams()
                 mainWindow.show()
                 self.close()
-        else:
+        elif window_state == 1:
             SuitWindow = None
             if gameKey == "genshin":
                 from modules.genshin.genshin_suit import SuitWindow
@@ -93,7 +95,8 @@ class MainWindow(QMainWindow):
                 })
                 mainWindow.show()
                 self.close()
-
+        elif window_state == 2:
+            self.tipsLabel.setText("请将游戏窗口调整为1920*1080")
 
 def main():
     # 任务栏图标问题
