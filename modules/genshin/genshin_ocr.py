@@ -7,6 +7,10 @@ from utils import markPrint, strReplace
 
 class OCR(BaseOCR):
     def __init__(self):
+        super().__init__({
+            "error_text": []
+        })
+
         self.data_length = 9
         self.replace_dict_name = {
             '明威之': '明威之镡',
@@ -28,50 +32,36 @@ class OCR(BaseOCR):
             '宗室银瓷': '宗室银瓮'
         }
 
-        super().__init__()
-
     def process_result(self, result):
-        # 移除异常文本
-        result = [item for item in result if item not in self.error_text]
+        # 公共处理
+        result = super().process_result(result)
 
+        new_result = {}
         # 原神数据不进行矫正
         is_corrected = False
+        new_result["isCorrected"] = is_corrected
 
         # 校验数据长度
         if len(result) != self.data_length:
             markPrint("数据长度不符合要求", result)
             return False
 
-        # 千位符（含误识别的.）兼容
-        pattern_thou = '\d\.\d{3}|\d\,\d{3}'
-        txt = [re.sub(pattern_thou, item.replace(',', '').replace('.', ''), item) for item in result]
-
-        name = strReplace(txt[0], self.replace_dict_name)
-        parts = txt[1]
-        main_name = txt[2]
-        main_digit = txt[3]
-        lvl = re.findall(r'\d+', txt[4])[0]
-        result = {
-            'name': name,
-            'parts': parts,
-            'mainTag': main_name,
-            'mainDigit': main_digit,
-            'lvl': lvl,
-            "isCorrected": is_corrected
-        }
+        new_result["name"] = strReplace(result[0], self.replace_dict_name)
+        new_result["parts"] = result[1]
+        new_result["mainTag"] = result[2]
+        new_result["mainDigit"] = result[3]
+        new_result["lvl"] = re.findall(r'\d+', result[4])[0]
 
         # 中文和数字正则
+        normalTags = {}
         pattern_chinese = '[\u4e00-\u9fa5]+'
         pattern_digit = '\d+(\.\d+)?'
-
-        normalTags = {}
-        for item in txt[-4:]:
+        for item in result[-4:]:
             try:
                 # 词条名称
                 name = re.findall(pattern_chinese, item)[0]
                 # 数值 兼容千位符被识别为小数点的情况
                 digit = float(re.search(pattern_digit, item).group())
-                if digit < 2: digit *= 1000
 
                 if name in '暴击率':
                     normalTags['暴击率'] = digit
@@ -97,10 +87,9 @@ class OCR(BaseOCR):
                     normalTags[item] = 0
             except:
                 normalTags[item] = 0
-        result["normalTags"] = normalTags
+        new_result["normalTags"] = normalTags
 
-        markPrint(result)
-        return result
-
+        markPrint(new_result)
+        return new_result
 
 ocr = OCR()

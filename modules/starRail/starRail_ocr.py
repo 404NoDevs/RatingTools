@@ -7,6 +7,10 @@ from utils import markPrint, strReplace
 
 class OCR(BaseOCR):
     def __init__(self):
+        super().__init__({
+            "error_text": ["孩"]
+        })
+
         self.data_length = 13
         self.replace_dict_name = {
             '者的': '莳者的',
@@ -26,12 +30,13 @@ class OCR(BaseOCR):
             '躯于': '躯干'
         }
 
-        super().__init__()
+
 
     def process_result(self, result):
-        # 移除异常文本
-        result = [item for item in result if item not in self.error_text]
+        # 公共处理
+        result = super().process_result(result)
 
+        new_result = {}
         # 存在个位数识别困难情况 进行数据矫正
         is_corrected = False
         # 矫正规则一 属性识别失败进行补0
@@ -47,43 +52,30 @@ class OCR(BaseOCR):
         if re.match(s, result[-1]) is None:
             result.append("0")
             is_corrected = True
+        new_result["isCorrected"] = is_corrected
 
         # 校验数据长度
         if len(result) != self.data_length:
             markPrint("数据长度不符合要求", result)
             return False
 
-        # 千位符（含误识别的.）兼容
-        pattern_thou = '\d\.\d{3}|\d\,\d{3}'
-        txt = [re.sub(pattern_thou, item.replace(',', '').replace('.', ''), item) for item in result]
-
-        name = strReplace(txt[0], self.replace_dict_name)
-        parts = strReplace(txt[1], self.replace_dict_parts)
-        main_name = txt[3]
-        main_digit = txt[4]
-        lvl = re.findall(r'\d+', txt[2])[0]
-        result = {
-            'name': name,
-            'parts': parts,
-            'mainTag': main_name,
-            'mainDigit': main_digit,
-            'lvl': lvl,
-            "isCorrected": is_corrected
-        }
+        new_result["name"] = strReplace(result[0], self.replace_dict_name)
+        new_result["parts"] = strReplace(result[1], self.replace_dict_parts)
+        new_result["mainTag"] = result[3]
+        new_result["mainDigit"] = result[4]
+        new_result["lvl"] = re.findall(r'\d+', result[2])[0]
 
         # 中文和数字正则
+        normalTags = {}
         pattern_chinese = '[\u4e00-\u9fa5]+'
         pattern_digit = '\d+(\.\d+)?'
-
-        normalTags = {}
-        for index in range(5, len(txt), 2):
-            item = txt[index] + txt[index + 1]
+        for index in range(5, len(result), 2):
+            item = result[index] + result[index + 1]
             try:
                 # 词条名称
                 name = re.findall(pattern_chinese, item)[0]
                 # 数值 兼容千位符被识别为小数点情况
                 digit = float(re.search(pattern_digit, item).group())
-                if digit < 2: digit *= 1000
 
                 if name in '暴击率':
                     normalTags['暴击率'] = digit
@@ -113,10 +105,9 @@ class OCR(BaseOCR):
                     normalTags[item] = 0
             except:
                 normalTags[item] = 0
-        result["normalTags"] = normalTags
+        new_result["normalTags"] = normalTags
 
-        markPrint(result)
-        return result
-
+        markPrint(new_result)
+        return new_result
 
 ocr = OCR()

@@ -6,12 +6,11 @@ import json, os, shutil
 suitConfig_path = "modules/starRail/config/suitConfig.json"
 defaulCharacter_path = "modules/starRail/config/character.json"
 # 用户文件
-folder = os.path.expanduser('~/Documents')
-folder = folder + '/RatingTools/StarRail'
-character_path = folder + '/character.json'
-artifact_path = folder + '/artifacts.json'
-artifactOwner_path = folder + '/artifactOwner.json'
-artifactScheme_path = folder + "/artifactScheme.json"
+folder_root = os.path.expanduser('~/Documents') + '/RatingTools/StarRail'
+character_path = folder_root + '/character.json'
+artifact_path = folder_root + '/artifacts.json'
+artifactOwner_path = folder_root + '/artifactOwner.json'
+artifactScheme_path = folder_root + "/artifactScheme.json"
 
 # 数据常量
 entryArray = ["速度", "生命值", "攻击力", "防御力", "暴击率", "暴击伤害", "击破特攻", "效果命中", "效果抵抗"]
@@ -94,7 +93,7 @@ class Data:
         self.loadData()
 
     def loadData(self):
-        if os.path.exists(folder):
+        if os.path.exists(folder_root):
             # 读取圣遗物保存数据
             if os.path.exists(artifact_path):
                 with open(artifact_path, 'r', encoding='utf-8') as fp:
@@ -124,7 +123,7 @@ class Data:
                 with open(character_path, 'r', encoding='utf-8') as fp:
                     self.characters = json.load(fp)
         else:
-            os.makedirs(folder)
+            os.makedirs(folder_root)
             shutil.copy(defaulCharacter_path, character_path)
             with open(character_path, 'r', encoding='utf-8') as fp:
                 self.characters = json.load(fp)
@@ -277,7 +276,7 @@ class Data:
 
     # 获取配置文件夹路径
     def getUserDataPath(self):
-        return folder
+        return folder_root
 
     def cal_score(self, ocr_result_sub, config):
         scores = []

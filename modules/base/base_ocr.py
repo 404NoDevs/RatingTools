@@ -6,10 +6,13 @@ from rapidocr_onnxruntime import RapidOCR
 
 
 class BaseOCR:
-    def __init__(self):
+    def __init__(self, params):
+        # 获取子类参数
+        sub_error_text = params.get("error_text", [])
+
         self.ocr = RapidOCR()
         self.start_time = 0
-        self.error_text = ["+", "S", "s", "孩", "×", "0"]
+        self.error_text = ["+", "×", "0"] + sub_error_text
 
     def orcImage(self, index, x, y, w, h):
         print(f"图像{index}识别开始...{time.time() - self.start_time}")
@@ -27,5 +30,9 @@ class BaseOCR:
         return self.process_result(result)
 
     # 子类方法
-    def process_result(self):
-        pass
+    def process_result(self, result):
+        # 移除异常文本
+        result = [item for item in result if item not in self.error_text]
+        # 千位符（含误识别的.）兼容
+        result = [re.sub('\d\.\d{3}|\d\,\d{3}', item.replace(',', '').replace('.', ''), item) for item in result]
+        return result

@@ -68,8 +68,8 @@ class MainWindow(QMainWindow):
                 from modules.genshin.genshin_score import ScoreWindow
             elif gameKey == "starRail":
                 from modules.starRail.starRail_score import ScoreWindow
-            # elif gameKey == "zzz":
-            #     from modules.zzz.zzz_score import ScoreWindow
+            elif gameKey == "zzz":
+                from modules.zzz.zzz_score import ScoreWindow
             else:
                 self.tipsLabel.setText(f"{gameName} 模块正在施工")
 
@@ -84,8 +84,8 @@ class MainWindow(QMainWindow):
                 from modules.genshin.genshin_suit import SuitWindow
             elif gameKey == "starRail":
                 from modules.starRail.starRail_suit import SuitWindow
-            # elif gameKey == "zzz":
-            #     from modules.zzz.zzz_suit import SuitWindow
+            elif gameKey == "zzz":
+                from modules.zzz.zzz_suit import SuitWindow
             else:
                 self.tipsLabel.setText(f"{gameName} 模块正在施工")
 
