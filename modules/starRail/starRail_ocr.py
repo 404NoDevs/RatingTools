@@ -37,7 +37,6 @@ class OCR(BaseOCR):
         result = super().process_result(result)
 
         new_result = {}
-        # 存在个位数识别困难情况 进行数据矫正
         is_corrected = False
         # 矫正规则一 属性识别失败进行补0
         i = 5

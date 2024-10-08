@@ -1,14 +1,17 @@
 '''图像识别、文字处理，考虑多种ocr方式'''
 
-import re, time
-from PIL import ImageGrab
-from rapidocr_onnxruntime import RapidOCR
+import re
+from modules.base.base_ocr import BaseOCR
 from utils import markPrint, strReplace
 
 
-class OCR:
+class OCR(BaseOCR):
     def __init__(self):
-        self.data_length = 14
+        super().__init__({
+            "error_text": ["S", "s", "A", "a", "主属性", "副属性", "+1", "+2", "+3", "+4", "1+1", "1+2", "1+3", "1+4"]
+        })
+
+        self.data_length = 12
         self.replace_dict_name = {
             '【': '[',
             '】': ']',
@@ -16,72 +19,51 @@ class OCR:
         }
         self.replace_dict_parts = {
         }
-        self.ocr = RapidOCR()
-        self.start_time = 0
-
-    def orcImage(self, index, x, y, w, h):
-        print(f"图像{index}识别开始...{time.time() - self.start_time}")
-        img = ImageGrab.grab(bbox=(x, y, x + w, y + h))
-        img_name = f"src/grab{index}.png"
-        img.save(img_name)
-        result, elapse = self.ocr(img_name, use_det=True, use_cls=False, use_rec=True, text_score=0.35)
-        print(f"图像{index}识别完成...{time.time() - self.start_time}")
-        return [item[1] for item in result]
 
     def process_result(self, result):
-        # 移除异常文本
-        errorText = ["+","S","s"]
-        result = [item for item in result if item not in errorText]
+        # 公共处理
+        result = super().process_result(result)
 
-
-        # 存在个位数识别困难情况 进行数据矫正
-        # i = 5
-        # is_corrected = False
-        # s = r'^\d+(\.\d+)?%?$|^%$'
-        # while i < len(result):
-        #     if i % 2 == 0 and re.match(s, result[i]) is None:
-        #         result.insert(i, "0")
-        #         is_corrected = True
-        #         i += 1  # 跳过插入的元素
-        #     i += 1  # 继续下一个元素
-
+        new_result = {}
+        is_corrected = False
+        # 矫正规则一 属性识别失败进行补9(只有9无需手动补齐)
+        i = 5
+        s = r'^\d+(\.\d+)?%?$|^%$'
+        while i < len(result):
+            if i % 2 == 1 and re.match(s, result[i]) is None:
+                result.insert(i, "9")
+                is_corrected = False
+                i += 1  # 跳过插入的元素
+            i += 1  # 继续下一个元素
+        # 防止丢失元素在最后一位
+        if re.match(s, result[-1]) is None:
+            result.append("9")
+            is_corrected = False
+        new_result["isCorrected"] = is_corrected
 
         # 校验数据长度
         if len(result) != self.data_length:
             markPrint("数据长度不符合要求", result)
             return False
 
-        # 千位符（含误识别的.）兼容
-        pattern_thou = '\d\.\d{3}|\d\,\d{3}'
-        txt = [re.sub(pattern_thou, item.replace(',', '').replace('.', ''), item) for item in result]
-        temp_name = strReplace(txt[0], self.replace_dict_name)
-        name = temp_name.split("[")[0]
-        parts = "分区" + temp_name.split("[")[1][0]
-        main_name = txt[3]
-        main_digit = txt[4]
-        lvl = re.findall(r'\d+', txt[1])[0]
-        result = {
-            'name': name,
-            'parts': parts,
-            'mainTag': main_name,
-            'mainDigit': main_digit,
-            'lvl': lvl,
-            "isCorrected": is_corrected
-        }
+        temp_name = strReplace(result[0], self.replace_dict_name)
+        new_result["name"] = temp_name.split("[")[0]
+        new_result["parts"] = "分区" + temp_name.split("[")[1][0]
+        new_result["mainTag"] = result[2]
+        new_result["mainDigit"] = result[3]
+        new_result["lvl"] = re.findall(r'\d+', result[1])[0]
 
         # 中文和数字正则
+        normalTags = {}
         pattern_chinese = '[\u4e00-\u9fa5]+'
         pattern_digit = '\d+(\.\d+)?'
-
-        normalTags = {}
-        for index in range(6, len(txt), 2):
-            item = txt[index].split("+")[0] + txt[index + 1]
+        for index in range(4, len(result), 2):
+            item = result[index] + result[index + 1]
             try:
                 # 词条名称
                 name = re.findall(pattern_chinese, item)[0]
-                # 数值 兼容千位符被识别为小数点情况
+                # 数值 兼容千位符被识别为小数点的情况
                 digit = float(re.search(pattern_digit, item).group())
-                if digit < 2: digit *= 1000
 
                 if name in '暴击率':
                     normalTags['暴击率'] = digit
@@ -107,15 +89,9 @@ class OCR:
                     normalTags[item] = 0
             except:
                 normalTags[item] = 0
-        result["normalTags"] = normalTags
+        new_result["normalTags"] = normalTags
 
-        markPrint(result)
-        return result
-
-    def rapidocr(self, x, y, w, h):
-        self.start_time = time.time()
-        temp_result = [self.orcImage(index, x[index], y[index], w[index], h[index]) for index in range(len(x))]
-        result = [item for sublist in temp_result for item in sublist]
-        return self.process_result(result)
+        markPrint(new_result)
+        return new_result
 
 ocr = OCR()

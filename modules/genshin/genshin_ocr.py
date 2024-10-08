@@ -37,7 +37,6 @@ class OCR(BaseOCR):
         result = super().process_result(result)
 
         new_result = {}
-        # 原神数据不进行矫正
         is_corrected = False
         new_result["isCorrected"] = is_corrected
 

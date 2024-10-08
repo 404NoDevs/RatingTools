@@ -14,7 +14,7 @@ class SuitWindow(BaseSuitWindow):
         super().__init__({
             "enterParam": params.get("enterParam", 0),
             "character": params.get("character", "全属性"),
-            "equipmentName": "圣遗物",
+            "equipmentName": "光驱",
             "data": data,
             "SuitResultWindow": SuitResultWindow,
             "SetWindow": SetWindow

@@ -1,5 +1,4 @@
 '''圣遗物推荐方案生成弹窗'''
-
 from modules.base.base_suit_result import BaseSuitResultWindow
 from modules.genshin.genshin_data import data
 
