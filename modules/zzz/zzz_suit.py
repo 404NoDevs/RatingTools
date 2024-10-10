@@ -87,5 +87,5 @@ class SuitWindow(BaseSuitWindow):
                     self.mainTagCombobox[key].set_selected(indexObj[key])
 
     def swichMainWindow(self):
-        from modules.genshin.genshin_score import ScoreWindow
+        from modules.zzz.zzz_score import ScoreWindow
         super().initUI(ScoreWindow)
