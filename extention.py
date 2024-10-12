@@ -92,6 +92,8 @@ class XCombobox(QComboBox):
         lineEdit = QLineEdit(self)
         lineEdit.setReadOnly(True)
         self.setLineEdit(lineEdit)
+        # 连接鼠标点击事件
+        lineEdit.mousePressEvent = self.line_edit_clicked
 
         # 添加“全选”项
         self.add_item(allText)
@@ -186,3 +188,7 @@ class XCombobox(QComboBox):
             self.itemChecked.emit(sel_data)
             self.lineEdit().setText(';'.join(sel_data))
 
+    def line_edit_clicked(self, event):
+        # 显示下拉列表
+        self.showPopup()
+        event.accept()  # 处理事件

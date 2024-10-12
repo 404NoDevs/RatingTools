@@ -24,13 +24,12 @@ class OCR(BaseOCR):
             '铅石桔': '铅石梏铐',
             '铅石枱': '铅石梏铐',
             '护腔': '护胫',
-            '玄号': '玄枵'
+            '玄号': '玄枵',
+            "器兽缰": "器兽缰辔"
         }
         self.replace_dict_parts = {
             '躯于': '躯干'
         }
-
-
 
     def process_result(self, result):
         # 公共处理
@@ -108,5 +107,6 @@ class OCR(BaseOCR):
 
         markPrint(new_result)
         return new_result
+
 
 ocr = OCR()

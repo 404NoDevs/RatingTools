@@ -8,7 +8,12 @@ from utils import markPrint, strReplace
 class OCR(BaseOCR):
     def __init__(self):
         super().__init__({
-            "error_text": ["S", "s", "A", "a", "主属性", "副属性", "+1", "+2", "+3", "+4", "1+1", "1+2", "1+3", "1+4"]
+            "error_text": ["S", "s", "A", "a", "主属性", "副属性",
+                           "1", "2", "3", "4", "5", "6",
+                           "+1", "+2", "+3", "+4", "+5",
+                           "1+1", "1+2", "1+3", "1+4", "1+5",
+                           "直+1", "直+2", "直+3", "直+4", "直+5"
+                           ]
         })
 
         self.data_length = 12
@@ -59,11 +64,13 @@ class OCR(BaseOCR):
         pattern_digit = '\d+(\.\d+)?'
         for index in range(4, len(result), 2):
             item = result[index] + result[index + 1]
+            temp_name = result[index]
+            temp_digit = result[index + 1]
             try:
                 # 词条名称
-                name = re.findall(pattern_chinese, item)[0]
+                name = re.findall(pattern_chinese, temp_name)[0]
                 # 数值 兼容千位符被识别为小数点的情况
-                digit = float(re.search(pattern_digit, item).group())
+                digit = float(re.search(pattern_digit, temp_digit).group())
 
                 if name in '暴击率':
                     normalTags['暴击率'] = digit
@@ -93,5 +100,6 @@ class OCR(BaseOCR):
 
         markPrint(new_result)
         return new_result
+
 
 ocr = OCR()

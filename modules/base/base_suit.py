@@ -1,7 +1,6 @@
 '''圣遗物推荐参数选择弹窗'''
 
-import os, copy
-from extention import ExtendedComboBox
+import os
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
@@ -9,7 +8,8 @@ from PySide6.QtWidgets import (
     QRadioButton,
     QPushButton,
     QWidget,
-    QGridLayout
+    QGridLayout,
+    QComboBox
 )
 
 
@@ -51,7 +51,7 @@ class BaseSuitWindow(QWidget):
         self.scoreButton = QPushButton(f'{self.equipment_name}评分→')
         self.layout.addWidget(self.scoreButton, 0, 2, 1, 2)
         self.layout.addWidget(QLabel('当前角色：'), 1, 0, 1, 1)
-        self.heroNameCombobox = ExtendedComboBox()
+        self.heroNameCombobox = QComboBox()
         for herName in self.data.getCharacters():
             self.heroNameCombobox.addItem(herName)
         self.layout.addWidget(self.heroNameCombobox, 1, 1, 1, 2)
@@ -66,9 +66,9 @@ class BaseSuitWindow(QWidget):
         self.layout.addWidget(self.radiobtn2, 21, 2, 1, 1)
         self.startButton = QPushButton('生成方案')
         self.layout.addWidget(self.startButton, 22, 0, 1, 4)
-        self.tipsText = QLabel('提示文本')
-        self.tipsText.setStyleSheet("qproperty-alignment: 'AlignCenter';color:red;")
-        self.layout.addWidget(self.tipsText, 23, 0, 1, 4)
+        self.tipsLabel = QLabel('提示文本')
+        self.tipsLabel.setStyleSheet("qproperty-alignment: 'AlignCenter';color:red;")
+        self.layout.addWidget(self.tipsLabel, 23, 0, 1, 4)
 
         # 注册事件
         self.scoreButton.clicked.connect(self.swichMainWindow)
@@ -122,7 +122,7 @@ class BaseSuitWindow(QWidget):
             tipsStr = "、".join(updateArray) + " 需要更新"
         else:
             tipsStr = "没有需要更新的套装"
-        self.tipsText.setText(tipsStr)
+        self.tipsLabel.setText(tipsStr)
 
     def startRating(self):
         pass

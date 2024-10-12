@@ -1,7 +1,7 @@
 '''圣遗物推荐参数选择弹窗'''
 import copy
-from extention import ExtendedComboBox, XCombobox
-from PySide6.QtWidgets import QLabel
+from extention import XCombobox
+from PySide6.QtWidgets import QLabel, QComboBox
 
 from modules.base.base_suit import BaseSuitWindow
 from modules.zzz.zzz_data import data
@@ -24,10 +24,10 @@ class SuitWindow(BaseSuitWindow):
         super().initUI()
 
         self.layout.addWidget(QLabel('套装类型:'), 10, 0, 1, 1)
-        self.layout.addWidget(QLabel('套装A'), 11, 1, 1, 1)
-        self.layout.addWidget(QLabel('套装B'), 12, 1, 1, 1)
-        self.suitCombobox1 = ExtendedComboBox()
-        self.suitCombobox2 = ExtendedComboBox()
+        self.layout.addWidget(QLabel('四件套'), 11, 1, 1, 1)
+        self.layout.addWidget(QLabel('二件套'), 12, 1, 1, 1)
+        self.suitCombobox1 = QComboBox()
+        self.suitCombobox2 = QComboBox()
         self.suitCombobox1.addItem("选择套装")
         self.suitCombobox2.addItem("选择套装")
         for key in data.getSuitConfig():
@@ -67,13 +67,14 @@ class SuitWindow(BaseSuitWindow):
         params["selectType"] = self.selectType
 
         # 获取推荐数据
-        result = data.recommend(params)
+        result, tipsText = data.recommend(params)
         if result:
             self.suitResultWindow = self.SuitResultWindow()
             self.suitResultWindow.update(self.character, result)
             self.suitResultWindow.show()
         else:
-            print("无可用方案")
+            pass
+        self.tipsLabel.setText(tipsText)
 
     def updateUI(self):
         indexObj = data.getIndexByCharacter(self.character)

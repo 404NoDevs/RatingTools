@@ -7,6 +7,7 @@ from modules.genshin.genshin_data import data
 from modules.genshin.genshin_score_result import ScoreResultWindow
 from modules.genshin.genshin_suit import SuitWindow
 from modules.genshin.genshin_set import SetWindow
+from modules.genshin.genshin_analyze_result import AnalyzeResultWindow
 
 
 class ScoreWindow(BaseScoreWindow):
@@ -18,5 +19,6 @@ class ScoreWindow(BaseScoreWindow):
             "ocr": ocr,
             "ScoreResultWindow": ScoreResultWindow,
             "SuitWindow": SuitWindow,
-            "SetWindow": SetWindow
+            "SetWindow": SetWindow,
+            "AnalyzeResultWindow": AnalyzeResultWindow
         })

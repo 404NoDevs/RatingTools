@@ -1,7 +1,7 @@
 '''圣遗物推荐参数选择弹窗'''
 import copy
-from extention import ExtendedComboBox, XCombobox
-from PySide6.QtWidgets import QLabel
+from extention import XCombobox
+from PySide6.QtWidgets import QLabel, QComboBox
 
 from modules.base.base_suit import BaseSuitWindow
 from modules.starRail.starRail_data import data
@@ -27,8 +27,8 @@ class SuitWindow(BaseSuitWindow):
         self.layout.addWidget(QLabel('套装类型:'), 10, 0, 1, 1)
         self.layout.addWidget(QLabel('外圈A'), 11, 1, 1, 1)
         self.layout.addWidget(QLabel('外圈B'), 12, 1, 1, 1)
-        self.suitComboboxA = ExtendedComboBox()
-        self.suitComboboxB = ExtendedComboBox()
+        self.suitComboboxA = QComboBox()
+        self.suitComboboxB = QComboBox()
         self.suitComboboxA.addItem("选择套装")
         self.suitComboboxB.addItem("选择套装")
         for key in data.getSuitConfig("外圈"):
@@ -37,7 +37,7 @@ class SuitWindow(BaseSuitWindow):
         self.layout.addWidget(self.suitComboboxA, 11, 2, 1, 2)
         self.layout.addWidget(self.suitComboboxB, 12, 2, 1, 2)
         self.layout.addWidget(QLabel('内圈C'), 13, 1, 1, 1)
-        self.suitComboboxC = ExtendedComboBox()
+        self.suitComboboxC = QComboBox()
         self.suitComboboxC.addItem("选择套装")
         for key in data.getSuitConfig("内圈"):
             self.suitComboboxC.addItem(key)
@@ -99,4 +99,4 @@ class SuitWindow(BaseSuitWindow):
     # 切换为评分
     def swichMainWindow(self):
         from modules.starRail.starRail_score import ScoreWindow
-        super().initUI(ScoreWindow)
+        super().swichMainWindow(ScoreWindow)

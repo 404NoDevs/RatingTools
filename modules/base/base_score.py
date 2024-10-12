@@ -2,7 +2,7 @@
 
 import os
 from pynput import keyboard
-from extention import OutsideMouseManager, ExtendedComboBox
+from extention import OutsideMouseManager
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
@@ -11,7 +11,8 @@ from PySide6.QtWidgets import (
     QRadioButton,
     QPushButton,
     QWidget,
-    QGridLayout
+    QGridLayout,
+    QComboBox
 )
 
 
@@ -28,6 +29,7 @@ class BaseScoreWindow(QWidget):
         self.ScoreResultWindow = params.get('ScoreResultWindow')
         self.SuitWindow = params.get('SuitWindow')
         self.SetWindow = params.get('SetWindow')
+        self.AnalyzeResultWindow = params.get('AnalyzeResultWindow')
 
         self.initData()
         self.initUI()
@@ -46,13 +48,13 @@ class BaseScoreWindow(QWidget):
         self.type = '角色'
         self.suitButton = QPushButton('套装推荐→')
         # 角色选择框
-        self.combobox = ExtendedComboBox()
+        self.combobox = QComboBox()
         # 添加角色
         self.characters = self.data.getCharacters()
         for key in self.characters:
             self.combobox.addItem(key)
         # 设置按钮
-        self.setButton = QPushButton('设置>')
+        self.setButton = QPushButton('设置→')
         # 识别结果显示，初始配置
         self.name = []
         self.digit = []
@@ -73,6 +75,9 @@ class BaseScoreWindow(QWidget):
         # 提示文本
         self.tipsLabel = QLabel(f'请选择{self.equipment_name}，然后点击右键')
         self.tipsLabel.setStyleSheet("color:red;")
+        # 分析按钮
+        self.analyzeButton = QPushButton(f'{self.equipment_name}分析↓')
+        # self.analyzeText
 
         # 弹窗内容
         layout = QGridLayout()
@@ -95,6 +100,8 @@ class BaseScoreWindow(QWidget):
         layout.addWidget(self.score_total, 10, 3, 1, 1, Qt.AlignRight)
         # 提示文本
         layout.addWidget(self.tipsLabel, 11, 0, 1, 4, Qt.AlignCenter)
+        # 分析按钮
+        layout.addWidget(self.analyzeButton, 12, 0, 1, 4, Qt.AlignCenter)
 
         self.setLayout(layout)
 
@@ -110,6 +117,8 @@ class BaseScoreWindow(QWidget):
         self.setButton.clicked.connect(self.open_set_window)
         # 修改按钮
         self.modifyButton.clicked.connect(self.button_clicked)
+        # 分析按钮
+        self.analyzeButton.clicked.connect(self.analyzeButton_clicked)
         # 外部鼠标事件启动识别和贴图弹窗
         self.mouseManager = OutsideMouseManager()
         self.mouseManager.right_click.connect(self.open_new_window)
@@ -122,6 +131,7 @@ class BaseScoreWindow(QWidget):
 
         # 子窗口
         self.setWindow = None
+        self.analyzeWindow = None
 
         # 默认坐标信息-角色B
         self.position = self.location.position_B
@@ -316,6 +326,8 @@ class BaseScoreWindow(QWidget):
 
         if self.setWindow:
             self.setWindow.close()
+        if self.analyzeWindow:
+            self.analyzeWindow.close()
 
         self.mouseManager.stop()
         self.hotKeyManager.stop()
@@ -344,10 +356,23 @@ class BaseScoreWindow(QWidget):
         self.hotKeyManager.start()
 
     def open_set_window(self):
-        self.setWindow = self.SetWindow()
-        self.setWindow.update(self.character)
-        self.setWindow.show()
+        if not self.setWindow or not self.setWindow.isVisible():
+            self.setWindow = self.SetWindow()
+            self.setWindow.update(self.character)
+            self.setWindow.show()
+        else:
+            self.setWindow.close()
+            self.setWindow = None
 
     def initCombobox(self, character):
         index = self.data.getCharacterIndex(character)
         self.combobox.setCurrentIndex(index)
+
+    def analyzeButton_clicked(self):
+        if not self.analyzeWindow or not self.analyzeWindow.isVisible():
+            self.analyzeWindow = self.AnalyzeResultWindow()
+            self.analyzeWindow.update()
+            self.analyzeWindow.show()
+        else:
+            self.analyzeWindow.close()
+            self.analyzeWindow = None

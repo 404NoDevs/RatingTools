@@ -45,9 +45,9 @@ coefficient = {
     '攻击力百分比': 1.6,
     '生命值百分比': 1.6,
     '防御力百分比': 1,
-    '攻击力': 0.252632,
-    '生命值': 0.042857,
-    '防御力': 0.32,
+    '攻击力': 0.252632/2,
+    '生命值': 0.042857/2,
+    '防御力': 0.32/2,
     "异常精通": 0.533333,
     "穿透值": 0.533333
 }
@@ -190,7 +190,7 @@ class Data:
 
         # 得分校验
         score = self.newScore(data, "全属性")[1]
-        if score > 100:
+        if score > 43.2:
             print("得分异常", score)
             return False
 
@@ -220,7 +220,7 @@ class Data:
         return resultIndex
 
     def getIndexByCharacter(self, character):
-        result = {"suitA": 0, "suitB": 0, "时之沙": [], "空之杯": [], "理之冠": []}
+        result = {"suitA": 0, "suitB": 0, "分区4": [], "分区5": [], "分区6": []}
         if character in self.artifactScheme:
             artifactSchemeItem = self.artifactScheme[character]
             for key in artifactSchemeItem:
@@ -230,6 +230,8 @@ class Data:
                         result[key] = suitKeyArray.index(artifactSchemeItem[key]) + 1
                 elif key in posName:
                     result[key] = artifactSchemeItem[key]
+                else:
+                    result[key] = []
         return result
 
     def setArtifactScheme(self, character, params):
@@ -325,20 +327,17 @@ class Data:
     # 推荐圣遗物
     def recommend(self, params):
         # 获取组合类型
-        if params["suitA"] == "选择套装" and params["suitB"] == "选择套装":
-            combinationKey = "1+1+1+1+1"
-        elif params["suitA"] == "选择套装" and params["suitB"] != "选择套装":
-            params["suitA"] = params["suitB"]
-            combinationKey = "4+1"
-        elif params["suitA"] != "选择套装" and params["suitB"] == "选择套装":
-            combinationKey = "4+1"
-        elif params["suitA"] != "选择套装" and params["suitB"] != "选择套装":
-            if params["suitA"] == params["suitB"]:
-                combinationKey = "4+1"
+        if params["suitA"] != "选择套装" and params["suitB"] != "选择套装":
+            if params["suitA"] != params["suitB"]:
+                combinationKey = "4+2"
+                flag = True
             else:
-                combinationKey = "2+2+1"
+                flag = False
         else:
-            combinationKey = "1+1+1+1+1"
+            flag = False
+
+        if not flag:
+            return False, "目前仅支持4+2套装类型推荐"
 
         # 筛选评分最大值套装
         suit = {
@@ -373,20 +372,15 @@ class Data:
                 tempItem["name"] = artifactValue["name"]
                 tempItem["score"] = self.newScore(artifactValue, params["character"])[1]
 
-                if combinationKey == "1+1+1+1+1":
-                    array['C'].append(tempItem)
-                elif combinationKey == "4+1":
-                    if artifactValue["name"] == self.suitConfig[params["suitA"]][posItem]:
+                if combinationKey == "4+2":
+                    if artifactValue["name"] == params["suitA"]:
                         array["A"].append(tempItem)
-                    else:
-                        array['C'].append(tempItem)
-                elif combinationKey == "2+2+1":
-                    if artifactValue["name"] == self.suitConfig[params["suitA"]][posItem]:
-                        array["A"].append(tempItem)
-                    elif artifactValue["name"] == self.suitConfig[params["suitB"]][posItem]:
+                    elif artifactValue["name"] == params["suitB"]:
                         array["B"].append(tempItem)
                     else:
                         array['C'].append(tempItem)
+                else:
+                    pass
 
             # 取出当前位置最大值
             for suitKey in suit.keys():
@@ -427,9 +421,9 @@ class Data:
         scoreArray.sort(key=lambda x: x["scoreSum"], reverse=True)
         # print(scoreArray)
         if len(scoreArray) > 0:
-            return scoreArray
+            return scoreArray, "推荐成功"
         else:
-            return False
+            return False, "没有推荐结果"
 
     # 检查圣遗物是否可以更新
     def checkUpdate(self):

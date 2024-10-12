@@ -240,7 +240,7 @@ class Data:
 
         # 得分校验
         score = self.newScore(data, "全属性")[1]
-        if score > 100:
+        if score > 70.2:
             print("得分异常", score)
             return False
 

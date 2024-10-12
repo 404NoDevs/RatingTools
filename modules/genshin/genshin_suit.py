@@ -1,7 +1,7 @@
 '''圣遗物推荐参数选择弹窗'''
 import copy
-from extention import ExtendedComboBox, XCombobox
-from PySide6.QtWidgets import QLabel
+from extention import XCombobox
+from PySide6.QtWidgets import QLabel, QComboBox
 
 from modules.base.base_suit import BaseSuitWindow
 from modules.genshin.genshin_data import data
@@ -26,8 +26,8 @@ class SuitWindow(BaseSuitWindow):
         self.layout.addWidget(QLabel('套装类型:'), 10, 0, 1, 1)
         self.layout.addWidget(QLabel('套装A'), 11, 1, 1, 1)
         self.layout.addWidget(QLabel('套装B'), 12, 1, 1, 1)
-        self.suitCombobox1 = ExtendedComboBox()
-        self.suitCombobox2 = ExtendedComboBox()
+        self.suitCombobox1 = QComboBox()
+        self.suitCombobox2 = QComboBox()
         self.suitCombobox1.addItem("选择套装")
         self.suitCombobox2.addItem("选择套装")
         for key in data.getSuitConfig():
