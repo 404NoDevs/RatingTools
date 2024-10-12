@@ -546,9 +546,9 @@ class Data:
         # print(scoreArray)
 
         if len(scoreArray) > 0:
-            return scoreArray
+            return scoreArray, "推荐成功"
         else:
-            return False
+            return False, "没有推荐结果"
 
     # 检查圣遗物是否可以更新
     def checkUpdate(self):
