@@ -54,6 +54,9 @@ class SuitWindow(BaseSuitWindow):
             self.layout.addWidget(mainTagCombobox, 16 + index, 2, 1, 2)
             self.mainTagCombobox[key] = mainTagCombobox
 
+        # 根据创建参数调整页面
+        self.heroNameCombobox.setCurrentIndex(self.data.getCharacterIndex(self.character))
+
     # 推荐方案
     def startRating(self):
         params = {}

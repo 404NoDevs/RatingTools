@@ -29,11 +29,10 @@ class BaseSuitWindow(QWidget):
         # 初始化变量
         self.setWindow = None
         self.suitResultWindow = None
-        self.character = "全属性"
         self.selectType = 1
 
         self.initUI()
-        self.updateUI()
+        # self.updateUI()
 
     def initUI(self):
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
@@ -80,7 +79,6 @@ class BaseSuitWindow(QWidget):
         self.checkButton.clicked.connect(self.checkButtonClicked)
 
         # 根据创建参数调整页面
-        self.heroNameCombobox.setCurrentIndex(self.data.getCharacterIndex(self.character))
         self.scoreButton.setEnabled(self.enter_params != 1)
 
     def closeEvent(self, event):
