@@ -17,7 +17,7 @@ posName = ["分区1", "分区2", "分区3", "分区4", "分区5", "分区6"]
 mainTagType = {
     "分区4": ["生命值", "攻击力", "防御力", "暴击率", "暴击伤害", "异常精通"],
     "分区5": ["生命值", "攻击力", "防御力", "穿透值", "物理伤害加成", "火属性伤害加成", "冰属性伤害加成",
-               "电属性伤害加成", "以太伤害加成"],
+              "电属性伤害加成", "以太伤害加成"],
     "分区6": ["生命值", "攻击力", "防御力", "异常掌控", "冲击力", "能量自动回复"],
 }
 combinationType = {
@@ -45,9 +45,9 @@ coefficient = {
     '攻击力百分比': 1.6,
     '生命值百分比': 1.6,
     '防御力百分比': 1,
-    '攻击力': 0.252632/2,
-    '生命值': 0.042857/2,
-    '防御力': 0.32/2,
+    '攻击力': 0.252632 / 2,
+    '生命值': 0.042857 / 2,
+    '防御力': 0.32 / 2,
     "异常精通": 0.533333,
     "穿透值": 0.533333
 }
@@ -63,6 +63,7 @@ average = {
     "异常精通": 9,
     "穿透值": 9
 }
+
 
 class Data:
     def __init__(self):
@@ -436,14 +437,14 @@ class Data:
             params["suitA"] = scheme["suitA"]
             params["suitB"] = scheme["suitB"]
             params["needMainTag"] = {
-                "时之沙": scheme["时之沙"],
-                "空之杯": scheme["空之杯"],
-                "理之冠": scheme["理之冠"],
+                "分区4": scheme["分区4"],
+                "分区5": scheme["分区5"],
+                "分区6": scheme["分区6"],
             }
             params["character"] = owner
             params["heroConfig"] = self.characters[owner]
             params["selectType"] = 1
-            recommendResult = self.recommend(params)
+            recommendResult, _ = self.recommend(params)
 
             if recommendResult:
                 new = recommendResult[0]["combinationName"]
@@ -457,5 +458,6 @@ class Data:
                 print("没有推荐结果")
                 pass
         return result
+
 
 data = Data()

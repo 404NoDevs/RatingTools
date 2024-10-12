@@ -67,13 +67,14 @@ class SuitWindow(BaseSuitWindow):
         params["selectType"] = self.selectType
 
         # 获取推荐数据
-        result = data.recommend(params)
+        result, tipsText = data.recommend(params)
         if result:
             self.suitResultWindow = self.SuitResultWindow()
             self.suitResultWindow.update(self.character, result)
             self.suitResultWindow.show()
         else:
-            print("无可用方案")
+            pass
+        self.tipsLabel.setText(tipsText)
 
     def updateUI(self):
         indexObj = data.getIndexByCharacter(self.character)

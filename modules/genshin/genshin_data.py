@@ -504,7 +504,7 @@ class Data:
             params["character"] = owner
             params["heroConfig"] = self.characters[owner]
             params["selectType"] = 1
-            recommendResult = self.recommend(params)
+            recommendResult, _ = self.recommend(params)
 
             if recommendResult:
                 new = recommendResult[0]["combinationName"]
