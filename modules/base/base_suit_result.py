@@ -86,6 +86,7 @@ class BaseSuitResultWindow(QWidget):
     def updateUI(self):
         oldArtifactsData = self.data.getArtifactOwner(self.character)
         newArtifactsData = self.resultArray[self.programmeCombobox.currentIndex()]["combinationName"]
+        self.score_array = [] # 重置得分数组
         for posItem in self.data.getPosName():
             oldScore = 0
             if posItem in oldArtifactsData:
