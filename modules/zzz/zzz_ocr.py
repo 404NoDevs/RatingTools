@@ -20,6 +20,7 @@ class OCR(BaseOCR):
         self.replace_dict_name = {
             '【': '[',
             '】': ']',
+            "［": '[',
             '咳木鸟': '啄木鸟'
         }
         self.replace_dict_parts = {
@@ -51,6 +52,7 @@ class OCR(BaseOCR):
             markPrint("数据长度不符合要求", result)
             return False
 
+        markPrint("数据整理前检查", result)
         temp_name = strReplace(result[0], self.replace_dict_name)
         new_result["name"] = temp_name.split("[")[0]
         new_result["parts"] = "分区" + temp_name.split("[")[1][0]

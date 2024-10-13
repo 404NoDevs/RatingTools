@@ -91,4 +91,4 @@ class SuitWindow(BaseSuitWindow):
 
     def swichMainWindow(self):
         from modules.zzz.zzz_score import ScoreWindow
-        super().initUI(ScoreWindow)
+        super().swichMainWindow(ScoreWindow)
