@@ -32,7 +32,7 @@ class BaseSuitWindow(QWidget):
         self.selectType = 1
 
         self.initUI()
-        # self.updateUI()
+        self.updateUI()
 
     def initUI(self):
         self.setWindowFlags(Qt.WindowStaysOnTopHint)

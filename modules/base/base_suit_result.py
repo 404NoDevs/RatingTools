@@ -32,7 +32,7 @@ class BaseSuitResultWindow(QWidget):
     def initUI(self):
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
         self.setWindowIcon(QIcon(os.path.join(os.path.dirname(__file__), '../../src/keqing.ico')))
-        self.setWindowTitle("生成方案")
+        self.setWindowTitle("推荐方案")
         self.setFocusPolicy(Qt.StrongFocus)
         self.move(*self.position)
 

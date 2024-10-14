@@ -34,5 +34,5 @@ class BaseOCR:
         # 移除异常文本
         result = [item for item in result if item not in self.error_text]
         # 千位符（含误识别的.）兼容
-        result = [re.sub('\d\.\d{3}|\d\,\d{3}', item.replace(',', '').replace('.', ''), item) for item in result]
+        result = [re.sub(r'\d\.\d{3}|\d\,\d{3}', item.replace(',', '').replace('.', ''), item) for item in result]
         return result

@@ -63,7 +63,7 @@ class OCR(BaseOCR):
         # 中文和数字正则
         normalTags = {}
         pattern_chinese = '[\u4e00-\u9fa5]+'
-        pattern_digit = '\d+(\.\d+)?'
+        pattern_digit = r'\d+(\.\d+)?'
         for index in range(4, len(result), 2):
             item = result[index] + result[index + 1]
             temp_name = result[index]

@@ -1,4 +1,4 @@
-import os, sys, qdarktheme
+import os, sys
 
 import globalsData, utils
 
@@ -107,7 +107,8 @@ def main():
         pass
 
     app = QApplication(sys.argv)
-    qdarktheme.setup_theme('light')
+    # 设置样式
+    app.setStyle("WindowsVista")
     window = MainWindow()
     window.show()
 

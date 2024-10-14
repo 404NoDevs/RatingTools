@@ -54,7 +54,7 @@ class OCR(BaseOCR):
         # 中文和数字正则
         normalTags = {}
         pattern_chinese = '[\u4e00-\u9fa5]+'
-        pattern_digit = '\d+(\.\d+)?'
+        pattern_digit = r'\d+(\.\d+)?'
         for item in result[-4:]:
             try:
                 # 词条名称
