@@ -1,5 +1,5 @@
 '''不同分辨率、缩放率适配，贴图坐标、圣遗物坐标、截图坐标定位'''
-import win32gui, time
+import win32gui
 
 from PySide6.QtGui import QGuiApplication
 
@@ -10,14 +10,6 @@ SCALE = app.devicePixelRatio()
 window_sc = win32gui.FindWindow('UnityWndClass', '绝区零')
 window_start = win32gui.FindWindow('START Cloud Game', 'START云游戏-Game')
 window = window_sc or window_start
-print('找到游戏窗口，窗口句柄：', window)
-while (not window):
-    print('未找到游戏窗口，请启动游戏！')
-    window_sc = win32gui.FindWindow('UnityWndClass', '绝区零')
-    window_start = win32gui.FindWindow('START Cloud Game', 'START云游戏-Game')
-    window = window_sc or window_start
-    time.sleep(5)
-
 left, top, right, bottom = win32gui.GetWindowRect(window)
 # print('游戏窗口坐标：', left, top, right, bottom)
 
