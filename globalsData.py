@@ -1,4 +1,4 @@
-version = "0.0.1"
+version = "0.0.5"
 appId = "com.example.app"
 appName = "    评分工具     "
 gamesMap = {
