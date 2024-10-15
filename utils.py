@@ -2,11 +2,13 @@
 import win32gui
 import globalsData
 
+
 def getKeyByValue(dict, val):
     for key, value in dict.items():
         if value == val:
             return key
     return None
+
 
 def checkWinowState(gameKey):
     """
@@ -26,23 +28,19 @@ def checkWinowState(gameKey):
     if window == 0:
         return 1
     left, top, right, bottom = win32gui.GetWindowRect(window)
-    ratio = (right - left)/(bottom - top)
+    ratio = (right - left) / (bottom - top)
     if ratio < 1.7 or ratio > 1.8:
         return 2
     return 0
 
+
 def strReplace(str, replacements):
-    for old, new in replacements.items():
-        str = str.replace(old, new)
+    for wrong, right in replacements.items():
+        str = str.replace(wrong, right)
     return str
 
-def strAllReplace(str, replacements):
-    for old, new in replacements.items():
-        if str == old:
-            return new
-    return str
 
-def markPrint(*str,mark="*"):
+def markPrint(*str, mark="*"):
     markStr = mark * 100
     print(markStr)
     for item in str:
