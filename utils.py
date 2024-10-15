@@ -36,6 +36,12 @@ def strReplace(str, replacements):
         str = str.replace(old, new)
     return str
 
+def strAllReplace(str, replacements):
+    for old, new in replacements.items():
+        if str == old:
+            return new
+    return str
+
 def markPrint(*str,mark="*"):
     markStr = mark * 100
     print(markStr)

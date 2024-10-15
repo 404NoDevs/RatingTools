@@ -101,7 +101,7 @@ class BaseScoreWindow(QWidget):
         # 提示文本
         layout.addWidget(self.tipsLabel, 11, 0, 1, 4, Qt.AlignCenter)
         # 分析按钮
-        layout.addWidget(self.analyzeButton, 12, 0, 1, 4, Qt.AlignCenter)
+        # layout.addWidget(self.analyzeButton, 12, 0, 1, 4, Qt.AlignCenter)
 
         self.setLayout(layout)
 

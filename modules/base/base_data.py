@@ -130,7 +130,7 @@ class BaseData:
             del data["isCorrected"]
 
         # 判断是否强化满级
-        if data["lvl"] != self.maxLevel:
+        if data["lvl"] != str(self.maxLevel):
             print("未强化满级")
             return False
 
