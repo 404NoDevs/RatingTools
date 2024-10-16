@@ -13,7 +13,7 @@ class Data(BaseData):
         self.entryArray = ["速度", "生命值", "攻击力", "防御力", "暴击率", "暴击伤害", "击破特攻", "效果命中", "效果抵抗"]
         self.posNameOut = ["头部", "手部", "躯干", "脚部"]
         self.posNameIn = ["位面球", "连结绳"]
-        self.mainTagType = {
+        self.mainAttrType = {
             "躯干": ["生命值", "攻击力", "防御力", "暴击率", "暴击伤害", "治疗量加成", "效果命中"],
             "脚部": ["生命值", "攻击力", "防御力", "速度"],
             "位面球": ["生命值", "攻击力", "防御力", "物理属性伤害提高", "火属性伤害提高", "冰属性伤害提高",
@@ -83,8 +83,8 @@ class Data(BaseData):
     def getPosName(self):
         return self.posNameOut + self.posNameIn
 
-    def getMainTagType(self):
-        return self.mainTagType
+    def getMainAttrType(self):
+        return self.mainAttrType
 
     def getCoefficient(self):
         return self.coefficient
@@ -154,9 +154,9 @@ class Data(BaseData):
                         continue
 
                 # 限制二 对比主词条
-                if posItem in self.mainTagType:
-                    # print(params["needMainTag"][posItem])
-                    if artifactValue["mainTag"] not in params["needMainTag"][posItem]:
+                if posItem in self.mainAttrType:
+                    # print(params["needMainAttr"][posItem])
+                    if artifactValue["mainAttr"] not in params["needMainAttr"][posItem]:
                         # print("主词条不符合")
                         continue
 
@@ -209,9 +209,9 @@ class Data(BaseData):
                         continue
 
                 # 限制二 对比主词条
-                if posItem in self.mainTagType:
-                    # print(params["needMainTag"][posItem])
-                    if artifactValue["mainTag"] not in params["needMainTag"][posItem]:
+                if posItem in self.mainAttrType:
+                    # print(params["needMainAttr"][posItem])
+                    if artifactValue["mainAttr"] not in params["needMainAttr"][posItem]:
                         # print("主词条不符合")
                         continue
 
@@ -325,7 +325,7 @@ class Data(BaseData):
             params["suitA"] = scheme["suitA"]
             params["suitB"] = scheme["suitB"]
             params["suitC"] = scheme["suitC"]
-            params["needMainTag"] = {
+            params["needMainAttr"] = {
                 "躯干": scheme["躯干"],
                 "脚部": scheme["脚部"],
                 "位面球": scheme["位面球"],

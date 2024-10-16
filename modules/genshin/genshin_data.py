@@ -2,8 +2,8 @@
 
 from modules.base.base_data import BaseData
 
-# 数据常量
 
+# 数据常量
 
 
 class Data(BaseData):
@@ -16,10 +16,10 @@ class Data(BaseData):
 
         self.entryArray = ["暴击率", "暴击伤害", "攻击力", "生命值", "防御力", "元素精通", "元素充能效率"]
         self.posName = ["生之花", "死之羽", "时之沙", "空之杯", "理之冠"]
-        self.mainTagType = {
+        self.mainAttrType = {
             "时之沙": ["生命值", "攻击力", "防御力", "元素精通", "元素充能效率"],
-            "空之杯": ["生命值", "攻击力", "防御力", "元素精通", "物理伤害加成", "火元素伤害加成", "雷元素伤害加成",
-                       "水元素伤害加成", "草元素伤害加成", "风元素伤害加成", "岩元素伤害加成", "冰元素伤害加成"],
+            "空之杯": ["生命值", "攻击力", "防御力", "元素精通", "物理伤害加成", "火元素伤害加成", "雷元素伤害加成", "水元素伤害加成", "草元素伤害加成", "风元素伤害加成", "岩元素伤害加成",
+                       "冰元素伤害加成"],
             "理之冠": ["生命值", "攻击力", "防御力", "元素精通", "暴击率", "暴击伤害", "治疗加成"],
         }
         self.combinationType = {
@@ -115,15 +115,14 @@ class Data(BaseData):
             '元素充能效率': 5.5
         }
 
-
     def getEntryArray(self):
         return self.entryArray
 
     def getPosName(self):
         return self.posName
 
-    def getMainTagType(self):
-        return self.mainTagType
+    def getMainAttrType(self):
+        return self.mainAttrType
 
     def getCoefficient(self):
         return self.coefficient
@@ -185,8 +184,8 @@ class Data(BaseData):
                         continue
 
                 # 限制二 对比主词条
-                if posItem in self.mainTagType:
-                    if artifactValue["mainTag"] not in params["needMainTag"][posItem]:
+                if posItem in self.mainAttrType:
+                    if artifactValue["mainAttr"] not in params["needMainAttr"][posItem]:
                         # print("主词条不符合")
                         continue
 
@@ -264,7 +263,7 @@ class Data(BaseData):
             params = {}
             params["suitA"] = scheme["suitA"]
             params["suitB"] = scheme["suitB"]
-            params["needMainTag"] = {
+            params["needMainAttr"] = {
                 "时之沙": scheme["时之沙"],
                 "空之杯": scheme["空之杯"],
                 "理之冠": scheme["理之冠"],

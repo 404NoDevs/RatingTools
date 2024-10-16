@@ -45,14 +45,14 @@ class SuitWindow(BaseSuitWindow):
 
         self.layout.addWidget(QLabel('主要属性:'), 15, 0, 1, 1)
         self.layout.addWidget(QLabel('(不选默认不限制主词条)'), 15, 1, 1, 4)
-        self.mainTagCombobox = {}
-        MainTagType = data.getMainTagType()
-        for index, (key, values) in enumerate(MainTagType.items()):
+        self.mainAttrCombobox = {}
+        MainAttrType = data.getMainAttrType()
+        for index, (key, values) in enumerate(MainAttrType.items()):
             self.layout.addWidget(QLabel(key), 16 + index, 1, 1, 2)
-            mainTagCombobox = XCombobox("任意属性")
-            mainTagCombobox.add_items(values)
-            self.layout.addWidget(mainTagCombobox, 16 + index, 2, 1, 2)
-            self.mainTagCombobox[key] = mainTagCombobox
+            mainAttrCombobox = XCombobox("任意属性")
+            mainAttrCombobox.add_items(values)
+            self.layout.addWidget(mainAttrCombobox, 16 + index, 2, 1, 2)
+            self.mainAttrCombobox[key] = mainAttrCombobox
 
         # 根据创建参数调整页面
         self.heroNameCombobox.setCurrentIndex(self.data.getCharacterIndex(self.character))
@@ -63,17 +63,17 @@ class SuitWindow(BaseSuitWindow):
         params["suitA"] = self.suitComboboxA.currentText()
         params["suitB"] = self.suitComboboxB.currentText()
         params["suitC"] = self.suitComboboxC.currentText()
-        needMainTag = {}
-        for key in self.mainTagCombobox:
-            mainTag = self.mainTagCombobox[key].get_selected()
-            needMainTag[key] = mainTag
-            params[key] = mainTag
+        needMainAttr = {}
+        for key in self.mainAttrCombobox:
+            mainAttr = self.mainAttrCombobox[key].get_selected()
+            needMainAttr[key] = mainAttr
+            params[key] = mainAttr
 
         # 保存方案
         saveParams = copy.deepcopy(params)
         data.setArtifactScheme(self.character, saveParams)
 
-        params["needMainTag"] = needMainTag
+        params["needMainAttr"] = needMainAttr
         params["character"] = self.character
         params["selectType"] = self.selectType
 
@@ -97,8 +97,8 @@ class SuitWindow(BaseSuitWindow):
             elif key == "suitC":
                 self.suitComboboxC.setCurrentIndex(indexObj[key])
             else:
-                if key in self.mainTagCombobox:
-                    self.mainTagCombobox[key].set_selected(indexObj[key])
+                if key in self.mainAttrCombobox:
+                    self.mainAttrCombobox[key].set_selected(indexObj[key])
 
     # 切换为评分
     def swichMainWindow(self):

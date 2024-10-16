@@ -56,12 +56,12 @@ class OCR(BaseOCR):
         temp_name = strReplace(result[0], self.replace_dict_name)
         new_result["name"] = temp_name.split("[")[0]
         new_result["parts"] = "分区" + temp_name.split("[")[1][0]
-        new_result["mainTag"] = result[2]
+        new_result["mainAttr"] = result[2]
         new_result["mainDigit"] = result[3]
         new_result["lvl"] = re.findall(r'\d+', result[1])[0]
 
         # 中文和数字正则
-        normalTags = {}
+        subAttr = {}
         pattern_chinese = '[\u4e00-\u9fa5]+'
         pattern_digit = r'\d+(\.\d+)?'
         for index in range(4, len(result), 2):
@@ -75,30 +75,30 @@ class OCR(BaseOCR):
                 digit = float(re.search(pattern_digit, temp_digit).group())
 
                 if name in '暴击率':
-                    normalTags['暴击率'] = digit
+                    subAttr['暴击率'] = digit
                 elif name in '暴击伤害':
-                    normalTags['暴击伤害'] = digit
+                    subAttr['暴击伤害'] = digit
                 elif name in '攻击力' and '%' in item:
-                    normalTags['攻击力百分比'] = digit
+                    subAttr['攻击力百分比'] = digit
                 elif name in '攻击力':
-                    normalTags['攻击力'] = digit
+                    subAttr['攻击力'] = digit
                 elif name in '生命值' and '%' in item:
-                    normalTags['生命值百分比'] = digit
+                    subAttr['生命值百分比'] = digit
                 elif name in '生命值':
-                    normalTags['生命值'] = digit
+                    subAttr['生命值'] = digit
                 elif name in '防御力' and '%' in item:
-                    normalTags['防御力百分比'] = digit
+                    subAttr['防御力百分比'] = digit
                 elif name in '防御力':
-                    normalTags['防御力'] = digit
+                    subAttr['防御力'] = digit
                 elif name in '异常精通':
-                    normalTags['异常精通'] = digit
+                    subAttr['异常精通'] = digit
                 elif name in '穿透值':
-                    normalTags['穿透值'] = digit
+                    subAttr['穿透值'] = digit
                 else:
-                    normalTags[item] = 0
+                    subAttr[item] = 0
             except:
-                normalTags[item] = 0
-        new_result["normalTags"] = normalTags
+                subAttr[item] = 0
+        new_result["subAttr"] = subAttr
 
         markPrint(new_result)
         return new_result

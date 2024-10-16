@@ -201,9 +201,9 @@ class BaseScoreWindow(QWidget):
     # 修改识别结果按钮
     def button_clicked(self):
         if str(self.id) in self.artifact:
-            self.artifact[str(self.id)]["normalTags"] = {}
+            self.artifact[str(self.id)]["subAttr"] = {}
             for i in range(4):
-                self.artifact[str(self.id)]["normalTags"][self.name[i].text()] = float(self.digit[i].text())
+                self.artifact[str(self.id)]["subAttr"][self.name[i].text()] = float(self.digit[i].text())
             # 修改完成移除矫正标识
             self.artifact[str(self.id)]["isCorrected"] = False
             # 刷新界面
@@ -266,15 +266,15 @@ class BaseScoreWindow(QWidget):
         self.score_total.setText(str(self.score_result[1]))
         self.entries.setText(str(self.score_result[3]))
         for i in range(4):
-            if i < len(self.artifact[str(self.id)]["normalTags"]):
-                if list(self.artifact[str(self.id)]["normalTags"].keys())[i] in self.data.getCoefficient().keys():
-                    self.name[i].setText(list(self.artifact[str(self.id)]["normalTags"].keys())[i])
-                    self.digit[i].setText(str(list(self.artifact[str(self.id)]["normalTags"].values())[i]))
+            if i < len(self.artifact[str(self.id)]["subAttr"]):
+                if list(self.artifact[str(self.id)]["subAttr"].keys())[i] in self.data.getCoefficient().keys():
+                    self.name[i].setText(list(self.artifact[str(self.id)]["subAttr"].keys())[i])
+                    self.digit[i].setText(str(list(self.artifact[str(self.id)]["subAttr"].values())[i]))
                     self.score[i].setText(str(self.score_result[0][i]))
                     self.strengthen[i].setText("+" + str(self.score_result[2][i]))
                 else:
                     self.name[i].setText('识别错误')
-                    self.digit[i].setText(list(self.artifact[str(self.id)]["normalTags"].keys())[i])
+                    self.digit[i].setText(list(self.artifact[str(self.id)]["subAttr"].keys())[i])
                     self.score[i].setText('0')
                     self.strengthen[i].setText("+0")
             else:

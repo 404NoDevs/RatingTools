@@ -143,7 +143,7 @@ class BaseData:
         # 获取圣遗物ID
         nameArray = []
         nameArray.append(data["name"])
-        for itemName, itemNum in data["normalTags"].items():
+        for itemName, itemNum in data["subAttr"].items():
             nameArray.append(str(itemNum))
         nameStr = '-'.join(nameArray)
         parts = data["parts"]
@@ -184,10 +184,10 @@ class BaseData:
 
         addScoreSwich = False
         if addScoreSwich:
-            if ocr_result['main_name'] in self.getMainTagType():
+            if ocr_result['main_name'] in self.getMainAttrType():
                 pass
 
-        for key, value in ocr_result['normalTags'].items():
+        for key, value in ocr_result['subAttr'].items():
             # 兼容角色配置未区分百分比的情况
             if key == '生命值百分比' or key == '攻击力百分比' or key == '防御力百分比':
                 key_s = key[:3]
@@ -223,7 +223,7 @@ class BaseData:
         pass
 
     # 获取圣遗物类型配置
-    def getMainTagType(self):
+    def getMainAttrType(self):
         pass
 
     # 获取圣遗物位置名称

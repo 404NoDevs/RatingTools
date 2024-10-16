@@ -1,4 +1,5 @@
 '''工具方法文件'''
+import json
 import win32gui
 import globalsData
 
@@ -44,5 +45,7 @@ def markPrint(*str, mark="*"):
     markStr = mark * 100
     print(markStr)
     for item in str:
+        if isinstance(item, (dict, list, str, int, float, bool, type(None))):
+            item = json.dumps(item, indent=4, ensure_ascii=False)
         print(item)
     print(markStr)

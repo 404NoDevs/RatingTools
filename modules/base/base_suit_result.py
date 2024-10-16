@@ -93,7 +93,7 @@ class BaseSuitResultWindow(QWidget):
                 self.artifactNameLabel1[posItem].setText(oldArtifactsData[posItem])
 
                 oldArtifactItem = self.data.getArtifactItem(posItem, oldArtifactsData[posItem])
-                if "normalTags" in oldArtifactItem:
+                if "subAttr" in oldArtifactItem:
                     oldScore = self.data.newScore(oldArtifactItem, self.character)[1]
                 self.artifactScoreLabel1[posItem].setText(str(oldScore))
 

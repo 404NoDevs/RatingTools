@@ -60,12 +60,12 @@ class OCR(BaseOCR):
 
         new_result["name"] = strReplace(result[0], self.replace_dict_name)
         new_result["parts"] = strReplace(result[1], self.replace_dict_parts)
-        new_result["mainTag"] = result[3]
+        new_result["mainAttr"] = result[3]
         new_result["mainDigit"] = result[4]
         new_result["lvl"] = re.findall(r'\d+', result[2])[0]
 
         # 中文和数字正则
-        normalTags = {}
+        subAttr = {}
         pattern_chinese = '[\u4e00-\u9fa5]+'
         pattern_digit = r'\d+(\.\d+)?'
         for index in range(5, len(result), 2):
@@ -77,34 +77,34 @@ class OCR(BaseOCR):
                 digit = float(re.search(pattern_digit, item).group())
 
                 if name in '暴击率':
-                    normalTags['暴击率'] = digit
+                    subAttr['暴击率'] = digit
                 elif name in '暴击伤害':
-                    normalTags['暴击伤害'] = digit
+                    subAttr['暴击伤害'] = digit
                 elif name in '攻击力' and '%' in item:
-                    normalTags['攻击力百分比'] = digit
+                    subAttr['攻击力百分比'] = digit
                 elif name in '攻击力':
-                    normalTags['攻击力'] = digit
+                    subAttr['攻击力'] = digit
                 elif name in '生命值' and '%' in item:
-                    normalTags['生命值百分比'] = digit
+                    subAttr['生命值百分比'] = digit
                 elif name in '生命值':
-                    normalTags['生命值'] = digit
+                    subAttr['生命值'] = digit
                 elif name in '防御力' and '%' in item:
-                    normalTags['防御力百分比'] = digit
+                    subAttr['防御力百分比'] = digit
                 elif name in '防御力':
-                    normalTags['防御力'] = digit
+                    subAttr['防御力'] = digit
                 elif name in '速度':
-                    normalTags['速度'] = digit
+                    subAttr['速度'] = digit
                 elif name in '击破特攻':
-                    normalTags['击破特攻'] = digit
+                    subAttr['击破特攻'] = digit
                 elif name in '效果命中':
-                    normalTags['效果命中'] = digit
+                    subAttr['效果命中'] = digit
                 elif name in '效果抵抗':
-                    normalTags['效果抵抗'] = digit
+                    subAttr['效果抵抗'] = digit
                 else:
-                    normalTags[item] = 0
+                    subAttr[item] = 0
             except:
-                normalTags[item] = 0
-        new_result["normalTags"] = normalTags
+                subAttr[item] = 0
+        new_result["subAttr"] = subAttr
 
         markPrint(new_result)
         return new_result
