@@ -45,7 +45,7 @@ def markPrint(*str, mark="*"):
     markStr = mark * 100
     print(markStr)
     for item in str:
-        if isinstance(item, (dict, list, str, int, float, bool, type(None))):
+        if isinstance(item, (dict, list)):
             item = json.dumps(item, indent=4, ensure_ascii=False)
         print(item)
     print(markStr)
