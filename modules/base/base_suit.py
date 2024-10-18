@@ -1,6 +1,7 @@
 '''圣遗物推荐参数选择弹窗'''
 
 import os
+from extention import ExtendedComboBox
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
@@ -50,7 +51,7 @@ class BaseSuitWindow(QWidget):
         self.scoreButton = QPushButton(f'{self.equipment_name}评分→')
         self.layout.addWidget(self.scoreButton, 0, 2, 1, 2)
         self.layout.addWidget(QLabel('当前角色：'), 1, 0, 1, 1)
-        self.heroNameCombobox = QComboBox()
+        self.heroNameCombobox = ExtendedComboBox()
         for herName in self.data.getCharacters():
             self.heroNameCombobox.addItem(herName)
         self.layout.addWidget(self.heroNameCombobox, 1, 1, 1, 2)

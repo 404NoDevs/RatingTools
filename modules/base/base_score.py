@@ -2,7 +2,7 @@
 
 import os
 from pynput import keyboard
-from extention import OutsideMouseManager
+from extention import OutsideMouseManager, ExtendedComboBox
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
@@ -48,7 +48,7 @@ class BaseScoreWindow(QWidget):
         self.type = '角色'
         self.suitButton = QPushButton('套装推荐→')
         # 角色选择框
-        self.combobox = QComboBox()
+        self.combobox = ExtendedComboBox()
         # 添加角色
         self.characters = self.data.getCharacters()
         for key in self.characters:
@@ -77,7 +77,6 @@ class BaseScoreWindow(QWidget):
         self.tipsLabel.setStyleSheet("color:red;")
         # 分析按钮
         self.analyzeButton = QPushButton(f'{self.equipment_name}分析↓')
-        # self.analyzeText
 
         # 弹窗内容
         layout = QGridLayout()
