@@ -57,10 +57,6 @@ class BaseSuitWindow(QWidget):
         self.layout.addWidget(self.heroNameCombobox, 1, 1, 1, 2)
         self.setButton = QPushButton('设置>')
         self.layout.addWidget(self.setButton, 1, 3, 1, 1)
-        self.layout.addWidget(QLabel('方案选择：'), 2, 0, 1, 1)
-        self.schemeCombobox = QComboBox()
-        self.layout.addWidget(self.schemeCombobox, 2, 1, 1, 3)
-
 
         # 下半部分
         self.layout.addWidget(QLabel('其他选择:'), 20, 0, 1, 1)
