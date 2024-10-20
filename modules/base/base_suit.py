@@ -9,8 +9,7 @@ from PySide6.QtWidgets import (
     QRadioButton,
     QPushButton,
     QWidget,
-    QGridLayout,
-    QComboBox
+    QGridLayout
 )
 
 

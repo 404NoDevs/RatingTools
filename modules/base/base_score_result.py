@@ -1,7 +1,6 @@
 '''贴图窗口，显示单独的评分结果'''
 
 from PySide6.QtCore import Qt
-# from PySide6.QtGui import QShortcut, QKeySequence
 from PySide6.QtWidgets import QVBoxLayout, QLabel, QWidget
 
 

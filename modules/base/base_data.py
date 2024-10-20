@@ -1,7 +1,5 @@
 '''个人数据数据处理'''
-
 import json, os, shutil
-
 
 class BaseData:
 
@@ -80,7 +78,7 @@ class BaseData:
 
     # 更新英雄配置
     def setCharacters(self, newCharacters):
-        self.characters = newCharacters
+        self.characters.update(newCharacters)
         with open(self.character_path, 'w', encoding='utf-8') as fp:
             json.dump(self.characters, fp, ensure_ascii=False)
 
