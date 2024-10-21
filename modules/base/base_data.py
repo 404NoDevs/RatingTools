@@ -1,5 +1,7 @@
 '''个人数据数据处理'''
 import json, os, shutil
+from my_enum import UpdateCharactersState
+
 
 class BaseData:
 
@@ -17,14 +19,12 @@ class BaseData:
         self.character_path = self.folder_root + '/character.json'
         self.artifact_path = self.folder_root + '/artifacts.json'
         self.artifactOwner_path = self.folder_root + '/artifactOwner.json'
-        self.artifactScheme_path = self.folder_root + "/artifactScheme.json"
 
         # 初始化变量
         self.artifactList = {}
         self.artifactOwnerList = {}
         self.suitConfig = {}
         self.characters = {}
-        self.artifactScheme = {}
 
         # 加载数据
         self.loadData()
@@ -39,10 +39,6 @@ class BaseData:
             if os.path.exists(self.artifactOwner_path):
                 with open(self.artifactOwner_path, 'r', encoding='utf-8') as fp:
                     self.artifactOwnerList = json.load(fp)
-            # 读取套装方案
-            if os.path.exists(self.artifactScheme_path):
-                with open(self.artifactScheme_path, 'r', encoding='utf-8') as fp:
-                    self.artifactScheme = json.load(fp)
             # 读取角色参数配置
             if os.path.exists(self.character_path):
                 with open(self.defaulCharacter_path, 'r', encoding='utf-8') as fp:
@@ -77,10 +73,18 @@ class BaseData:
         return self.characters
 
     # 更新英雄配置
-    def setCharacters(self, newCharacters):
-        self.characters.update(newCharacters)
+    def setCharacters(self, type, character, config):
+        if character not in self.characters:
+            self.characters[character] = {}
+        if "weight" not in self.characters[character]:
+            self.characters[character]["weight"] = {}
+
+        if type == UpdateCharactersState.SCHEME:
+            self.characters[character].update(config)
+        elif type == UpdateCharactersState.WEIGHT:
+            self.characters[character]["weight"].update(config)
         with open(self.character_path, 'w', encoding='utf-8') as fp:
-            json.dump(self.characters, fp, ensure_ascii=False)
+            json.dump(self.characters, fp, ensure_ascii=False, indent=4)
 
     def getArtifactOwner(self, character):
         if character in self.artifactOwnerList:
@@ -163,17 +167,12 @@ class BaseData:
             resultIndex = characterKeyArray.index(character)
         return resultIndex
 
-    def setArtifactScheme(self, character, params):
-        self.artifactScheme[character] = params
-        with open(self.artifactScheme_path, 'w', encoding='utf-8') as fp:
-            json.dump(self.artifactScheme, fp, ensure_ascii=False)
-
     # 获取配置文件夹路径
     def getUserDataPath(self):
         return self.folder_root
 
     def newScore(self, ocr_result, character):
-        config = self.characters[character]
+        config = self.characters[character]["weight"]
 
         scores = []
         sums = 0

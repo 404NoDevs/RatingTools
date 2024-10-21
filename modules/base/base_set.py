@@ -12,6 +12,8 @@ from PySide6.QtWidgets import (
     QDoubleSpinBox
 )
 
+from my_enum import UpdateCharactersState
+
 
 class BaseSetWindow(QWidget):
     def __init__(self, params):
@@ -89,19 +91,17 @@ class BaseSetWindow(QWidget):
         else:
             self.heroNameLabel.setText(self.character)
             for keyName in self.entryNum:
-                self.entryNum[keyName].setValue(herConfig[self.character][keyName])
+                self.entryNum[keyName].setValue(herConfig[self.character]["weight"][keyName])
 
     def update(self, character):
         self.character = character
         self.updateUI()
 
     def btn_save(self):
-        herConfig = self.data.getCharacters()
         tempConfig = {}
         for keyName in self.entryNum:
-            tempConfig[keyName] = self.entryNum[keyName].value()
-        herConfig[self.character] = tempConfig
-        self.data.setCharacters(herConfig)
+            tempConfig[keyName] = round(self.entryNum[keyName].value(),2)
+        self.data.setCharacters(UpdateCharactersState.WEIGHT, self.character, tempConfig)
         self.close()
 
     # 数据更新

@@ -132,15 +132,15 @@ class Data(BaseData):
     # 获取下标
     def getIndexByCharacter(self, character):
         result = {"suitA": 0, "suitB": 0, "时之沙": [], "空之杯": [], "理之冠": []}
-        if character in self.artifactScheme:
-            artifactSchemeItem = self.artifactScheme[character]
-            for key in artifactSchemeItem:
+        if character in self.characters:
+            characterItem = self.characters[character]
+            for key in characterItem:
                 if key == "suitA" or key == "suitB":
                     suitKeyArray = list(self.suitConfig.keys())
-                    if artifactSchemeItem[key] in suitKeyArray:
-                        result[key] = suitKeyArray.index(artifactSchemeItem[key]) + 1
+                    if characterItem[key] in suitKeyArray:
+                        result[key] = suitKeyArray.index(characterItem[key]) + 1
                 elif key in self.posName:
-                    result[key] = artifactSchemeItem[key]
+                    result[key] = characterItem[key]
         return result
 
     # 推荐圣遗物
