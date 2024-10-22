@@ -50,7 +50,7 @@ class BaseData:
                     for item in diff:
                         self.characters[item] = default[item]
                     with open(self.character_path, 'w', encoding='utf-8') as fp:
-                        json.dump(self.characters, fp, ensure_ascii=False)
+                        json.dump(self.characters, fp, ensure_ascii=False, indent=4)
             else:
                 shutil.copy(self.defaulCharacter_path, self.character_path)
                 with open(self.character_path, 'r', encoding='utf-8') as fp:
@@ -103,7 +103,7 @@ class BaseData:
 
         # 保存数据
         with open(self.artifactOwner_path, 'w', encoding='utf-8') as fp:
-            json.dump(self.artifactOwnerList, fp, ensure_ascii=False)
+            json.dump(self.artifactOwnerList, fp, ensure_ascii=False, indent=4)
 
     # 通过ID及位置查询装备角色名称
     def getOwnerCharacterByArtifactId(self, pos, artifactID):
@@ -157,7 +157,7 @@ class BaseData:
         # 存储数据
         self.artifactList[parts][nameStr] = data
         with open(self.artifact_path, 'w', encoding='utf-8') as fp:
-            json.dump(self.artifactList, fp, ensure_ascii=False)
+            json.dump(self.artifactList, fp, ensure_ascii=False, indent=4)
             print("保存成功")
 
     def getCharacterIndex(self, character):
