@@ -12,7 +12,7 @@ from PySide6.QtWidgets import (
     QDoubleSpinBox
 )
 
-from my_enum import UpdateCharactersState
+from my_enum import UpdateCharactersType
 
 
 class BaseSetWindow(QWidget):
@@ -101,7 +101,7 @@ class BaseSetWindow(QWidget):
         tempConfig = {}
         for keyName in self.entryNum:
             tempConfig[keyName] = round(self.entryNum[keyName].value(),2)
-        self.data.setCharacters(UpdateCharactersState.WEIGHT, self.character, tempConfig)
+        self.data.setCharacters(UpdateCharactersType.WEIGHT, self.character, tempConfig)
         self.close()
 
     # 数据更新

@@ -8,7 +8,7 @@ from modules.genshin.genshin_data import data
 from modules.genshin.genshin_set import SetWindow
 from modules.genshin.genshin_suit_result import SuitResultWindow
 
-from my_enum import UpdateCharactersState
+from my_enum import UpdateCharactersType
 
 
 class SuitWindow(BaseSuitWindow):
@@ -65,7 +65,7 @@ class SuitWindow(BaseSuitWindow):
 
         # 保存方案
         saveParams = copy.deepcopy(params)
-        data.setCharacters(UpdateCharactersState.SCHEME, self.character, saveParams)
+        data.setCharacters(UpdateCharactersType.SCHEME, self.character, saveParams)
 
         params["needMainAttr"] = needMainAttr
         params["character"] = self.character

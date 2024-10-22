@@ -1,6 +1,6 @@
 from enum import Enum, auto
 
 
-class UpdateCharactersState(Enum):
+class UpdateCharactersType(Enum):
     SCHEME = auto()
     WEIGHT = auto()

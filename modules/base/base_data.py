@@ -1,6 +1,6 @@
 '''个人数据数据处理'''
 import json, os, shutil
-from my_enum import UpdateCharactersState
+from my_enum import UpdateCharactersType
 
 
 class BaseData:
@@ -79,9 +79,9 @@ class BaseData:
         if "weight" not in self.characters[character]:
             self.characters[character]["weight"] = {}
 
-        if type == UpdateCharactersState.SCHEME:
+        if type == UpdateCharactersType.SCHEME:
             self.characters[character].update(config)
-        elif type == UpdateCharactersState.WEIGHT:
+        elif type == UpdateCharactersType.WEIGHT:
             self.characters[character]["weight"].update(config)
         with open(self.character_path, 'w', encoding='utf-8') as fp:
             json.dump(self.characters, fp, ensure_ascii=False, indent=4)
