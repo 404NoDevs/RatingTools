@@ -99,7 +99,7 @@ class BaseScoreWindow(QWidget):
         # 提示文本
         layout.addWidget(self.tipsLabel, 11, 0, 1, 4, Qt.AlignCenter)
         # 分析按钮
-        # layout.addWidget(self.analyzeButton, 12, 0, 1, 4, Qt.AlignCenter)
+        layout.addWidget(self.analyzeButton, 12, 0, 1, 4, Qt.AlignCenter)
 
         self.setLayout(layout)
 
@@ -289,6 +289,10 @@ class BaseScoreWindow(QWidget):
             # 自动保存遗器
             self.data.saveArtifactList(self.artifact[str(self.id)])
 
+            if self.analyzeWindow and self.analyzeWindow.isVisible():
+                array = self.data.getAnalyzeData(self.artifact[str(self.id)])
+                self.analyzeWindow.update({"array": array})
+
     # 刷新圣遗物贴图（识别、修改后确认、加载本地数据,后于主面板更新）
     def fresh_paste_window(self):
         self.pastes[self.id].setLabel(self.score_result[1])
@@ -316,6 +320,9 @@ class BaseScoreWindow(QWidget):
             window = self.ScoreResultWindow()
             self.pastes.append(window)
             self.pastes[i].move(self.position[i][0] / self.SCALE, self.position[i][1] / self.SCALE)
+
+        if self.analyzeWindow and self.analyzeWindow.isVisible():
+            self.analyzeWindow.update({"array": []})
 
     # 主窗口关闭则所有贴图窗口也关闭
     def closeEvent(self, event):
@@ -350,6 +357,9 @@ class BaseScoreWindow(QWidget):
 
             self.tipsLabel.setText(f'请选择{self.equipment_name}，然后点击右键')
 
+            if self.analyzeWindow and self.analyzeWindow.isVisible():
+                self.analyzeWindow.update({"array": []})
+
         self.hotKeyManager = keyboard.GlobalHotKeys({'<ctrl>+<shift>+z': on_activate})
         self.hotKeyManager.start()
 
@@ -368,8 +378,11 @@ class BaseScoreWindow(QWidget):
 
     def analyzeButton_clicked(self):
         if not self.analyzeWindow or not self.analyzeWindow.isVisible():
+            array = []
+            if self.id != -1:
+                array = self.data.getAnalyzeData(self.artifact[str(self.id)])
             self.analyzeWindow = self.AnalyzeResultWindow()
-            self.analyzeWindow.update()
+            self.analyzeWindow.update({"array": array})
             self.analyzeWindow.show()
         else:
             self.analyzeWindow.close()

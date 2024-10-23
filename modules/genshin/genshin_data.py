@@ -3,9 +3,6 @@
 from modules.base.base_data import BaseData
 
 
-# 数据常量
-
-
 class Data(BaseData):
     def __init__(self):
         super().__init__({
@@ -283,6 +280,63 @@ class Data(BaseData):
                 # 没有推荐结果
                 print("没有推荐结果")
                 pass
+        return result
+
+    def getAnalyzeData(self, ocr_result):
+        result = []
+        if "isCorrected" in ocr_result and ocr_result["isCorrected"]:
+            # 数据发生过矫正，无需分析
+            return result
+
+        # 获取套装名称及位置
+        suitData = {
+            "suitName": "",
+            "suitPart": ""
+        }
+        for suitName in self.suitConfig:
+            for part in self.suitConfig[suitName]:
+                if self.suitConfig[suitName][part] == ocr_result["name"]:
+                    suitData["suitName"] = suitName
+                    suitData["suitPart"] = part
+
+        # 分析可使用者
+        for character in self.characters:
+            if suitData["suitName"] == self.characters[character]["suitA"] or suitData["suitName"] == self.characters[character]["suitB"]:
+                if ocr_result["parts"] not in self.characters[character] or ocr_result["mainAttr"] in self.characters[character][ocr_result["parts"]]:
+                    core = []
+                    aux = []
+                    for key, value in self.characters[character]["weight"].items():
+                        if key == "攻击力" or key == "生命值" or key == "防御力":
+                            key += "百分比"
+                        if value >= 0.7:  # 核心词条
+                            core.append(key)
+                        elif value >= 0.3:  # 辅助词条
+                            aux.append(key)
+                        else:
+                            # 无效词条
+                            pass
+                    coreLen = len(set(core) & set(ocr_result["subAttr"].keys()))
+                    auxLen = len(set(aux) & set(ocr_result["subAttr"].keys()))
+                    if coreLen >= 2 or (coreLen >= 1 and auxLen >= 1):
+                        tempResult = {
+                            "name": character
+                        }
+                        current = self.newScore(ocr_result, character)
+                        tempResult["current_score"] = current[1]
+                        tempResult["current_entries"] = current[3]
+
+                        already_artifact_data = {}
+                        already_artifact = self.getArtifactOwner(character)
+                        if suitData["suitPart"] in already_artifact:
+                            already_artifactId = already_artifact[suitData["suitPart"]]
+                            already_artifact_data = self.getArtifactItem(suitData["suitPart"], already_artifactId)
+                        if already_artifact_data:
+                            already = self.newScore(already_artifact_data, character)
+                            tempResult["already_score"] = already[1]
+                            tempResult["already_entries"] = already[3]
+
+                        result.append(tempResult)
+
         return result
 
 

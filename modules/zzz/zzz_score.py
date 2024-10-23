@@ -6,6 +6,7 @@ from modules.zzz.zzz_data import data
 from modules.zzz.zzz_score_result import ScoreResultWindow
 from modules.zzz.zzz_suit import SuitWindow
 from modules.zzz.zzz_set import SetWindow
+from modules.zzz.zzz_analyze_result import AnalyzeResultWindow
 
 
 class ScoreWindow(BaseScoreWindow):
@@ -17,5 +18,6 @@ class ScoreWindow(BaseScoreWindow):
             "ocr": ocr,
             "ScoreResultWindow": ScoreResultWindow,
             "SuitWindow": SuitWindow,
-            "SetWindow": SetWindow
+            "SetWindow": SetWindow,
+            "AnalyzeResultWindow": AnalyzeResultWindow
         })

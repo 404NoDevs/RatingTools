@@ -234,3 +234,6 @@ class BaseData:
     # 获取平均分
     def getAverage(self):
         pass
+
+    def getAnalyzeData(self, ocr_result):
+        pass
