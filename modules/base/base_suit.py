@@ -51,7 +51,10 @@ class BaseSuitWindow(QWidget):
         self.layout.addWidget(self.scoreButton, 0, 2, 1, 2)
         self.layout.addWidget(QLabel('当前角色：'), 1, 0, 1, 1)
         self.heroNameCombobox = ExtendedComboBox()
-        for herName in self.data.getCharacters():
+        characters = self.data.getCharacters()
+        for herName in characters:
+            if characters[herName].get('isHide', False):
+                continue
             self.heroNameCombobox.addItem(herName)
         self.layout.addWidget(self.heroNameCombobox, 1, 1, 1, 2)
         self.setButton = QPushButton('设置>')

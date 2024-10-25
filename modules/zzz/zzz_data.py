@@ -198,7 +198,7 @@ class Data(BaseData):
         # 检查是否有装备可以更新
         result = []
         for owner in self.artifactOwnerList:
-            scheme = self.artifactScheme[owner]
+            scheme = self.characters[owner]
 
             params = {}
             params["suitA"] = scheme["suitA"]

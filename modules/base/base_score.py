@@ -49,8 +49,10 @@ class BaseScoreWindow(QWidget):
         # 角色选择框
         self.combobox = ExtendedComboBox()
         # 添加角色
-        self.characters = self.data.getCharacters()
-        for key in self.characters:
+        characters = self.data.getCharacters()
+        for key in characters:
+            if characters[key].get('isHide', False):
+                continue
             self.combobox.addItem(key)
         # 设置按钮
         self.setButton = QPushButton('设置→')

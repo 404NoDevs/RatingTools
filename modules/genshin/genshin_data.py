@@ -254,7 +254,7 @@ class Data(BaseData):
         # 检查是否有装备可以更新
         result = []
         for owner in self.artifactOwnerList:
-            scheme = self.artifactScheme[owner]
+            scheme = self.characters[owner]
 
             params = {}
             params["suitA"] = scheme["suitA"]
@@ -301,12 +301,22 @@ class Data(BaseData):
 
         # 分析可使用者
         for character in self.characters:
-            if suitData["suitName"] == self.characters[character]["suitA"] or suitData["suitName"] == self.characters[character]["suitB"]:
-                if ocr_result["parts"] not in self.characters[character] or ocr_result["mainAttr"] in self.characters[character][ocr_result["parts"]]:
+            # 检查套装名称是否合规
+            if any((
+                    "suit" in self.characters[character] and "any" in self.characters[character]["suit"],
+                    "suit" in self.characters[character] and suitData["suitName"] in self.characters[character]["suit"],
+                    "suitA" in self.characters[character] and self.characters[character]["suitA"] == suitData["suitName"],
+                    "suitB" in self.characters[character] and self.characters[character]["suitB"] == suitData["suitName"]
+            )):
+                # 检查主词条是否合规
+                if any((
+                        ocr_result["parts"] not in self.characters[character],
+                        ocr_result["mainAttr"] in self.characters[character].get(ocr_result["parts"], [])
+                )):
                     core = []
                     aux = []
                     for key, value in self.characters[character]["weight"].items():
-                        if key == "攻击力" or key == "生命值" or key == "防御力":
+                        if key in ["攻击力", "生命值", "防御力"]:
                             key += "百分比"
                         if value >= 0.7:  # 核心词条
                             core.append(key)
@@ -315,9 +325,23 @@ class Data(BaseData):
                         else:
                             # 无效词条
                             pass
+
+                    mainInSub = False
+                    if suitData["suitPart"] in self.mainAttrType:
+                        mainAttr = ocr_result["mainAttr"]
+                        if mainAttr in ["攻击力", "生命值", "防御力"]:
+                            mainAttr += "百分比"
+                        if mainAttr in core or mainAttr in aux:
+                            mainInSub = True
+
                     coreLen = len(set(core) & set(ocr_result["subAttr"].keys()))
                     auxLen = len(set(aux) & set(ocr_result["subAttr"].keys()))
-                    if coreLen >= 2 or (coreLen >= 1 and auxLen >= 1):
+                    if any((
+                            mainInSub and coreLen >= 1,
+                            mainInSub and auxLen >= 1,
+                            coreLen >= 2,
+                            coreLen >= 1 and auxLen >= 1
+                    )):
                         tempResult = {
                             "name": character
                         }
@@ -334,9 +358,7 @@ class Data(BaseData):
                             already = self.newScore(already_artifact_data, character)
                             tempResult["already_score"] = already[1]
                             tempResult["already_entries"] = already[3]
-
                         result.append(tempResult)
-
         return result
 
 

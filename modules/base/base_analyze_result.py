@@ -33,7 +33,7 @@ class BaseAnalyzeResultWindow(QWidget):
     def initUI(self):
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
         self.setWindowIcon(QIcon(os.path.join(os.path.dirname(__file__), '../../src/keqing.ico')))
-        self.setWindowTitle("分析结果")
+        self.setWindowTitle("适用角色")
         self.setFocusPolicy(Qt.StrongFocus)
         self.move(*self.position)
 
@@ -83,7 +83,6 @@ class BaseAnalyzeResultWindow(QWidget):
         return labelGroup
 
     def setLabelGroup(self, labelGroup, item):
-        print(item)
         labelGroup["nameLabel"].setText(item["name"])
         labelGroup["entriesLabel1"].setText(str(item["current_entries"]))
         labelGroup["scoreLabel1"].setText(str(item["current_score"]))
@@ -102,3 +101,4 @@ class BaseAnalyzeResultWindow(QWidget):
                 label.show()
             elif type == "hide":
                 label.hide()
+
