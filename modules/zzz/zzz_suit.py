@@ -7,6 +7,7 @@ from modules.base.base_suit import BaseSuitWindow
 from modules.zzz.zzz_data import data
 from modules.zzz.zzz_set import SetWindow
 from modules.zzz.zzz_suit_result import SuitResultWindow
+from my_enum import UpdateCharactersType
 
 
 class SuitWindow(BaseSuitWindow):
@@ -62,7 +63,7 @@ class SuitWindow(BaseSuitWindow):
 
         # 保存方案
         saveParams = copy.deepcopy(params)
-        data.setArtifactScheme(self.character, saveParams)
+        data.setCharacters(UpdateCharactersType.SCHEME, self.character, saveParams)
 
         params["needMainAttr"] = needMainAttr
         params["character"] = self.character

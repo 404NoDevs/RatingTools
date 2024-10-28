@@ -74,9 +74,9 @@ class BaseSuitResultWindow(QWidget):
 
         self.equipTipsLabel = QLabel("将推荐装备全部标记")
         self.equipTipsLabel.setStyleSheet("color:red;qproperty-alignment: 'AlignCenter';")
-        layout.addWidget(self.equipTipsLabel, 100, 0, 1, 5)
+        layout.addWidget(self.equipTipsLabel, 100, 0, 1, 6)
         self.equipButton = QPushButton('全部装备')
-        layout.addWidget(self.equipButton, 101, 0, 1, 5)
+        layout.addWidget(self.equipButton, 101, 0, 1, 6)
 
         # 注册事件
         self.programmeCombobox.currentIndexChanged.connect(self.programmeCurrentIndexChanged)

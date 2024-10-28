@@ -95,8 +95,8 @@ class Data(BaseData):
     # 获取下标
     def getIndexByCharacter(self, character):
         result = {"suitA": 0, "suitB": 0, "suitC": 0, "躯干": [], "脚部": [], "位面球": [], "连结绳": []}
-        if character in self.artifactScheme:
-            artifactSchemeItem = self.artifactScheme[character]
+        if character in self.characters:
+            artifactSchemeItem = self.characters[character]
             for key in artifactSchemeItem:
                 if key == "suitA" or key == "suitB":
                     suitKeyArray = list(self.suitConfig["外圈"].keys())
