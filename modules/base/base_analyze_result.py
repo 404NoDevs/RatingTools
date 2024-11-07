@@ -7,7 +7,6 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
     QLabel,
-    QPushButton,
     QWidget,
     QGridLayout
 )
@@ -21,13 +20,15 @@ class BaseAnalyzeResultWindow(QWidget):
         self.position = params.get("position", (0, 322))
 
         self.analyzeResult = []
+        self.tips = "提示文本"
         self.labelPool = []
         # 初始化UI
         self.initUI()
         self.updateUI()
 
     def update(self, params):
-        self.analyzeResult = params.get("array", [])
+        self.analyzeResult = params.get("list", [])
+        self.tips = params.get("tips", "提示文本")
         self.updateUI()
 
     def initUI(self):
@@ -62,10 +63,7 @@ class BaseAnalyzeResultWindow(QWidget):
                 self.setLabelGroupState(label, "show")
                 self.setLabelGroup(label, item)
 
-        if len(self.analyzeResult) == 0:
-            self.tipsLabel.setText("没有适合的角色")
-        else:
-            self.tipsLabel.setText("提示文本")
+        self.tipsLabel.setText(self.tips)
 
     def creatLabelGroup(self, index):
         labelGroup = {

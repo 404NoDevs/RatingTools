@@ -138,7 +138,7 @@ class BaseData:
 
         # 得分校验
         score = self.newScore(data, "全属性")[1]
-        if score > self.maxScore:
+        if score > self.maxScore * 2:  # 权重最大值为2 所以最大得分*2
             print("得分异常", score)
             return False
 

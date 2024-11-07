@@ -292,8 +292,7 @@ class BaseScoreWindow(QWidget):
             self.data.saveArtifactList(self.artifact[str(self.id)])
 
             if self.analyzeWindow and self.analyzeWindow.isVisible():
-                array = self.data.getAnalyzeData(self.artifact[str(self.id)])
-                self.analyzeWindow.update({"array": array})
+                self.analyzeWindow.update(self.data.getAnalyzeData(self.artifact[str(self.id)]))
 
     # 刷新圣遗物贴图（识别、修改后确认、加载本地数据,后于主面板更新）
     def fresh_paste_window(self):
@@ -380,11 +379,11 @@ class BaseScoreWindow(QWidget):
 
     def analyzeButton_clicked(self):
         if not self.analyzeWindow or not self.analyzeWindow.isVisible():
-            array = []
+            params = {}
             if self.id != -1:
-                array = self.data.getAnalyzeData(self.artifact[str(self.id)])
+                params = self.data.getAnalyzeData(self.artifact[str(self.id)])
             self.analyzeWindow = self.AnalyzeResultWindow()
-            self.analyzeWindow.update({"array": array})
+            self.analyzeWindow.update(params)
             self.analyzeWindow.show()
         else:
             self.analyzeWindow.close()

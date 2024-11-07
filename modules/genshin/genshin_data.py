@@ -283,9 +283,13 @@ class Data(BaseData):
         return result
 
     def getAnalyzeData(self, ocr_result):
-        result = []
+        result = {
+            "list": [],
+            "tips": ""
+        }
         if "isCorrected" in ocr_result and ocr_result["isCorrected"]:
             # 数据发生过矫正，无需分析
+            result["tips"] = "数据发生过矫正，无需分析"
             return result
 
         # 获取套装名称及位置
@@ -300,13 +304,14 @@ class Data(BaseData):
                     suitData["suitPart"] = part
 
         # 分析可使用者
+        tempList = []
         for character in self.characters:
             # 检查套装名称是否合规
             if any((
-                    "suit" in self.characters[character] and "any" in self.characters[character]["suit"],
-                    "suit" in self.characters[character] and suitData["suitName"] in self.characters[character]["suit"],
-                    "suitA" in self.characters[character] and self.characters[character]["suitA"] == suitData["suitName"],
-                    "suitB" in self.characters[character] and self.characters[character]["suitB"] == suitData["suitName"]
+                    "any" in self.characters[character].get("suit", []),
+                    suitData["suitName"] in self.characters[character].get("suit", []),
+                    self.characters[character].get("suitA", "") == suitData["suitName"],
+                    self.characters[character].get("suitB", "") == suitData["suitName"]
             )):
                 # 检查主词条是否合规
                 if any((
@@ -358,7 +363,24 @@ class Data(BaseData):
                             already = self.newScore(already_artifact_data, character)
                             tempResult["already_score"] = already[1]
                             tempResult["already_entries"] = already[3]
-                        result.append(tempResult)
+                        tempList.append(tempResult)
+
+        if len(tempList) == 0:
+            result["tips"] = "未找到适配的角色"
+        else:
+            if ocr_result["lvl"] == str(self.maxLevel):
+                # 已满级 进行分析
+                for item in tempList:
+                    if item["current_score"] >= 30:
+                        result["tips"] = "还行，能用"
+                        break
+                    else:
+                        result["tips"] = "建议分解"
+            else:
+                result["tips"] = "当前装备未满级"
+        # for item in tempList:
+
+        result["list"] = tempList
         return result
 
 

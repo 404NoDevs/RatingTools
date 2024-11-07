@@ -349,5 +349,88 @@ class Data(BaseData):
                 pass
         return result
 
+    def getAnalyzeData(self, ocr_result):
+        result = []
+        if "isCorrected" in ocr_result and ocr_result["isCorrected"]:
+            # 数据发生过矫正，无需分析
+            return result
+
+        # 获取套装名称及位置
+        suitData = {
+            "suitType": "",
+            "suitName": "",
+            "suitPart": ""
+        }
+        for type in self.suitConfig:
+            for suitName in self.suitConfig[type]:
+                for part in self.suitConfig[type][suitName]:
+                    if self.suitConfig[type][suitName][part] == ocr_result["name"]:
+                        suitData["suitType"] = type
+                        suitData["suitName"] = suitName
+                        suitData["suitPart"] = part
+
+        # 分析可使用者
+        for character in self.characters:
+            # 检查套装名称是否合规
+            if any((
+                    "any" in self.characters[character].get("suit", []),
+                    suitData["suitName"] in self.characters[character].get("suit", []),
+                    self.characters[character].get("suitA", "") == suitData["suitName"],
+                    self.characters[character].get("suitB", "") == suitData["suitName"],
+                    self.characters[character].get("suitC", "") == suitData["suitName"]
+            )):
+                # 检查主词条是否合规
+                if any((
+                        ocr_result["parts"] not in self.characters[character],
+                        ocr_result["mainAttr"] in self.characters[character].get(ocr_result["parts"], [])
+                )):
+                    core = []
+                    aux = []
+                    for key, value in self.characters[character]["weight"].items():
+                        if key in ["攻击力", "生命值", "防御力"]:
+                            key += "百分比"
+                        if value >= 0.7:  # 核心词条
+                            core.append(key)
+                        elif value >= 0.3:  # 辅助词条
+                            aux.append(key)
+                        else:
+                            # 无效词条
+                            pass
+
+                    mainInSub = False
+                    if suitData["suitPart"] in self.mainAttrType:
+                        mainAttr = ocr_result["mainAttr"]
+                        if mainAttr in ["攻击力", "生命值", "防御力"]:
+                            mainAttr += "百分比"
+                        if mainAttr in core or mainAttr in aux:
+                            mainInSub = True
+
+                    coreLen = len(set(core) & set(ocr_result["subAttr"].keys()))
+                    auxLen = len(set(aux) & set(ocr_result["subAttr"].keys()))
+                    if any((
+                            mainInSub and coreLen >= 1,
+                            mainInSub and auxLen >= 1,
+                            coreLen >= 2,
+                            coreLen >= 1 and auxLen >= 1
+                    )):
+                        tempResult = {
+                            "name": character
+                        }
+                        current = self.newScore(ocr_result, character)
+                        tempResult["current_score"] = current[1]
+                        tempResult["current_entries"] = current[3]
+
+                        already_artifact_data = {}
+                        already_artifact = self.getArtifactOwner(character)
+                        if suitData["suitPart"] in already_artifact:
+                            already_artifactId = already_artifact[suitData["suitPart"]]
+                            already_artifact_data = self.getArtifactItem(suitData["suitPart"], already_artifactId)
+                        if already_artifact_data:
+                            already = self.newScore(already_artifact_data, character)
+                            tempResult["already_score"] = already[1]
+                            tempResult["already_entries"] = already[3]
+                        result.append(tempResult)
+        return result
+
 
 data = Data()
