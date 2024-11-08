@@ -1,5 +1,6 @@
 ''' 个人数据数据处理 '''
 from modules.base.base_data import BaseData
+from utils import markPrint
 
 
 class Data(BaseData):
@@ -350,9 +351,13 @@ class Data(BaseData):
         return result
 
     def getAnalyzeData(self, ocr_result):
-        result = []
+        result = {
+            "list": [],
+            "tips": ""
+        }
         if "isCorrected" in ocr_result and ocr_result["isCorrected"]:
             # 数据发生过矫正，无需分析
+            result["tips"] = "数据发生过矫正，无需分析"
             return result
 
         # 获取套装名称及位置
@@ -370,8 +375,15 @@ class Data(BaseData):
                         suitData["suitPart"] = part
 
         # 分析可使用者
+        tempList = []
         for character in self.characters:
             # 检查套装名称是否合规
+            # print(character)
+            # print("any" in self.characters[character].get("suit", []))
+            # print(suitData["suitName"] in self.characters[character].get("suit", []))
+            # print(self.characters[character].get("suitA", "") == suitData["suitName"])
+            # print(self.characters[character].get("suitB", "") == suitData["suitName"])
+            # print(self.characters[character].get("suitC", "") == suitData["suitName"])
             if any((
                     "any" in self.characters[character].get("suit", []),
                     suitData["suitName"] in self.characters[character].get("suit", []),
@@ -384,11 +396,14 @@ class Data(BaseData):
                         ocr_result["parts"] not in self.characters[character],
                         ocr_result["mainAttr"] in self.characters[character].get(ocr_result["parts"], [])
                 )):
+                    super_core = []
                     core = []
                     aux = []
                     for key, value in self.characters[character]["weight"].items():
                         if key in ["攻击力", "生命值", "防御力"]:
                             key += "百分比"
+                        if value >= 1.5:  # 超级核心词条
+                            super_core.append(key)
                         if value >= 0.7:  # 核心词条
                             core.append(key)
                         elif value >= 0.3:  # 辅助词条
@@ -405,9 +420,11 @@ class Data(BaseData):
                         if mainAttr in core or mainAttr in aux:
                             mainInSub = True
 
+                    super_core_len = len(set(super_core) & set(ocr_result["subAttr"].keys()))
                     coreLen = len(set(core) & set(ocr_result["subAttr"].keys()))
                     auxLen = len(set(aux) & set(ocr_result["subAttr"].keys()))
                     if any((
+                            super_core_len >= 1,
                             mainInSub and coreLen >= 1,
                             mainInSub and auxLen >= 1,
                             coreLen >= 2,
@@ -429,7 +446,25 @@ class Data(BaseData):
                             already = self.newScore(already_artifact_data, character)
                             tempResult["already_score"] = already[1]
                             tempResult["already_entries"] = already[3]
-                        result.append(tempResult)
+                        tempList.append(tempResult)
+
+        if len(tempList) == 0:
+            result["tips"] = "未找到适配的角色"
+        else:
+            if ocr_result["lvl"] == str(self.maxLevel):
+                # 已满级 进行分析
+                for item in tempList:
+                    if item["current_score"] >= 20:
+                        result["tips"] = "还行，能用"
+                        break
+                    else:
+                        result["tips"] = "建议分解"
+            else:
+                result["tips"] = "当前装备未满级"
+
+        result["list"] = tempList
+        
+        markPrint(result)
         return result
 
 

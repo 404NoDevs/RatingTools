@@ -323,7 +323,7 @@ class BaseScoreWindow(QWidget):
             self.pastes[i].move(self.position[i][0] / self.SCALE, self.position[i][1] / self.SCALE)
 
         if self.analyzeWindow and self.analyzeWindow.isVisible():
-            self.analyzeWindow.update({"array": []})
+            self.analyzeWindow.update({})
 
     # 主窗口关闭则所有贴图窗口也关闭
     def closeEvent(self, event):
@@ -359,7 +359,7 @@ class BaseScoreWindow(QWidget):
             self.tipsLabel.setText(f'请选择{self.equipment_name}，然后点击右键')
 
             if self.analyzeWindow and self.analyzeWindow.isVisible():
-                self.analyzeWindow.update({"array": []})
+                self.analyzeWindow.update({})
 
         self.hotKeyManager = keyboard.GlobalHotKeys({'<ctrl>+<shift>+z': on_activate})
         self.hotKeyManager.start()
