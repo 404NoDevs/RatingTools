@@ -111,6 +111,13 @@ class Data(BaseData):
             '元素精通': 19.75,
             '元素充能效率': 5.5
         }
+        self.evaluate = [
+            (50, "传世珍品"),
+            (40, "十分宝贵"),
+            (30, "基本合格"),
+            (20, "有点屁用"),
+            (0, "屁用没有")
+        ]
 
     def getEntryArray(self):
         return self.entryArray
@@ -126,6 +133,9 @@ class Data(BaseData):
 
     def getAverage(self):
         return self.average
+
+    def get_evaluate(self):
+        return self.evaluate
 
     # 获取下标
     def getIndexByCharacter(self, character):
@@ -303,6 +313,13 @@ class Data(BaseData):
                 if self.suitConfig[suitName][part] == ocr_result["name"]:
                     suitData["suitName"] = suitName
                     suitData["suitPart"] = part
+
+        if any((
+                suitData["suitName"] == "",
+                suitData["suitPart"] == ""
+        )):
+            result["tips"] = "未识别到套装"
+            return result
 
         # 分析可使用者
         tempList = []

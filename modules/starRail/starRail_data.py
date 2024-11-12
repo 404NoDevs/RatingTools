@@ -74,6 +74,13 @@ class Data(BaseData):
             '效果命中': 3.89,
             '效果抵抗': 3.89
         }
+        self.evaluate = [
+            (45, "传世珍品"),
+            (35, "十分宝贵"),
+            (25, "基本合格"),
+            (15, "有点屁用"),
+            (0, "屁用没有")
+        ]
 
     def getSuitConfig(self, type):
         return self.suitConfig.get(type, {})
@@ -92,6 +99,9 @@ class Data(BaseData):
 
     def getAverage(self):
         return self.average
+
+    def get_evaluate(self):
+        return self.evaluate
 
     # 获取下标
     def getIndexByCharacter(self, character):
@@ -374,22 +384,31 @@ class Data(BaseData):
                         suitData["suitName"] = suitName
                         suitData["suitPart"] = part
 
+        if any((
+                suitData["suitType"] == "",
+                suitData["suitName"] == "",
+                suitData["suitPart"] == ""
+        )):
+            result["tips"] = "未识别到套装"
+            return result
+
         # 分析可使用者
         tempList = []
         for character in self.characters:
             # 检查套装名称是否合规
             # print(character)
+            # print(suitData)
             # print("any" in self.characters[character].get("suit", []))
             # print(suitData["suitName"] in self.characters[character].get("suit", []))
-            # print(self.characters[character].get("suitA", "") == suitData["suitName"])
-            # print(self.characters[character].get("suitB", "") == suitData["suitName"])
-            # print(self.characters[character].get("suitC", "") == suitData["suitName"])
+            # print(self.characters[character].get("suitA", "no") == suitData["suitName"])
+            # print(self.characters[character].get("suitB", "no") == suitData["suitName"])
+            # print(self.characters[character].get("suitC", "no") == suitData["suitName"])
             if any((
                     "any" in self.characters[character].get("suit", []),
                     suitData["suitName"] in self.characters[character].get("suit", []),
-                    self.characters[character].get("suitA", "") == suitData["suitName"],
-                    self.characters[character].get("suitB", "") == suitData["suitName"],
-                    self.characters[character].get("suitC", "") == suitData["suitName"]
+                    self.characters[character].get("suitA", "no") == suitData["suitName"],
+                    self.characters[character].get("suitB", "no") == suitData["suitName"],
+                    self.characters[character].get("suitC", "no") == suitData["suitName"]
             )):
                 # 检查主词条是否合规
                 if any((
@@ -463,7 +482,7 @@ class Data(BaseData):
                 result["tips"] = "当前装备未满级"
 
         result["list"] = tempList
-        
+
         markPrint(result)
         return result
 

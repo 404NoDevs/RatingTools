@@ -13,6 +13,7 @@ class OCR(BaseOCR):
 
         self.data_length = 9
         self.replace_dict_name = {
+            # 半替换
             '明威之': '明威之镡',
             '无边醋乐之笼': '无边酣乐之筵',
             '无边醋乐之筵': '无边酣乐之筵',
@@ -29,7 +30,9 @@ class OCR(BaseOCR):
             '雷灾的子遗': '雷灾的孑遗',
             '星罗圭璧之唇': '星罗圭璧之晷',
             '魔岩琢塑之樽': '巉岩琢塑之樽',
-            '宗室银瓷': '宗室银瓮'
+            '宗室银瓷': '宗室银瓮',
+            # 全替换
+            "黄金之夜的喧器": "黄金之夜的喧嚣"
         }
 
     def process_result(self, result):
@@ -90,5 +93,6 @@ class OCR(BaseOCR):
 
         markPrint(new_result)
         return new_result
+
 
 ocr = OCR()

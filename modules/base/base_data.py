@@ -213,6 +213,12 @@ class BaseData:
         # print(scores, round(sums, 1), powerupArray, round(entriesSum, 1))
         return scores, round(sums, 1), powerupArray, round(entriesSum, 1)
 
+    def get_evaluate_tips(self, score):
+        config = self.get_evaluate()
+        for item in config:
+            if score >= item[0]:
+                return item[1]
+        return "未找到评价标准"
     ''' 子类方法 '''
 
     # 获取属性词条枚举
@@ -235,5 +241,10 @@ class BaseData:
     def getAverage(self):
         pass
 
+    # 获取分析数据
     def getAnalyzeData(self, ocr_result):
+        pass
+
+    # 获取评价配置
+    def get_evaluate(self):
         pass
