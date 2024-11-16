@@ -39,10 +39,7 @@ module_zzz_files = glob.glob(os.path.join('modules', 'zzz', '*.py'))
 
 # 数据文件和配置文件
 datas = [
-    ('src', 'src'),
-    ('modules/genshin/config', 'module/genshin/config'),
-    ('modules/starRail/config', 'module/starRail/config'),
-    ('modules/zzz/config', 'module/zzz/config'),
+    ('src', 'src')
 ]
 
 # 合并所有模块文件
