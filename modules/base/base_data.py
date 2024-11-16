@@ -179,10 +179,19 @@ class BaseData:
         powerupArray = []
         entriesSum = 0
 
-        addScoreSwich = False
-        if addScoreSwich:
-            if ocr_result['main_name'] in self.getMainAttrType():
-                pass
+        # 补分逻辑
+        add_score_switch = True
+        addScore = 0
+        if add_score_switch:
+            # 检查主词条是否合规
+            if ocr_result['parts'] in self.getMainAttrType():
+                attrList = []
+                for key, value in config.items():
+                    if value > 0:
+                        attrList.append(key)
+                if ocr_result['mainAttr'] in attrList:
+                    addScore = (self.maxScore/4)*config[ocr_result['mainAttr']]
+        print("主词条补分", addScore)
 
         for key, value in ocr_result['subAttr'].items():
             # 兼容角色配置未区分百分比的情况
@@ -206,6 +215,9 @@ class BaseData:
                 # print(key, entries)
                 entriesSum += entries
 
+        if add_score_switch:
+            sums += addScore
+
         if 'isCorrected' in ocr_result and ocr_result['isCorrected']:
             # 如果数据发生过矫正则总分为-1
             sums = -1
@@ -219,6 +231,7 @@ class BaseData:
             if score >= item[0]:
                 return item[1]
         return "未找到评价标准"
+
     ''' 子类方法 '''
 
     # 获取属性词条枚举

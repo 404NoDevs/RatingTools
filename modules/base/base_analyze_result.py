@@ -27,9 +27,10 @@ class BaseAnalyzeResultWindow(QWidget):
         self.updateUI()
 
     def update(self, params):
-        self.analyzeResult = params.get("list", [])
-        self.tips = params.get("tips", "提示文本")
-        self.updateUI()
+        if params:
+            self.analyzeResult = params.get("list", [])
+            self.tips = params.get("tips", "提示文本")
+            self.updateUI()
 
     def initUI(self):
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
