@@ -1,5 +1,6 @@
 '''工具方法文件'''
 import json
+import inspect
 import win32gui
 import globalsData
 
@@ -49,3 +50,16 @@ def markPrint(*str, mark="*"):
             item = json.dumps(item, indent=4, ensure_ascii=False)
         print(item)
     print(markStr)
+
+
+def debugPrint(*str):
+    # 获取当前栈帧
+    frame = inspect.currentframe()
+    # 获取调用的上一层栈帧
+    caller_frame = frame.f_back.f_back
+    # 获取文件名、行号和函数名
+    filename = caller_frame.f_code.co_filename
+    line_number = caller_frame.f_lineno
+    function_name = caller_frame.f_code.co_name
+
+    markPrint(filename, line_number, function_name, *str, mark="--debug")

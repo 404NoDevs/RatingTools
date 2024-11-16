@@ -1,6 +1,7 @@
 '''个人数据数据处理'''
 import json, os, shutil
 from my_enum import UpdateCharactersType
+from utils import debugPrint
 
 
 class BaseData:
@@ -191,7 +192,7 @@ class BaseData:
                         attrList.append(key)
                 if ocr_result['mainAttr'] in attrList:
                     addScore = (self.maxScore/4)*config[ocr_result['mainAttr']]
-        print("主词条补分", addScore)
+        # debugPrint("主词条补分", addScore)
 
         for key, value in ocr_result['subAttr'].items():
             # 兼容角色配置未区分百分比的情况
