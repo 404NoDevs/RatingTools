@@ -9,7 +9,8 @@ class Data(BaseData):
         super().__init__({
             "module_name": "genshin",
             "maxLevel": 20,
-            "maxScore": 70.2
+            "maxScore": 59.4,  # 标准最大值
+            "maxScore2": 70.2  # 理论最大值
         })
 
         self.entryArray = ["暴击率", "暴击伤害", "攻击力", "生命值", "防御力", "元素精通", "元素充能效率"]

@@ -8,7 +8,8 @@ class Data(BaseData):
         super().__init__({
             "module_name": "starRail",
             "maxLevel": 15,
-            "maxScore": 58.5
+            "maxScore": 52.4,  # 标准最大值
+            "maxScore2": 58.5  # 理论最大值
         })
 
         self.entryArray = ["速度", "生命值", "攻击力", "防御力", "暴击率", "暴击伤害", "击破特攻", "效果命中", "效果抵抗"]
