@@ -98,9 +98,11 @@ class BaseData:
         for pos in newArtifactOwnerItem:
             ownerCharacter = self.getOwnerCharacterByArtifactId(pos, newArtifactOwnerItem[pos])
             if ownerCharacter:
-                self.artifactOwnerList[ownerCharacter][pos] = "无装备"
+                del self.artifactOwnerList[ownerCharacter][pos]
 
-        self.artifactOwnerList[character] = newArtifactOwnerItem
+            if character not in self.artifactOwnerList:
+                self.artifactOwnerList[character] = {}
+            self.artifactOwnerList[character][pos] = newArtifactOwnerItem[pos]
 
         # 保存数据
         with open(self.artifactOwner_path, 'w', encoding='utf-8') as fp:
@@ -109,7 +111,7 @@ class BaseData:
     # 通过ID及位置查询装备角色名称
     def getOwnerCharacterByArtifactId(self, pos, artifactID):
         for character in self.artifactOwnerList:
-            if self.artifactOwnerList[character][pos] == artifactID:
+            if pos in self.artifactOwnerList[character] and self.artifactOwnerList[character][pos] == artifactID:
                 return character
         return None
 

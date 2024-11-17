@@ -41,9 +41,9 @@ class BaseSuitResultWindow(QWidget):
 
         layout.addWidget(QLabel("当前方案："), 0, 0, 1, 1)
         self.programmeCombobox = QComboBox()
-        layout.addWidget(self.programmeCombobox, 0, 1, 1, 4)
+        layout.addWidget(self.programmeCombobox, 0, 1, 1, 5)
         self.copyButton = QPushButton('复制得分')
-        layout.addWidget(self.copyButton, 0, 5, 1, 1)
+        layout.addWidget(self.copyButton, 0, 6, 1, 1)
 
         self.artifactNameLabel1 = {}
         self.artifactScoreLabel1 = {}
@@ -70,7 +70,12 @@ class BaseSuitResultWindow(QWidget):
             layout.addWidget(self.artifactScoreLabel2[posItem], 2 + 3 * index + 1, 4, 1, 1)
             self.artifactScoreSubLabel[posItem] = QLabel("0")
             layout.addWidget(self.artifactScoreSubLabel[posItem], 1 + 3 * index + 1, 5, 2, 1)
-            layout.addWidget(QLabel(" "), 4 + 3 * index, 0, 1, 4)  # 占位符
+            button = QPushButton('替换')
+            button.setObjectName(posItem)
+            button.clicked.connect(self.equip)
+            layout.addWidget(button, 1 + 3 * index + 1, 6, 2, 1)
+
+            layout.addWidget(QLabel(" "), 4 + 3 * index, 0, 1, 6)  # 占位符
 
         self.equipTipsLabel = QLabel("将推荐装备全部标记")
         self.equipTipsLabel.setStyleSheet("color:red;qproperty-alignment: 'AlignCenter';")
@@ -139,6 +144,15 @@ class BaseSuitResultWindow(QWidget):
 
     # 英雄名称
     def programmeCurrentIndexChanged(self):
+        self.updateUI()
+
+
+    def equip(self):
+        posItem = self.sender().objectName()
+        self.equipTipsLabel.setText(self.character + " 已装备 " + posItem)
+        newArtifactsData = self.resultArray[self.programmeCombobox.currentIndex()]["combinationName"]
+        newArtifactsItem = {posItem: newArtifactsData[posItem]}
+        self.data.setArtifactOwner(self.character, newArtifactsItem)
         self.updateUI()
 
     # 全部装备
