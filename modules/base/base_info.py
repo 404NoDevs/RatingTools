@@ -22,7 +22,7 @@ class BaseInfoWindow(QWidget):
         self.update()
 
     def initUI(self):
-        self.setWindowFlags(Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(Qt.Window)
         self.setWindowIcon(QIcon(os.path.join(os.path.dirname(__file__), '../../src/keqing.ico')))
         self.setWindowTitle("装备信息")
         self.setFocusPolicy(Qt.StrongFocus)
