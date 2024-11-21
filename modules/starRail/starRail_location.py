@@ -60,7 +60,7 @@ elif ratio > 1.7 and ratio < 1.8:
 
     x_left_A, x_right_A, y_top_A, y_bottom_A = (
         131 / 1920 * w_width + w_left,
-        255 / 1920 * w_width + w_left,
+        252 / 1920 * w_width + w_left,
         (243 - 43) / 1080 * w_hight + SCALE * 24 + w_top,
         (386 - 43) / 1080 * w_hight + SCALE * 24 + w_top)
 

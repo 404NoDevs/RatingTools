@@ -61,6 +61,13 @@ class Data(BaseData):
             "异常精通": 9,
             "穿透值": 9
         }
+        self.evaluate = [
+            (35, (230, 179, 34), "传世珍品"),
+            (25, (255, 217, 0), "十分宝贵"),
+            (15, (163, 224, 67), "基本合格"),
+            (10, (238, 121, 118), "有点屁用"),
+            (0, (255, 0, 0), "屁用没有")
+        ]
 
     def getEntryArray(self):
         return self.entryArray
@@ -76,6 +83,11 @@ class Data(BaseData):
 
     def getAverage(self):
         return self.average
+
+    def get_evaluate(self, score):
+        for item in self.evaluate:
+            if score >= item[0]:
+                return item
 
     # 获取下标
     def getIndexByCharacter(self, character):

@@ -7,5 +7,5 @@ class SuitResultWindow(BaseSuitResultWindow):
     def __init__(self):
         super().__init__({
             "data": data,
-            "position": [0, 450]
+            "position": [0, 400]
         })

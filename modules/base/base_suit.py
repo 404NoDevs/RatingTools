@@ -25,10 +25,12 @@ class BaseSuitWindow(QWidget):
         self.data = params.get("data")
         self.SuitResultWindow = params.get("SuitResultWindow")
         self.SetWindow = params.get("SetWindow")
+        self.InfoWindow = params.get("InfoWindow")
 
         # 初始化变量
         self.setWindow = None
         self.suitResultWindow = None
+        self.infoWindow = None
         self.selectType = 1
 
         self.initUI()
@@ -45,20 +47,22 @@ class BaseSuitWindow(QWidget):
         self.layout = QGridLayout()
         self.setLayout(self.layout)
         # 上半部分
+        self.showInfoButton = QPushButton('查看角色装备')
+        self.layout.addWidget(self.showInfoButton, 0, 0, 1, 4)
         self.checkButton = QPushButton('检查更新')
-        self.layout.addWidget(self.checkButton, 0, 0, 1, 2)
+        self.layout.addWidget(self.checkButton, 1, 0, 1, 2)
         self.scoreButton = QPushButton(f'{self.equipment_name}评分→')
-        self.layout.addWidget(self.scoreButton, 0, 2, 1, 2)
-        self.layout.addWidget(QLabel('当前角色：'), 1, 0, 1, 1)
+        self.layout.addWidget(self.scoreButton, 1, 2, 1, 2)
+        self.layout.addWidget(QLabel('当前角色：'), 2, 0, 1, 1)
         self.heroNameCombobox = ExtendedComboBox()
         characters = self.data.getCharacters()
         for herName in characters:
             if characters[herName].get('isHide', False):
                 continue
             self.heroNameCombobox.addItem(herName)
-        self.layout.addWidget(self.heroNameCombobox, 1, 1, 1, 2)
+        self.layout.addWidget(self.heroNameCombobox, 2, 1, 1, 2)
         self.setButton = QPushButton('设置>')
-        self.layout.addWidget(self.setButton, 1, 3, 1, 1)
+        self.layout.addWidget(self.setButton, 2, 3, 1, 1)
 
         # 下半部分
         self.layout.addWidget(QLabel('其他选择:'), 20, 0, 1, 1)
@@ -81,6 +85,7 @@ class BaseSuitWindow(QWidget):
         self.startButton.clicked.connect(self.startRating)
         self.setButton.clicked.connect(self.openSetWindow)
         self.checkButton.clicked.connect(self.checkButtonClicked)
+        self.showInfoButton.clicked.connect(self.show_info)
 
         # 根据创建参数调整页面
         self.scoreButton.setEnabled(self.enter_params != 1)
@@ -90,6 +95,8 @@ class BaseSuitWindow(QWidget):
             self.setWindow.close()
         if self.suitResultWindow:
             self.suitResultWindow.close()
+        if self.infoWindow:
+            self.infoWindow.close()
 
     # 单选框按钮
     def radiobtn_state(self, btn):
@@ -125,6 +132,12 @@ class BaseSuitWindow(QWidget):
         else:
             tipsStr = "没有需要更新的套装"
         self.tipsLabel.setText(tipsStr)
+
+    def show_info(self):
+        self.infoWindow = self.InfoWindow()
+        # self.infoWindow.update(self.character)
+        self.infoWindow.show()
+
 
     def startRating(self):
         pass

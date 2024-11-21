@@ -7,6 +7,7 @@ from modules.base.base_suit import BaseSuitWindow
 from modules.zzz.zzz_data import data
 from modules.zzz.zzz_set import SetWindow
 from modules.zzz.zzz_suit_result import SuitResultWindow
+from modules.zzz.zzz_info import InfoWindow
 from my_enum import UpdateCharactersType
 
 
@@ -18,7 +19,8 @@ class SuitWindow(BaseSuitWindow):
             "equipmentName": "光驱",
             "data": data,
             "SuitResultWindow": SuitResultWindow,
-            "SetWindow": SetWindow
+            "SetWindow": SetWindow,
+            "InfoWindow": InfoWindow
         })
 
     def initUI(self):

@@ -76,11 +76,11 @@ class Data(BaseData):
             '效果抵抗': 3.89
         }
         self.evaluate = [
-            (45, "传世珍品"),
-            (35, "十分宝贵"),
-            (25, "基本合格"),
-            (15, "有点屁用"),
-            (0, "屁用没有")
+            (45, (230, 179, 34), "传世珍品"),
+            (35, (255, 217, 0), "十分宝贵"),
+            (25, (163, 224, 67), "基本合格"),
+            (15, (238, 121, 118), "有点屁用"),
+            (0, (255, 0, 0), "屁用没有")
         ]
 
     def getSuitConfig(self, type):
@@ -101,8 +101,10 @@ class Data(BaseData):
     def getAverage(self):
         return self.average
 
-    def get_evaluate(self):
-        return self.evaluate
+    def get_evaluate(self, score):
+        for item in self.evaluate:
+            if score >= item[0]:
+                return item
 
     # 获取下标
     def getIndexByCharacter(self, character):

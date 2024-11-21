@@ -54,15 +54,15 @@ if ratio > 1.55 and ratio < 1.65:
 elif ratio > 1.7 and ratio < 1.8:
     print("16:9窗口模式")
     x_initial_A, y_initial_A, x_offset_A, y_offset_A = (
-        224 / 1920 * w_width + w_left,
-        (289 - 43) / 1080 * w_hight + SCALE * 24 + w_top,
+        209 / 1920 * w_width + w_left,
+        (349 - 43) / 1080 * w_hight + SCALE * 24 + w_top,
         146 / 1920 * w_width,
         175 / 1080 * w_hight)
     x_left_A, x_right_A, y_top_A, y_bottom_A = (
-        121 / 1920 * w_width + w_left,
-        246 / 1920 * w_width + w_left,
-        (157 - 43) / 1080 * w_hight + SCALE * 24 + w_top,
-        (311 - 43) / 1080 * w_hight + SCALE * 24 + w_top)
+        108 / 1920 * w_width + w_left,
+        254 / 1920 * w_width + w_left,
+        (210 - 43) / 1080 * w_hight + SCALE * 24 + w_top,
+        (387 - 43) / 1080 * w_hight + SCALE * 24 + w_top)
     x_grab_A, y_grab_A, w_grab_A, h_grab_A = (
         [1310 / 1920 * w_width + w_left, 1310 / 1920 * w_width + w_left],
         [(164 - 43) / 1080 * w_hight + SCALE * 24 + w_top, (448 - 43) / 1080 * w_hight + SCALE * 24 + w_top],

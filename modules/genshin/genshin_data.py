@@ -113,11 +113,11 @@ class Data(BaseData):
             '元素充能效率': 5.5
         }
         self.evaluate = [
-            (50, "传世珍品"),
-            (40, "十分宝贵"),
-            (30, "基本合格"),
-            (20, "有点屁用"),
-            (0, "屁用没有")
+            (50, (230, 179, 34), "传世珍品"),
+            (40, (255, 217, 0), "十分宝贵"),
+            (30, (163, 224, 67), "基本合格"),
+            (20, (238, 121, 118), "有点屁用"),
+            (0, (255, 0, 0), "屁用没有")
         ]
 
     def getEntryArray(self):
@@ -135,8 +135,10 @@ class Data(BaseData):
     def getAverage(self):
         return self.average
 
-    def get_evaluate(self):
-        return self.evaluate
+    def get_evaluate(self, score):
+        for item in self.evaluate:
+            if score >= item[0]:
+                return item
 
     # 获取下标
     def getIndexByCharacter(self, character):
@@ -414,6 +416,5 @@ class Data(BaseData):
         result["list"] = tempList
         markPrint(result)
         return result
-
 
 data = Data()

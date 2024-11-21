@@ -193,7 +193,7 @@ class BaseData:
                     if value > 0:
                         attrList.append(key)
                 if ocr_result['mainAttr'] in attrList:
-                    addScore = (self.maxScore/4)*config[ocr_result['mainAttr']]
+                    addScore = (self.maxScore / 4) * config[ocr_result['mainAttr']]
         # debugPrint("主词条补分", addScore)
 
         for key, value in ocr_result['subAttr'].items():
@@ -234,6 +234,15 @@ class BaseData:
             if score >= item[0]:
                 return item[1]
         return "未找到评价标准"
+
+    def get_table_data(self):
+        resule = {}
+        for character, equipment in self.artifactOwnerList.items():
+            resule[character] = {}
+            resule[character].update(self.characters[character])
+            resule[character].update({"equipment": equipment})
+
+        return resule
 
     ''' 子类方法 '''
 

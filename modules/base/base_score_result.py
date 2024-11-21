@@ -29,7 +29,7 @@ class BaseScoreResultWindow(QWidget):
         font = self.label.font()
         font.setPointSize(9 * self.scale)
         self.label.setFont(font)
-        self.label.setFixedSize(24 * self.scale, 24 * self.scale)
+        self.label.setFixedSize(30 * self.scale, 25 * self.scale)
         self.label.setAlignment(Qt.AlignCenter)
         # qss = 'border-image: url(paste.png);'
         qss = 'background-color: rgb(255, 255, 255)'
