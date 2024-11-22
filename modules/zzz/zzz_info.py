@@ -90,7 +90,7 @@ class InfoWindow(BaseInfoWindow):
                             scoreSum += score
 
                     sumScoreItem = QStandardItem(str(round(scoreSum, 1)))
-                    sumScoreItem.setBackground(QColor(*self.data.get_evaluate(scoreSum / 5)[1]))
+                    sumScoreItem.setBackground(QColor(*self.data.get_evaluate(scoreSum / len(self.data.getPosName()))[1]))
                     model.setItem(row, 13, sumScoreItem)
                 else:
                     pass
