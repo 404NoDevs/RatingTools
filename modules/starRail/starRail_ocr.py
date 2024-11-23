@@ -8,7 +8,7 @@ from utils import markPrint, strReplace
 class OCR(BaseOCR):
     def __init__(self):
         super().__init__({
-            "error_text": ["孩"]
+            "error_text": ["孩", "软"]
         })
 
         self.data_length = 13
