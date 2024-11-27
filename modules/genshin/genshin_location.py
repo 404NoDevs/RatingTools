@@ -66,7 +66,7 @@ elif ratio > 1.7 and ratio < 1.8:
     x_grab_A, y_grab_A, w_grab_A, h_grab_A = (
         [1310 / 1920 * w_width + w_left, 1310 / 1920 * w_width + w_left],
         [(164 - 43) / 1080 * w_hight + SCALE * 24 + w_top, (448 - 43) / 1080 * w_hight + SCALE * 24 + w_top],
-        [287 / 1920 * w_width, 425 / 1920 * w_width],
+        [287 / 1920 * w_width, 350 / 1920 * w_width],
         [284 / 1080 * w_hight, 227 / 1080 * w_hight])
     row_A, col_A = (5, 8)
 
@@ -83,7 +83,7 @@ elif ratio > 1.7 and ratio < 1.8:
     x_grab_B, y_grab_B, w_grab_B, h_grab_B = (
         [1460 / 1920 * w_width + w_left, 1460 / 1920 * w_width + w_left],
         [(157 - 43) / 1080 * w_hight + SCALE * 24 + w_top, (252 - 43) / 1080 * w_hight + SCALE * 24 + w_top],
-        [376 / 1920 * w_width, 413 / 1920 * w_width],
+        [320 / 1920 * w_width, 413 / 1920 * w_width],
         [95 / 1080 * w_hight, 279 / 1080 * w_hight])
     row_B, col_B = (5, 4)
 
