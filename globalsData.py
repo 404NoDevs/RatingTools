@@ -1,3 +1,4 @@
+debug = True
 version = "0.0.9"
 appId = "com.example.app"
 appName = "    评分工具     "

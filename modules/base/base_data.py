@@ -1,6 +1,7 @@
 '''个人数据数据处理'''
 import json, os, shutil
 from my_enum import UpdateCharactersType
+import globalsData
 from utils import debugPrint
 
 
@@ -18,6 +19,8 @@ class BaseData:
         self.defaulCharacter_path = f"src/config/{self.module_name}/character.json"
         self.folder_root = os.path.expanduser('~/Documents') + f'/RatingTools/{self.module_name}'
         self.character_path = self.folder_root + '/character.json'
+        if globalsData.debug:
+            self.character_path = f"src/config/{self.module_name}/character.json"
         self.artifact_path = self.folder_root + '/artifacts.json'
         self.artifactOwner_path = self.folder_root + '/artifactOwner.json'
 

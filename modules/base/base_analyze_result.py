@@ -17,7 +17,7 @@ class BaseAnalyzeResultWindow(QWidget):
     def __init__(self, params):
         super().__init__()
 
-        self.position = params.get("position", (0, 322))
+        self.position = params.get("position", (0, 0))
 
         self.analyzeResult = []
         self.tips = "提示文本"
