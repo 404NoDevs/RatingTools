@@ -7,7 +7,8 @@ from modules.base.base_suit import BaseSuitWindow
 from modules.starRail.starRail_data import data
 from modules.starRail.starRail_set import SetWindow
 from modules.starRail.starRail_suit_result import SuitResultWindow
-from modules.starRail.starRail_info import InfoWindow
+from modules.starRail.starRail_info_character import CharacterInfoWindow
+from modules.starRail.starRail_info_equipment import EquipmentInfoWindow
 from my_enum import UpdateCharactersType
 
 
@@ -21,7 +22,8 @@ class SuitWindow(BaseSuitWindow):
             "data": data,
             "SuitResultWindow": SuitResultWindow,
             "SetWindow": SetWindow,
-            "InfoWindow": InfoWindow
+            "CharacterInfoWindow": CharacterInfoWindow,
+            "EquipmentInfoWindow": EquipmentInfoWindow
         })
 
     def initUI(self):

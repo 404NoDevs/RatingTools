@@ -135,6 +135,9 @@ class Data(BaseData):
     def getAverage(self):
         return self.average
 
+    def get_evaluate_config(self):
+        return self.evaluate
+
     def get_evaluate(self, score):
         for item in self.evaluate:
             if score >= item[0]:

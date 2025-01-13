@@ -83,8 +83,13 @@ class Data(BaseData):
             (0, (255, 0, 0), "屁用没有")
         ]
 
-    def getSuitConfig(self, type):
-        return self.suitConfig.get(type, {})
+    def getSuitConfig(self, type="all"):
+        if type == "all":
+            result = self.suitConfig.get("外圈", {})
+            result.update(self.suitConfig.get("内圈", {}))
+        else:
+            result = self.suitConfig.get(type, {})
+        return result
 
     def getEntryArray(self):
         return self.entryArray
@@ -100,6 +105,9 @@ class Data(BaseData):
 
     def getAverage(self):
         return self.average
+
+    def get_evaluate_config(self):
+        return self.evaluate
 
     def get_evaluate(self, score):
         for item in self.evaluate:

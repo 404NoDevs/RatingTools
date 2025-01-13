@@ -7,7 +7,8 @@ from modules.base.base_suit import BaseSuitWindow
 from modules.genshin.genshin_data import data
 from modules.genshin.genshin_set import SetWindow
 from modules.genshin.genshin_suit_result import SuitResultWindow
-from modules.genshin.genshin_info import InfoWindow
+from modules.genshin.genshin_info_character import CharacterInfoWindow
+from modules.genshin.genshin_info_equipment import EquipmentInfoWindow
 from my_enum import UpdateCharactersType
 
 
@@ -20,7 +21,8 @@ class SuitWindow(BaseSuitWindow):
             "data": data,
             "SuitResultWindow": SuitResultWindow,
             "SetWindow": SetWindow,
-            "InfoWindow": InfoWindow
+            "CharacterInfoWindow": CharacterInfoWindow,
+            "EquipmentInfoWindow": EquipmentInfoWindow
         })
 
     def initUI(self):

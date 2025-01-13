@@ -4,7 +4,7 @@ from PySide6.QtGui import QFont, QColor, QStandardItemModel, QStandardItem
 from PySide6.QtCore import Qt
 
 
-class InfoWindow(BaseInfoWindow):
+class CharacterInfoWindow(BaseInfoWindow):
     def __init__(self):
         super().__init__({
             "data": data,
@@ -14,8 +14,6 @@ class InfoWindow(BaseInfoWindow):
 
     def update(self):
         data = self.data.get_table_data()
-
-        model = QStandardItemModel(len(data), 13)
         headerList = [
             '角色',  # 0
             '四件套',  # 1
@@ -32,6 +30,7 @@ class InfoWindow(BaseInfoWindow):
             "分区6",  # 12
             "总分"  # 13
         ]
+        model = QStandardItemModel(len(data), len(headerList))
         model.setHorizontalHeaderLabels(headerList)
         self.table_view.horizontalHeader().setFont(QFont("Microsoft YaHei", 8, QFont.Bold))
 

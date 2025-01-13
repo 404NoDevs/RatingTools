@@ -25,12 +25,14 @@ class BaseSuitWindow(QWidget):
         self.data = params.get("data")
         self.SuitResultWindow = params.get("SuitResultWindow")
         self.SetWindow = params.get("SetWindow")
-        self.InfoWindow = params.get("InfoWindow")
+        self.CharacterInfoWindow = params.get("CharacterInfoWindow")
+        self.EquipmentInfoWindow = params.get("EquipmentInfoWindow")
 
         # 初始化变量
         self.setWindow = None
         self.suitResultWindow = None
-        self.infoWindow = None
+        self.characterinfoWindow = None
+        self.equipmentInfoWindow = None
         self.selectType = 1
 
         self.initUI()
@@ -47,8 +49,10 @@ class BaseSuitWindow(QWidget):
         self.layout = QGridLayout()
         self.setLayout(self.layout)
         # 上半部分
-        self.showInfoButton = QPushButton('查看角色装备')
-        self.layout.addWidget(self.showInfoButton, 0, 0, 1, 4)
+        self.showEquipmentInfoButton = QPushButton('查看装备需求')
+        self.showCharacterInfoButton = QPushButton('查看角色装备')
+        self.layout.addWidget(self.showEquipmentInfoButton, 0, 0, 1, 2)
+        self.layout.addWidget(self.showCharacterInfoButton, 0, 2, 1, 2)
         self.checkButton = QPushButton('检查更新')
         self.layout.addWidget(self.checkButton, 1, 0, 1, 2)
         self.scoreButton = QPushButton(f'{self.equipment_name}评分→')
@@ -85,7 +89,8 @@ class BaseSuitWindow(QWidget):
         self.startButton.clicked.connect(self.startRating)
         self.setButton.clicked.connect(self.openSetWindow)
         self.checkButton.clicked.connect(self.checkButtonClicked)
-        self.showInfoButton.clicked.connect(self.show_info)
+        self.showCharacterInfoButton.clicked.connect(self.show_character_info)
+        self.showEquipmentInfoButton.clicked.connect(self.show_equipment_info)
 
         # 根据创建参数调整页面
         self.scoreButton.setEnabled(self.enter_params != 1)
@@ -95,8 +100,10 @@ class BaseSuitWindow(QWidget):
             self.setWindow.close()
         if self.suitResultWindow:
             self.suitResultWindow.close()
-        if self.infoWindow:
-            self.infoWindow.close()
+        if self.characterinfoWindow:
+            self.characterinfoWindow.close()
+        if self.equipmentInfoWindow:
+            self.equipmentInfoWindow.close()
 
     # 单选框按钮
     def radiobtn_state(self, btn):
@@ -133,10 +140,19 @@ class BaseSuitWindow(QWidget):
             tipsStr = "没有需要更新的套装"
         self.tipsLabel.setText(tipsStr)
 
-    def show_info(self):
-        self.infoWindow = self.InfoWindow()
+    def show_character_info(self):
+        if self.equipmentInfoWindow:
+            self.equipmentInfoWindow.close()
+        self.characterinfoWindow = self.CharacterInfoWindow()
         # self.infoWindow.update(self.character)
-        self.infoWindow.show()
+        self.characterinfoWindow.show()
+
+    def show_equipment_info(self):
+        if self.characterinfoWindow:
+            self.characterinfoWindow.close()
+        self.equipmentInfoWindow = self.EquipmentInfoWindow()
+        # self.infoWindow.update(self.character)
+        self.equipmentInfoWindow.show()
 
 
     def startRating(self):

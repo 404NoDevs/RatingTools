@@ -84,6 +84,9 @@ class Data(BaseData):
     def getAverage(self):
         return self.average
 
+    def get_evaluate_config(self):
+        return self.evaluate
+
     def get_evaluate(self, score):
         for item in self.evaluate:
             if score >= item[0]:
@@ -230,7 +233,7 @@ class Data(BaseData):
                 new = recommendResult[0]["combinationName"]
                 old = self.artifactOwnerList[owner]
                 for pos in self.posName:
-                    if new[pos] != old[pos]:
+                    if pos not in old or new[pos] != old[pos]:
                         result.append(owner)
                         break
             else:
