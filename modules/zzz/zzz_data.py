@@ -242,5 +242,128 @@ class Data(BaseData):
                 pass
         return result
 
+    def getAnalyzeData(self, ocr_result):
+        result = {
+            "list": [],
+            "tips": ""
+        }
+        if "isCorrected" in ocr_result and ocr_result["isCorrected"]:
+            # 数据发生过矫正，无需分析
+            result["tips"] = "数据发生过矫正，无需分析"
+            return result
+
+        # 获取套装名称及位置
+        suitData = {
+            "suitName": "",
+            "suitPart": ""
+        }
+        print(self.suitConfig)
+        print(ocr_result)
+
+        for suitName in self.suitConfig:
+            if suitName == ocr_result["name"]:
+                suitData["suitName"] = ocr_result["name"]
+                suitData["suitPart"] = ocr_result["parts"]
+
+        if any((
+                suitData["suitName"] == "",
+                suitData["suitPart"] == ""
+        )):
+            result["tips"] = "未识别到套装"
+            return result
+
+        # 分析可使用者
+        tempList = []
+        for character in self.characters:
+            # 检查套装名称是否合规
+            # print(character)
+            # print("any" in self.characters[character].get("suit", []))
+            # print(suitData["suitName"] in self.characters[character].get("suit", []))
+            # print(self.characters[character].get("suitA", "") == suitData["suitName"])
+            # print(self.characters[character].get("suitB", "") == suitData["suitName"])
+            if any((
+                    "any" in self.characters[character].get("suit", []),
+                    suitData["suitName"] in self.characters[character].get("suit", []),
+                    self.characters[character].get("suitA", "") == suitData["suitName"],
+                    self.characters[character].get("suitB", "") == suitData["suitName"]
+            )):
+                # 检查主词条是否合规
+                if any((
+                        ocr_result["parts"] not in self.characters[character],
+                        ocr_result["mainAttr"] in self.characters[character].get(ocr_result["parts"], [])
+                )):
+
+                    super_core = []
+                    core = []
+                    aux = []
+                    for key, value in self.characters[character]["weight"].items():
+                        if key in ["攻击力", "生命值", "防御力"]:
+                            key += "百分比"
+                        if value >= 1.5:  # 超级核心词条
+                            super_core.append(key)
+                        if value >= 0.7:  # 核心词条
+                            core.append(key)
+                        elif value >= 0.3:  # 辅助词条
+                            aux.append(key)
+                        else:
+                            # 无效词条
+                            pass
+
+                    mainInSub = False
+                    if suitData["suitPart"] in self.mainAttrType:
+                        mainAttr = ocr_result["mainAttr"]
+                        if mainAttr in ["攻击力", "生命值", "防御力"]:
+                            mainAttr += "百分比"
+                        if mainAttr in core or mainAttr in aux:
+                            mainInSub = True
+
+                    super_core_len = len(set(super_core) & set(ocr_result["subAttr"].keys()))
+                    core_len = len(set(core) & set(ocr_result["subAttr"].keys()))
+                    aux_len = len(set(aux) & set(ocr_result["subAttr"].keys()))
+
+                    if any((
+                            super_core_len >= 1,
+                            mainInSub and core_len >= 1,
+                            mainInSub and aux_len >= 1,
+                            core_len >= 2,
+                            core_len >= 1 and aux_len >= 1
+                    )):
+                        tempResult = {
+                            "name": character
+                        }
+                        current = self.newScore(ocr_result, character)
+                        tempResult["current_score"] = current[1]
+                        tempResult["current_entries"] = current[3]
+
+                        already_artifact_data = {}
+                        already_artifact = self.getArtifactOwner(character)
+                        if suitData["suitPart"] in already_artifact:
+                            already_artifactId = already_artifact[suitData["suitPart"]]
+                            already_artifact_data = self.getArtifactItem(suitData["suitPart"], already_artifactId)
+                        if already_artifact_data:
+                            already = self.newScore(already_artifact_data, character)
+                            tempResult["already_score"] = already[1]
+                            tempResult["already_entries"] = already[3]
+                        tempList.append(tempResult)
+
+        if len(tempList) == 0:
+            result["tips"] = "未找到适配的角色"
+        else:
+            if ocr_result["lvl"] == str(self.maxLevel):
+                # 已满级 进行分析
+                for item in tempList:
+                    if item["current_score"] >= 20:
+                        result["tips"] = "还行，能用"
+                        break
+                    else:
+                        result["tips"] = "建议分解"
+            else:
+                result["tips"] = "当前装备未满级"
+        # for item in tempList:
+
+        result["list"] = tempList
+        # markPrint(result)
+        return result
+
 
 data = Data()
