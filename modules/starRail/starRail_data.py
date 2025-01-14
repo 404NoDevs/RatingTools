@@ -275,13 +275,14 @@ class Data(BaseData):
                     combinationName[posItem] = suitOut[combinationItemItem][posItem]["artifactID"]
                     scoreSum += scoreNum
                 else:
-                    print(posItem + " 不存在 计分中止1")
-                    tempFlag = True
-                    break
+                    # print(posItem + " 不存在 计分中止1")
+                    # tempFlag = True
+                    # break
+                    pass
 
-            if tempFlag:
-                # print("不存在 计分中止2")
-                continue
+            # if tempFlag:
+            #     # print("不存在 计分中止2")
+            #     continue
             scoreOutItem = {}
             scoreOutItem["combinationType"] = "".join(combinationItem)
             scoreOutItem["combinationName"] = combinationName

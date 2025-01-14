@@ -191,12 +191,13 @@ class Data(BaseData):
                     scoreSum += scoreNum
                 else:
                     # print( posItem +" 不存在 计分中止1")
-                    tempFlag = 1
-                    break
+                    # tempFlag = 1
+                    # break
+                    pass
 
-            if tempFlag:
-                # print("圣遗物不存在 计分中止2")
-                continue
+            # if tempFlag:
+            #     # print("圣遗物不存在 计分中止2")
+            #     continue
             scoreItem = {}
             scoreItem["combinationType"] = "".join(combinationItem)
             scoreItem["combinationName"] = combinationName

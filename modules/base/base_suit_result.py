@@ -91,7 +91,7 @@ class BaseSuitResultWindow(QWidget):
     def updateUI(self):
         oldArtifactsData = self.data.getArtifactOwner(self.character)
         newArtifactsData = self.resultArray[self.programmeCombobox.currentIndex()]["combinationName"]
-        self.score_array = [] # 重置得分数组
+        self.score_array = []  # 重置得分数组
         for posItem in self.data.getPosName():
             oldScore = 0
             if posItem in oldArtifactsData:
@@ -101,6 +101,11 @@ class BaseSuitResultWindow(QWidget):
                 if "subAttr" in oldArtifactItem:
                     oldScore = self.data.newScore(oldArtifactItem, self.character)[1]
                 self.artifactScoreLabel1[posItem].setText(str(oldScore))
+            else:
+                self.artifactNameLabel1[posItem].setText("无装备")
+                self.artifactScoreLabel1[posItem].setText("0")
+                oldScore = 0
+
 
             if posItem in newArtifactsData:
                 self.artifactNameLabel2[posItem].setText(newArtifactsData[posItem])
@@ -115,6 +120,11 @@ class BaseSuitResultWindow(QWidget):
                 else:
                     newOwnerStr = "无人装备"
                 self.artifactOwnerLabel2[posItem].setText(newOwnerStr)
+            else:
+                self.artifactNameLabel2[posItem].setText("无装备")
+                self.artifactScoreLabel2[posItem].setText("0")
+                newOwnerStr = "无人装备"
+                newScore = 0
 
             if newOwnerStr != "无人装备" and newOwnerStr != self.character:
                 newOwnerScore = self.data.newScore(newArtifactItem, newOwnerStr)[1]
