@@ -361,7 +361,7 @@ class BaseScoreWindow(QWidget):
             if self.analyzeWindow and self.analyzeWindow.isVisible():
                 self.analyzeWindow.update({})
 
-        self.hotKeyManager = keyboard.GlobalHotKeys({'<ctrl>+<shift>+z': on_activate})
+        self.hotKeyManager = keyboard.GlobalHotKeys({'<ctrl>+<shift>+x': on_activate})
         self.hotKeyManager.start()
 
     def open_set_window(self):

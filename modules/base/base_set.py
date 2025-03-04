@@ -45,7 +45,7 @@ class BaseSetWindow(QWidget):
         self.entryNum = {}
         for keyName in self.data.getEntryArray():
             numText = QDoubleSpinBox()
-            numText.setMinimum(0)
+            numText.setMinimum(-1)
             numText.setMaximum(2)
             numText.setSingleStep(0.1)
             numText.setValue(0)

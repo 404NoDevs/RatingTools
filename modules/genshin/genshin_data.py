@@ -340,8 +340,8 @@ class Data(BaseData):
             if any((
                     "any" in self.characters[character].get("suit", []),
                     suitData["suitName"] in self.characters[character].get("suit", []),
-                    self.characters[character].get("suitA", "") == suitData["suitName"],
-                    self.characters[character].get("suitB", "") == suitData["suitName"]
+                    self.characters[character].get("suitA", "no") == suitData["suitName"],
+                    self.characters[character].get("suitB", "no") == suitData["suitName"]
             )):
                 # 检查主词条是否合规
                 if any((
@@ -408,7 +408,7 @@ class Data(BaseData):
             if ocr_result["lvl"] == str(self.maxLevel):
                 # 已满级 进行分析
                 for item in tempList:
-                    if item["current_score"] >= 25:
+                    if item["current_score"] >= self.maxScore / 2:
                         result["tips"] = "还行，能用"
                         break
                     else:
@@ -420,5 +420,6 @@ class Data(BaseData):
         result["list"] = tempList
         markPrint(result)
         return result
+
 
 data = Data()

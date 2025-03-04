@@ -307,9 +307,10 @@ class Data(BaseData):
                     tempFlag = True
                     break
 
-            if tempFlag:
+            # if tempFlag:
                 # print("不存在 计分中止22")
-                continue
+                # continue
+
             scoreInItem = {}
             scoreInItem["combinationType"] = "".join(combinationItem)
             scoreInItem["combinationName"] = combinationName
@@ -485,7 +486,7 @@ class Data(BaseData):
             if ocr_result["lvl"] == str(self.maxLevel):
                 # 已满级 进行分析
                 for item in tempList:
-                    if item["current_score"] >= 20:
+                    if item["current_score"] >= self.maxScore / 2:
                         result["tips"] = "还行，能用"
                         break
                     else:

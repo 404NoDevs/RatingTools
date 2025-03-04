@@ -198,6 +198,7 @@ class Data(BaseData):
             # if tempFlag:
             #     # print("圣遗物不存在 计分中止2")
             #     continue
+
             scoreItem = {}
             scoreItem["combinationType"] = "".join(combinationItem)
             scoreItem["combinationName"] = combinationName
@@ -223,7 +224,7 @@ class Data(BaseData):
             params["needMainAttr"] = {
                 "分区4": scheme["分区4"],
                 "分区5": scheme["分区5"],
-                "分区6": scheme["分区6"],
+                "分区6": scheme["分区6"]
             }
             params["character"] = owner
             params["heroConfig"] = self.characters[owner]
@@ -285,8 +286,8 @@ class Data(BaseData):
             if any((
                     "any" in self.characters[character].get("suit", []),
                     suitData["suitName"] in self.characters[character].get("suit", []),
-                    self.characters[character].get("suitA", "") == suitData["suitName"],
-                    self.characters[character].get("suitB", "") == suitData["suitName"]
+                    self.characters[character].get("suitA", "no") == suitData["suitName"],
+                    self.characters[character].get("suitB", "no") == suitData["suitName"]
             )):
                 # 检查主词条是否合规
                 if any((
@@ -353,7 +354,7 @@ class Data(BaseData):
             if ocr_result["lvl"] == str(self.maxLevel):
                 # 已满级 进行分析
                 for item in tempList:
-                    if item["current_score"] >= 20:
+                    if item["current_score"] >= self.maxScore / 2:
                         result["tips"] = "还行，能用"
                         break
                     else:
