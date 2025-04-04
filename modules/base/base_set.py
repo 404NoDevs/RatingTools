@@ -66,12 +66,12 @@ class BaseSetWindow(QWidget):
         layout.addWidget(self.dataUpdateButton, 0, 1, 1, 1)
         layout.addWidget(QLabel('当前角色：'), 1, 0)
         layout.addWidget(self.heroNameLabel, 1, 1)
-        layout.addWidget(QLabel('核心'), 1, 2, Qt.AlignCenter)
-        counter = 0
+        layout.addWidget(QLabel('核心词条'), 1, 2, Qt.AlignCenter)
+        counter = 2
         for keyName in self.entryNum:
-            layout.addWidget(QLabel(keyName), counter + 2, 0)
-            layout.addWidget(self.entryNum[keyName], counter + 2, 1)
-            layout.addWidget(self.checkBtn[keyName], counter + 2, 2, Qt.AlignCenter)
+            layout.addWidget(QLabel(keyName), counter, 0)
+            layout.addWidget(self.entryNum[keyName], counter, 1)
+            layout.addWidget(self.checkBtn[keyName], counter, 2, Qt.AlignCenter)
             counter += 1
         layout.addWidget(self.saveButton, 100, 0, 1, 3)
         layout.addWidget(self.tipsLabel1, 101, 0, 1, 3)
