@@ -12,7 +12,7 @@ class BaseOCR:
 
         self.ocr = RapidOCR()
         self.start_time = 0
-        self.error_text = ["+", "×", "X", "0"] + sub_error_text
+        self.error_text = [" ", "+", "×", "X", "0"] + sub_error_text
 
     def orcImage(self, index, x, y, w, h):
         print(f"图像{index}识别开始...{time.time() - self.start_time}")

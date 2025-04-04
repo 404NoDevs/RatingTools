@@ -303,9 +303,10 @@ class Data(BaseData):
                     combinationName[posItem] = suitIn[combinationItemItem][posItem]["artifactID"]
                     scoreSum += scoreNum
                 else:
-                    print(posItem + " 不存在 计分中止21")
-                    tempFlag = True
-                    break
+                    # print(posItem + " 不存在 计分中止21")
+                    # tempFlag = True
+                    # break
+                    pass
 
             # if tempFlag:
                 # print("不存在 计分中止22")
