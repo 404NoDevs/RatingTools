@@ -1,9 +1,6 @@
 '''个人数据数据处理'''
 import json, os, shutil
-from my_enum import UpdateCharactersType
 import globalsData
-from utils import debugPrint
-
 
 class BaseData:
 
@@ -77,16 +74,12 @@ class BaseData:
         return self.characters
 
     # 更新英雄配置
-    def setCharacters(self, type, character, config):
+    def setCharacters(self, character, config):
         if character not in self.characters:
             self.characters[character] = {}
-        if "weight" not in self.characters[character]:
-            self.characters[character]["weight"] = {}
 
-        if type == UpdateCharactersType.SCHEME:
-            self.characters[character].update(config)
-        elif type == UpdateCharactersType.WEIGHT:
-            self.characters[character]["weight"].update(config)
+        self.characters[character].update(config)
+
         with open(self.character_path, 'w', encoding='utf-8') as fp:
             json.dump(self.characters, fp, ensure_ascii=False, indent=4)
 

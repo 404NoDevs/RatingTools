@@ -9,8 +9,6 @@ from modules.starRail.starRail_set import SetWindow
 from modules.starRail.starRail_suit_result import SuitResultWindow
 from modules.starRail.starRail_info_character import CharacterInfoWindow
 from modules.starRail.starRail_info_equipment import EquipmentInfoWindow
-from my_enum import UpdateCharactersType
-
 
 class SuitWindow(BaseSuitWindow):
 
@@ -76,7 +74,7 @@ class SuitWindow(BaseSuitWindow):
 
         # 保存方案
         saveParams = copy.deepcopy(params)
-        data.setCharacters(UpdateCharactersType.SCHEME, self.character, saveParams)
+        data.setCharacters(self.character, saveParams)
 
         params["needMainAttr"] = needMainAttr
         params["character"] = self.character

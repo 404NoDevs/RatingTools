@@ -9,8 +9,6 @@ from modules.zzz.zzz_set import SetWindow
 from modules.zzz.zzz_suit_result import SuitResultWindow
 from modules.zzz.zzz_info_character import CharacterInfoWindow
 from modules.zzz.zzz_info_equipment import EquipmentInfoWindow
-from my_enum import UpdateCharactersType
-
 
 class SuitWindow(BaseSuitWindow):
     def __init__(self, params):
@@ -67,7 +65,7 @@ class SuitWindow(BaseSuitWindow):
 
         # 保存方案
         saveParams = copy.deepcopy(params)
-        data.setCharacters(UpdateCharactersType.SCHEME, self.character, saveParams)
+        data.setCharacters(self.character, saveParams)
 
         params["needMainAttr"] = needMainAttr
         params["character"] = self.character
