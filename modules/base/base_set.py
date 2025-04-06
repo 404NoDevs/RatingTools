@@ -40,8 +40,7 @@ class BaseSetWindow(QWidget):
         # 显示当前角色
         self.heroNameLabel = QLabel("")
         # 显示得分权重
-        self.entryNum = {}
-        self.checkBtn = {}
+        self.entryChild = {}
         for keyName in self.data.getEntryArray():
             numText = QDoubleSpinBox()
             numText.setMinimum(-1)
@@ -49,8 +48,9 @@ class BaseSetWindow(QWidget):
             numText.setSingleStep(0.1)
             numText.setValue(0)
             numText.setAlignment(Qt.AlignRight)
-            self.entryNum[keyName] = numText
-            self.checkBtn[keyName] = QCheckBox("")
+            self.entryChild[keyName] = {}
+            self.entryChild[keyName]["entryNum"] = numText
+            self.entryChild[keyName]["checkBtn"] = QCheckBox("")
         # 添加保存按钮
         self.saveButton = QPushButton('确认修改')
 
@@ -68,10 +68,10 @@ class BaseSetWindow(QWidget):
         layout.addWidget(self.heroNameLabel, 1, 1)
         layout.addWidget(QLabel('核心词条'), 1, 2, Qt.AlignCenter)
         counter = 2
-        for keyName in self.entryNum:
+        for keyName in self.entryChild:
             layout.addWidget(QLabel(keyName), counter, 0)
-            layout.addWidget(self.entryNum[keyName], counter, 1)
-            layout.addWidget(self.checkBtn[keyName], counter, 2, Qt.AlignCenter)
+            layout.addWidget(self.entryChild[keyName]["entryNum"], counter, 1)
+            layout.addWidget(self.entryChild[keyName]["checkBtn"], counter, 2, Qt.AlignCenter)
             counter += 1
         layout.addWidget(self.saveButton, 100, 0, 1, 3)
         layout.addWidget(self.tipsLabel1, 101, 0, 1, 3)
@@ -88,13 +88,14 @@ class BaseSetWindow(QWidget):
         # 兼容数据异常情况
         if self.character in herConfig and herConfig[self.character] != {}:
             self.heroNameLabel.setText(self.character)
-            for keyName in self.entryNum:
-                self.entryNum[keyName].setValue(herConfig[self.character]["weight"][keyName])
-                self.checkBtn[keyName].setChecked(keyName in herConfig[self.character]["core"])
+            for keyName in self.entryChild:
+                self.entryChild[keyName]["entryNum"].setValue(herConfig[self.character]["weight"][keyName])
+                self.entryChild[keyName]["checkBtn"].setChecked(keyName in herConfig[self.character].get("core", []))
         else:
             self.heroNameLabel.setText("请正确的选择角色")
-            for keyName in self.entryNum:
-                self.entryNum[keyName].setValue(0)
+            for keyName in self.entryChild:
+                self.entryChild[keyName]["entryNum"].setValue(0)
+                self.entryChild[keyName]["checkBtn"].setChecked(False)
 
     def update(self, character):
         self.character = character
@@ -103,10 +104,10 @@ class BaseSetWindow(QWidget):
     def btn_save(self):
         tempConfig = {}
         tempConfig["weight"] = {}
-        for keyName in self.entryNum:
-            tempConfig["weight"][keyName] = round(self.entryNum[keyName].value(), 2)
+        for keyName in self.entryChild:
+            tempConfig["weight"][keyName] = round(self.entryChild[keyName]["entryNum"].value(), 2)
 
-        tempConfig["core"] = [keyName for keyName in self.checkBtn if self.checkBtn[keyName].isChecked()]
+        tempConfig["core"] = [keyName for keyName in self.entryChild if self.entryChild[keyName]["checkBtn"].isChecked()]
 
         self.data.setCharacters(self.character, tempConfig)
 
