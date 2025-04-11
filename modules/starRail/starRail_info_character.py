@@ -94,6 +94,7 @@ class CharacterInfoWindow(BaseInfoWindow):
                             scoreSum += score
 
                     sumScoreItem = QStandardItem(str(round(scoreSum, 1)))
+                    sumScoreItem.setData(round(float(scoreSum), 1), Qt.DisplayRole)  # 强制转为flot类型用于后续排序
                     sumScoreItem.setBackground(QColor(*self.data.get_evaluate(scoreSum / len(self.data.getPosName()))[1]))
                     model.setItem(row, 15, sumScoreItem)
                 else:

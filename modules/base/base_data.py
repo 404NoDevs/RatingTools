@@ -179,7 +179,7 @@ class BaseData:
         entriesSum = 0
 
         # 补分逻辑
-        add_score_switch = True
+        add_score_switch = False
         addScore = 0
         if add_score_switch:
             # 检查主词条是否合规
