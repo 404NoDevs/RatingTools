@@ -3,17 +3,16 @@ from modules.genshin.genshin_data import data
 from PySide6.QtGui import QFont, QColor, QStandardItemModel, QStandardItem
 from PySide6.QtCore import Qt
 
-
 class EquipmentInfoWindow(BaseInfoWindow):
     def __init__(self):
         super().__init__({
             "data": data,
             "position": (300, 0),
-            "size": (700, 370)
+            "size": (770, 370)
         })
 
     def update(self):
-        headerList = ['名称']
+        headerList = ['名称', '穿戴者']
         config = self.data.get_evaluate_config()
         for index, item in enumerate(reversed(config)):
             lastIndex = index - 1
@@ -32,7 +31,8 @@ class EquipmentInfoWindow(BaseInfoWindow):
 
         self.table_view.setModel(model)
         self.table_view.setColumnWidth(0, 90)
-        for index in range(1, 5):
+        self.table_view.setColumnWidth(1, 70)
+        for index in range(2, 6):
             self.table_view.setColumnWidth(index, 110)
 
         for row, suitName in enumerate(suitConfig):
@@ -45,10 +45,16 @@ class EquipmentInfoWindow(BaseInfoWindow):
             for suitName in suitArray:
                 if tableItem[suitName] in suitConfig:
                     row = suitConfig.index(tableItem[suitName])
+                    standard_item = model.item(row, 1)
+                    if standard_item:
+                        text = standard_item.text() + "\n" + character
+                        standard_item.setText(text)
+                    else:
+                        model.setItem(row, 1, QStandardItem(character))
                     for pos, posItem in tableItem["equipment"].items():
                         artifactItem = self.data.getArtifactItem(pos, posItem)
                         score = self.data.newScore(artifactItem, character)[1]
-                        col = 0
+                        col = 1
                         for configItem in reversed(config):
                             if score >= configItem[0]:
                                 col += 1

@@ -53,9 +53,9 @@ class Data(BaseData):
             '攻击力百分比': 1.5,
             '生命值百分比': 1.5,
             '防御力百分比': 1.2,
-            '攻击力': 0.076535,
-            '生命值': 0.153071,
-            '防御力': 0.153071,
+            '攻击力': 0,
+            '生命值': 0,
+            '防御力': 0,
             "速度": 2.492308,
             '击破特攻': 1,
             '效果命中': 1.5,
@@ -84,19 +84,28 @@ class Data(BaseData):
         ]
 
     def getSuitConfig(self, type="all"):
+        result = {}
         if type == "all":
-            result = self.suitConfig.get("外圈", {})
+            result.update(self.suitConfig.get("外圈", {}))
             result.update(self.suitConfig.get("内圈", {}))
         else:
-            result = self.suitConfig.get(type, {})
+            result.update(self.suitConfig.get(type, {}))
         return result
 
     def getEntryArray(self):
         return self.entryArray
 
-    def getPosName(self):
-        return self.posNameOut + self.posNameIn
-
+    def getPosName(self, type="all"):
+        result = []
+        if type == "all":
+            result = self.posNameOut + self.posNameIn
+        elif type == "out":
+            result += self.posNameOut
+        elif type == "in":
+            result += self.posNameIn
+        else:
+            result += []
+        return result
     def getMainAttrType(self):
         return self.mainAttrType
 
