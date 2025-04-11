@@ -235,7 +235,7 @@ class Data(BaseData):
                 new = recommendResult[0]["combinationName"]
                 old = self.artifactOwnerList[owner]
                 for pos in self.posName:
-                    if pos not in old or new[pos] != old[pos]:
+                    if new.get(pos, "") != old.get(pos, ""):
                         result.append(owner)
                         break
             else:
