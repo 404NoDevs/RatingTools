@@ -179,15 +179,12 @@ class BaseData:
         entriesSum = 0
 
         # 补分逻辑
-        add_score_switch = False
+        add_score_switch = True
         addScore = 0
         if add_score_switch:
             # 检查主词条是否合规
             if ocr_result['parts'] in self.getMainAttrType():
-                attrList = []
-                for key, value in config.items():
-                    if value > 0:
-                        attrList.append(key)
+                attrList = [key for key, value in config.items() if value > 0]
                 if ocr_result['mainAttr'] in attrList:
                     addScore = (self.maxScore / 4) * config[ocr_result['mainAttr']]
         # debugPrint("主词条补分", addScore)
