@@ -1,0 +1,73 @@
+#!/bin/bash
+
+# 时机：在用户输入提交消息后触发。
+# 用途：验证提交消息格式（如是否符合约定式提交）。
+# 注意：非零退出会拒绝提交。
+
+echo "=== 钩子开始执行 === "
+
+changed_files=$(git diff --cached --name-only)
+echo "📁 变更文件:"
+echo "$changed_files"
+
+modules=()
+for file in $changed_files; do
+    echo "🔍 正在处理: $file"
+    
+    # 排除 version.md 和临时文件
+    if [[ $file == *"/version.md" || $file == *"~" ]]; then
+        echo "⏭️  跳过文件: $file"
+        continue
+    fi
+    
+    # 提取模块目录（兼容根目录）
+    module=$(dirname "$file")
+    if [ "$module" = "." ]; then
+        module="root"
+    fi
+    
+    echo "📦 模块路径: $module"
+    
+    if [ -n "$module" ]; then
+        if [[ ! " ${modules[@]} " =~ " ${module} " ]]; then
+            modules+=("$module")
+            echo "✅ 新增模块: $module"
+        fi
+    fi
+done
+
+if [ ${#modules[@]} -gt 0 ]; then
+    echo "日志路径: $1"
+    commit_msg=$(cat "$1")
+    echo "📝 提交信息: $commit_msg"
+    
+    for module in "${modules[@]}"; do
+        # 处理根目录特殊逻辑
+        if [ "$module" = "root" ]; then
+            version_file="version.md"
+        else
+            version_file="$module/version.md"
+        fi
+        
+        echo "🛠️  更新: $version_file"
+        echo "## $(date +'%Y-%m-%d %H:%M:%S')" >> "$version_file"
+        echo "$commit_msg" >> "$version_file"
+        echo "" >> "$version_file"
+        git add "$version_file"
+    done
+else
+    echo "ℹ️  没有需要更新的模块"
+fi
+
+if [ ${#modules[@]} -gt 0 ]; then
+    # 使用底层命令创建新提交
+    new_tree=$(git write-tree)
+    parent_commit=$(git rev-parse HEAD)
+    new_commit=$(echo "Your commit message" | git commit-tree $new_tree -p $parent_commit)
+    
+    # 原子性更新引用
+    git update-ref -m "commit-msg hook update" HEAD $new_commit
+fi
+
+echo "=== 执行完成 ==="
+exit 0
