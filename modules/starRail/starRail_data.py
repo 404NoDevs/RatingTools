@@ -438,17 +438,17 @@ class Data(BaseData):
                         ocr_result["parts"] not in self.characters[character],
                         ocr_result["mainAttr"] in self.characters[character].get(ocr_result["parts"], [])
                 )):
-                    super_core = []
+                    super = []
                     core = []
                     aux = []
                     for key, value in self.characters[character]["weight"].items():
                         if key in ["攻击力", "生命值", "防御力"]:
                             key += "百分比"
-                        if value >= 1.5:  # 超级核心词条
-                            super_core.append(key)
-                        if value >= 0.7:  # 核心词条
+                        if value > 1.5:  # 超级词条
+                            super.append(key)
+                        if value > 0.7:  # 核心词条
                             core.append(key)
-                        elif value >= 0.3:  # 辅助词条
+                        elif value > 0.4:  # 辅助词条
                             aux.append(key)
                         else:
                             # 无效词条
@@ -462,11 +462,11 @@ class Data(BaseData):
                         if mainAttr in core or mainAttr in aux:
                             mainInSub = True
 
-                    super_core_len = len(set(super_core) & set(ocr_result["subAttr"].keys()))
+                    super_len = len(set(super) & set(ocr_result["subAttr"].keys()))
                     coreLen = len(set(core) & set(ocr_result["subAttr"].keys()))
                     auxLen = len(set(aux) & set(ocr_result["subAttr"].keys()))
                     if any((
-                            super_core_len >= 1,
+                            super_len >= 1,
                             mainInSub and coreLen >= 1,
                             mainInSub and auxLen >= 1,
                             coreLen >= 2,
