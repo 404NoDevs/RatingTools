@@ -8,8 +8,9 @@ class BaseData:
 
         # 获取子类参数
         self.module_name = params.get("module_name", "genshin")
-        self.maxLevel = params.get("maxLevel", 20)
-        self.maxScore = params.get("maxScore", 100)
+        self.maxLevel = params.get("maxLevel", 0)
+        self.maxScore = params.get("maxScore", 0)
+        self.oneMaxScore = params.get("oneMaxScore", 0)
 
         # 初始化常量
         self.suitConfig_path = f"src/config/{self.module_name}/suitConfig.json"
@@ -186,7 +187,7 @@ class BaseData:
             if ocr_result['parts'] in self.getMainAttrType():
                 attrList = [key for key, value in config.items() if value > 0]
                 if ocr_result['mainAttr'] in attrList:
-                    addScore = (self.maxScore / 4) * config[ocr_result['mainAttr']]
+                    addScore = (self.oneMaxScore / 4) * config[ocr_result['mainAttr']]
         # debugPrint("主词条补分", addScore)
 
         for key, value in ocr_result['subAttr'].items():

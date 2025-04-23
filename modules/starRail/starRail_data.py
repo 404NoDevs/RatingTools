@@ -9,7 +9,9 @@ class Data(BaseData):
             "module_name": "starRail",
             "maxLevel": 15,
             "maxScore": 52.4,  # 标准最大值
-            "maxScore2": 58.5  # 理论最大值
+            "maxScore2": 58.5,  # 理论最大值
+            "oneMaxScore": 34.98,  # 单词条标准最大值
+            "oneMaxScore2": 38.88   # 单词条理论最大值
         })
 
         self.entryArray = ["速度", "生命值", "攻击力", "防御力", "暴击率", "暴击伤害", "击破特攻", "效果命中", "效果抵抗"]
@@ -62,7 +64,7 @@ class Data(BaseData):
             '效果抵抗': 1.5
         }
         self.average = {
-            '暴击率': 2.915,
+            '暴击率': 2.9166667,
             '暴击伤害': 5.83,
             '攻击力百分比': 3.89,
             '生命值百分比': 3.89,

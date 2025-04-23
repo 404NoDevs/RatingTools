@@ -8,7 +8,9 @@ class Data(BaseData):
             "module_name": "zzz",
             "maxLevel": 15,
             "maxScore": 43.2,  # 标准最大值
-            "maxScore2": 43.2  # 理论最大值
+            "maxScore2": 43.2,  # 理论最大值
+            "oneMaxScore": 28.8,  # 单词条标准最大值
+            "oneMaxScore2": 28.88   # 单词条理论最大值
         })
 
         self.entryArray = ["暴击率", "暴击伤害", "攻击力", "生命值", "防御力", "异常精通", "穿透值"]
