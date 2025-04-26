@@ -305,9 +305,9 @@ class Data(BaseData):
                             key += "百分比"
                         if value > 1.5:  # 超级词条
                             super.append(key)
-                        if value > 0.7:  # 核心词条
+                        if value > 0.75:  # 核心词条
                             core.append(key)
-                        elif value > 0.4:  # 辅助词条
+                        elif value > 0.375:  # 辅助词条
                             aux.append(key)
                         else:
                             # 无效词条

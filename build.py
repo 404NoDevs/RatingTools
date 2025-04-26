@@ -37,7 +37,6 @@ for line in config_content:
 with open(config_file, 'w', encoding='utf-8') as f:
     f.writelines(new_config_content)
 
-
 def copy_file(src: str, dst: str):
     # 将文件或目录拷贝到指定位置
     src_path = Path(src)
@@ -55,7 +54,7 @@ def copy_file(src: str, dst: str):
     print(f"已拷贝到: {dst_path}")
 
 def build_success_callback():
-    # 在这里添加你的回调逻辑
+    # 拷贝资源文件到代码同级目录
     path = Path.cwd() / "dist" / new_name
     src_path = path / "_internal" / "src"
     copy_file(src_path, path)

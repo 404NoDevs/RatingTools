@@ -1,5 +1,5 @@
 debug = True
-version = "0.0.55"
+version = "0.0.2"
 appId = "com.example.app"
 appName = "    评分工具     "
 gamesMap = {

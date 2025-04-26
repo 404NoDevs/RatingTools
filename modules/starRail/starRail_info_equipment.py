@@ -1,8 +1,6 @@
 from modules.base.base_info import BaseInfoWindow
 from modules.starRail.starRail_data import data
 from PySide6.QtGui import QFont, QColor, QStandardItemModel, QStandardItem
-from PySide6.QtCore import Qt
-
 
 class EquipmentInfoWindow(BaseInfoWindow):
     def __init__(self):
@@ -79,3 +77,13 @@ class EquipmentInfoWindow(BaseInfoWindow):
                             standard_item.setText(text)
                         else:
                             model.setItem(row, col, QStandardItem(character + "-" + pos))
+
+        # 设置交替行颜色
+        for row in range(model.rowCount()):
+            color = QColor(240, 240, 240) if (row // 2) % 2 == 0 else QColor(255, 255, 255)
+            for col in range(model.columnCount()):
+                standardItem = model.item(row, col)
+                if not standardItem:
+                    standardItem = QStandardItem()
+                    model.setItem(row, col, standardItem)
+                standardItem.setBackground(color)

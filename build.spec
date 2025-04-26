@@ -1,31 +1,8 @@
 # -*- mode: python ; coding: utf-8 -*-
 
-
 from PyInstaller.utils.hooks import collect_dynamic_libs
 import glob
 import os
-
-new_content = []
-new_version = "0.0.0"
-# 读取当前版本
-version_file = "globalsData.py"
-with open(version_file, encoding='utf-8') as f:
-    content = f.readlines()
-
-# 版本号增加
-for line in content:
-    if line.startswith('version ='):
-        version = line.split('=')[1].strip().strip('"')  # 获取当前版本号
-        version_parts = version.split('.')
-        version_parts[-1] = str(int(version_parts[-1]) + 1)  # 增加最后一位
-        new_version = '.'.join(version_parts)
-        new_content.append(f'version = "{new_version}"\n')  # 更新版本号
-    else:
-        new_content.append(line)  # 保持其他行不变
-
-# 写回文件
-with open(version_file, 'w', encoding='utf-8') as f:
-    f.writelines(new_content)
 
 block_cipher = None
 # 收集动态库
@@ -88,5 +65,5 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='ratingTools-0.0.54'
+    name='ratingTools-0.0.2'
 )
