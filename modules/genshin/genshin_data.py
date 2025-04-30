@@ -385,7 +385,7 @@ class Data(BaseData):
                             mainInSub and core_len >= 1,
                             mainInSub and aux_len >= 1,
                             core_len >= 2,
-                            # core_len >= 1 and aux_len >= 1
+                            core_len >= 1 and aux_len >= 1
                     )):
                         tempResult = {
                             "name": character
