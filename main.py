@@ -1,6 +1,7 @@
-import os, sys
-
-import globalsData, utils
+import os
+import sys
+import globalsData
+import utils
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon, QFont

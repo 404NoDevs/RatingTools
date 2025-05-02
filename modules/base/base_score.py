@@ -2,6 +2,8 @@
 
 import os
 from pynput import keyboard
+
+import globalsData
 from extention import OutsideMouseManager, ExtendedComboBox
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
@@ -13,6 +15,8 @@ from PySide6.QtWidgets import (
     QWidget,
     QGridLayout
 )
+
+from color_window import ColorWindow
 
 
 class BaseScoreWindow(QWidget):
@@ -30,6 +34,9 @@ class BaseScoreWindow(QWidget):
         self.SetWindow = params.get('SetWindow')
         self.AnalyzeResultWindow = params.get('AnalyzeResultWindow')
 
+        # 初始化参数
+        self.temp = []
+
         self.initData()
         self.initUI()
 
@@ -41,10 +48,9 @@ class BaseScoreWindow(QWidget):
         self.move(0, 0)
 
         # 背包/角色面板选择（Radio）
-        self.radiobtn1 = QRadioButton('角色')
+        self.radiobtn1 = QRadioButton('背包')
         self.radiobtn1.setChecked(True)
-        self.radiobtn2 = QRadioButton('背包')
-        self.type = '角色'
+        self.radiobtn2 = QRadioButton('角色')
         self.suitButton = QPushButton('套装推荐→')
         # 角色选择框
         self.combobox = ExtendedComboBox()
@@ -133,12 +139,8 @@ class BaseScoreWindow(QWidget):
         self.setWindow = None
         self.analyzeWindow = None
 
-        # 默认坐标信息-角色B
-        self.position = self.location.position_B
-        self.row, self.col = self.location.row_B, self.location.col_B
-        self.xarray, self.yarray = self.location.xarray_B, self.location.yarray_B
-        self.x_grab, self.y_grab, self.w_grab, self.h_grab = self.location.x_grab_B, self.location.y_grab_B, self.location.w_grab_B, self.location.h_grab_B
-        self.SCALE = self.location.SCALE
+        self.setLocationData('bag')
+        self.SCALE = self.location.getScale()
 
         # 预先设定好贴图窗口组&每一个窗口的圣遗物数据
         self.pastes = []
@@ -148,8 +150,47 @@ class BaseScoreWindow(QWidget):
         self.score_result = [[0, 0, 0, 0], 0, [0, 0, 0, 0], 0]
         for i in range(self.row * self.col):
             window = self.ScoreResultWindow()
+            # window.initUI(i, self.position[i][0] / self.SCALE, self.position[i][1] / self.SCALE, 146, 175)
+            # window.show()
             self.pastes.append(window)
             self.pastes[i].move(self.position[i][0] / self.SCALE, self.position[i][1] / self.SCALE)
+
+    def setLocationData(self, select_type):
+        locationData = self.location.getData(select_type)
+        # print("2222222222222")
+        # print(locationData)
+        self.position = locationData["position"]
+        self.row, self.col = locationData["row"], locationData["col"]
+        self.xarray, self.yarray = locationData["xarray"], locationData["yarray"]
+        self.x_grab, self.y_grab, self.w_grab, self.h_grab = locationData["x_grab"], locationData["y_grab"], locationData["w_grab"], locationData["h_grab"]
+
+        if globalsData.debug:
+            #  debug模式下，显示鼠标判定区域
+            self.temp = []
+            # window = ColorWindow()
+            # window.init_window(
+            #     0,
+            #     (640 + 108) / 1.5,
+            #     (45 + 169) / 1.5,
+            #     146/1.5,
+            #     175/1.5
+            # )
+            # window.show()
+            # self.temp.append(window)
+            for i in range(self.col):
+                for j in range(self.row):
+                    window = ColorWindow()
+                    window.init_window(
+                        j * self.row + i,
+                        self.xarray[i][0],
+                        self.yarray[j][0],
+                        self.xarray[i][1] - self.xarray[i][0],
+                        self.yarray[j][1] - self.yarray[j][0]
+                    )
+                    window.show()
+                    self.temp.append(window)
+                    # break
+                # break
 
     def closeEvent(self, event):
         # print("关闭窗口")
@@ -161,25 +202,15 @@ class BaseScoreWindow(QWidget):
 
     # 单选框面板选择事件
     def radiobtn_state(self, btn):
-        if btn.text() == '背包':
-            if btn.isChecked() == True:
-                self.type = '背包'
-                # 重置坐标信息
-                self.position = self.location.position_A
-                self.row, self.col = self.location.row_A, self.location.col_A
-                self.xarray, self.yarray = self.location.xarray_A, self.location.yarray_A
-                self.x_grab, self.y_grab, self.w_grab, self.h_grab = self.location.x_grab_A, self.location.y_grab_A, self.location.w_grab_A, self.location.h_grab_A
-                self.reset()
+        select_type = "bag"
+        if btn.text() == '背包' and btn.isChecked() == True:
+            select_type = 'bag'
+        elif btn.text() == '角色' and btn.isChecked() == True:
+            select_type = 'character'
 
-        if btn.text() == '角色':
-            if btn.isChecked() == True:
-                self.type = '角色'
-                # 重置坐标信息
-                self.position = self.location.position_B
-                self.row, self.col = self.location.row_B, self.location.col_B
-                self.xarray, self.yarray = self.location.xarray_B, self.location.yarray_B
-                self.x_grab, self.y_grab, self.w_grab, self.h_grab = self.location.x_grab_B, self.location.y_grab_B, self.location.w_grab_B, self.location.h_grab_B
-                self.reset()
+        # 重置坐标信息
+        self.setLocationData(select_type)
+        self.reset()
 
     # 选择框选择角色事件
     def current_index_changed(self, index):
@@ -214,6 +245,10 @@ class BaseScoreWindow(QWidget):
 
     # 启动贴图弹窗
     def open_new_window(self, x, y):
+
+        x = x/self.SCALE
+        y = y/self.SCALE
+
         # 根据鼠标事件定位贴图
         for i in range(self.col):
             if x >= self.xarray[i][0] and x <= self.xarray[i][1]:
@@ -246,10 +281,12 @@ class BaseScoreWindow(QWidget):
 
     # 根据鼠标左键选择的圣遗物刷新主窗口圣遗物副属性和评分
     def left_click_artifact(self, x, y):
+        x = x/self.SCALE
+        y = y/self.SCALE
         for i in range(self.col):
-            if x >= self.xarray[i][0] and x <= self.xarray[i][1]:
+            if self.xarray[i][0] <= x <= self.xarray[i][1]:
                 for j in range(self.row):
-                    if y >= self.yarray[j][0] and y <= self.yarray[j][1]:
+                    if self.yarray[j][0] <= y <= self.yarray[j][1]:
                         id_temp = j * self.col + i
                         if self.pastes[id_temp].isVisible() == True:
                             self.id = id_temp
@@ -328,6 +365,8 @@ class BaseScoreWindow(QWidget):
     # 主窗口关闭则所有贴图窗口也关闭
     def closeEvent(self, event):
         for item in self.pastes:
+            item.close()
+        for item in self.temp:
             item.close()
 
         if self.setWindow:

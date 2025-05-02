@@ -1,7 +1,6 @@
 .idea/
 __pycache__/
 src/grab[0-9]*.png
-color_window.py
 test.py
 build/
 dist/

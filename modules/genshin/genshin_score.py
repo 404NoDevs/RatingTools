@@ -1,7 +1,7 @@
 '''圣遗物评分界面'''
 
 from modules.base.base_score import BaseScoreWindow
-from modules.genshin import genshin_location as location
+from modules.genshin.genshin_location import location
 from modules.genshin.genshin_ocr import ocr
 from modules.genshin.genshin_data import data
 from modules.genshin.genshin_score_result import ScoreResultWindow

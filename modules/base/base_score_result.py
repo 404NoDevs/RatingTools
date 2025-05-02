@@ -12,13 +12,13 @@ class BaseScoreResultWindow(QWidget):
         self.location = params.get('location', {})
 
         # 初始化参数
-        self.scale = self.location.w_width / 1280 / self.location.SCALE
+        self.scale = self.location.getFitterScale()
 
         self.initUI()
 
     def initUI(self):
         # 设置贴图窗口属性：透明、无边框透明、置顶
-        self.setAttribute(Qt.WA_TranslucentBackground)
+        # self.setAttribute(Qt.WA_TranslucentBackground)
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.Tool)
 
         # 贴图窗口内容
@@ -29,7 +29,7 @@ class BaseScoreResultWindow(QWidget):
         font = self.label.font()
         font.setPointSize(9 * self.scale)
         self.label.setFont(font)
-        self.label.setFixedSize(30 * self.scale, 25 * self.scale)
+        self.label.setFixedSize(30 * self.scale, 20 * self.scale)
         self.label.setAlignment(Qt.AlignCenter)
         # qss = 'border-image: url(paste.png);'
         qss = 'background-color: rgb(255, 255, 255)'
@@ -60,5 +60,4 @@ class BaseScoreResultWindow(QWidget):
 
     # Ctrl+Z关闭窗口
     def close(self):
-        # print('canceled!')
         self.hide()

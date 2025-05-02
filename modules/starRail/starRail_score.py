@@ -1,7 +1,7 @@
 '''遗器评分界面'''
 
 from modules.base.base_score import BaseScoreWindow
-from modules.starRail import starRail_location as location
+from modules.starRail.starRail_location import location
 from modules.starRail.starRail_ocr import ocr
 from modules.starRail.starRail_data import data
 from modules.starRail.starRail_score_result import ScoreResultWindow
