@@ -26,7 +26,7 @@ class BaseLocation:
         # self.window_start = win32gui.FindWindow('START Cloud Game', 'START云游戏-Game')
         # self.window = self.window_sc or self.window_start
 
-        if not window:
+        if window:
             # 将客户区左上角转换为屏幕坐标
             self.client_x, self.client_y = win32gui.ClientToScreen(window, (0, 0))
             print(f"Client area top-left in screen coordinates: ({self.client_x}, {self.client_y})")

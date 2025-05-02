@@ -1,6 +1,6 @@
 '''圣遗物评分界面'''
 from modules.base.base_score import BaseScoreWindow
-from modules.zzz import zzz_location as location
+from modules.zzz.zzz_location import location
 from modules.zzz.zzz_ocr import ocr
 from modules.zzz.zzz_data import data
 from modules.zzz.zzz_score_result import ScoreResultWindow

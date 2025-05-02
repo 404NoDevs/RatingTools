@@ -38,6 +38,8 @@ class BaseOCR:
         result = [re.sub(r'(?<=\d)[.,](\d{3})', r'\1', item) for item in result]
         # 将所有：替换为 .
         result = [item.replace("：", ".") for item in result]
+        # 去空格
+        result = [item.replace(" ", "") for item in result]
 
         # 识别多个小数点兼容
         def simple_replace(match):

@@ -35,6 +35,15 @@ class BaseScoreWindow(QWidget):
         self.AnalyzeResultWindow = params.get('AnalyzeResultWindow')
 
         # 初始化参数
+        self.position = []
+        self.row = 0
+        self.col = 0
+        self.xarray = []
+        self.yarray = []
+        self.x_grab = 0
+        self.y_grab = 0
+        self.w_grab = 0
+        self.h_grab = 0
         self.temp = []
 
         self.initData()
@@ -157,12 +166,16 @@ class BaseScoreWindow(QWidget):
 
     def setLocationData(self, select_type):
         locationData = self.location.getData(select_type)
-        # print("2222222222222")
-        # print(locationData)
-        self.position = locationData["position"]
-        self.row, self.col = locationData["row"], locationData["col"]
-        self.xarray, self.yarray = locationData["xarray"], locationData["yarray"]
-        self.x_grab, self.y_grab, self.w_grab, self.h_grab = locationData["x_grab"], locationData["y_grab"], locationData["w_grab"], locationData["h_grab"]
+
+        self.position = locationData.get("position", [])
+        self.row = locationData.get("row", 0)
+        self.col = locationData.get("col", 0)
+        self.xarray = locationData.get("xarray", [])
+        self.yarray = locationData.get("yarray", [])
+        self.x_grab = locationData.get("x_grab", 0)
+        self.y_grab = locationData.get("y_grab", 0)
+        self.w_grab = locationData.get("w_grab", 0)
+        self.h_grab = locationData.get("h_grab", 0)
 
         if globalsData.debug:
             #  debug模式下，显示鼠标判定区域

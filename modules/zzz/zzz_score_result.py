@@ -1,6 +1,7 @@
 '''贴图窗口，显示单独的评分结果'''
 from modules.base.base_score_result import BaseScoreResultWindow
-from modules.zzz import zzz_location as location
+from modules.zzz.zzz_location import location
+
 
 class ScoreResultWindow(BaseScoreResultWindow):
     def __init__(self):
