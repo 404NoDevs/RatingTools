@@ -5,13 +5,15 @@ import os
 
 new_version = "0.0.0"
 # 读取当前版本
-version_file = "globalsData.py"
-with open(version_file, encoding='utf-8') as f:
+globals_file = "globalsData.py"
+with open(globals_file, encoding='utf-8') as f:
     version_content = f.readlines()
 # 版本号增加
 new_version_content = []
 for line in version_content:
-    if line.startswith('version ='):
+    if line.startswith("debug = "):
+        new_version_content.append('debug = False\n')
+    elif line.startswith('version ='):
         version = line.split('=')[1].strip().strip('"')  # 获取当前版本号
         version_parts = version.split('.')
         version_parts[-1] = str(int(version_parts[-1]) + 1)  # 增加最后一位
@@ -20,7 +22,7 @@ for line in version_content:
     else:
         new_version_content.append(line)  # 保持其他行不变
 # 写回文件
-with open(version_file, 'w', encoding='utf-8') as f:
+with open(globals_file, 'w', encoding='utf-8') as f:
     f.writelines(new_version_content)
 
 new_name = f'ratingTools-{new_version}'
@@ -58,6 +60,17 @@ def build_success_callback():
     path = Path.cwd() / "dist" / new_name
     src_path = path / "_internal" / "src"
     copy_file(src_path, path)
+
+    with open(globals_file, encoding='utf-8') as f:
+        version_content2 = f.readlines()
+    new_version_content2 = []
+    for line2 in version_content2:
+        if line2.startswith("debug = "):
+            new_version_content2.append('debug = True\n')
+        else:
+            new_version_content2.append(line2)  # 保持其他行不变
+    with open(globals_file, 'w', encoding='utf-8') as f1:
+        f1.writelines(new_version_content2)
 
 try:
     PyInstaller.__main__.run([

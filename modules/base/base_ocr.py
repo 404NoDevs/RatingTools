@@ -21,7 +21,8 @@ class BaseOCR:
         img.save(img_name)
         result, elapse = self.ocr(img_name, use_det=True, use_cls=False, use_rec=True, text_score=0.35)
         print(f"图像{index}识别完成...{time.time() - self.start_time}")
-        if not result: return []
+        if not result:
+            return []
         return [item[1] for item in result]
 
     def rapidocr(self, x, y, w, h):

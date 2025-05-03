@@ -4,3 +4,4 @@ src/grab[0-9]*.png
 test.py
 build/
 dist/
+venv/

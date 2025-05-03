@@ -1,5 +1,5 @@
 debug = True
-version = "0.0.2"
+version = "0.0.10"
 appId = "com.example.app"
 REF_WIDTH = 1920  # 设计时的参考宽度
 REF_HEIGHT = 1080  # 设计时的参考高度
