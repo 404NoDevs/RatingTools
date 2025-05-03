@@ -1,7 +1,7 @@
 import sys
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout
-from PySide6.QtGui import QColor, QPalette, QPainter
+from PySide6.QtWidgets import QWidget
+from PySide6.QtGui import QColor, QPainter
 
 
 class ColorWindow(QWidget):
@@ -23,7 +23,6 @@ class ColorWindow(QWidget):
 
 
     def init_window(self, index, x, y, w, h):
-        # print("aaaaaaaaaaaaa")
         # print(index, x, y, w, h)
         if index % 2 == 0:
             self.color = QColor("lightblue")

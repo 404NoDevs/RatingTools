@@ -96,3 +96,5 @@ class CharacterInfoWindow(BaseInfoWindow):
                     pass
 
         model.sort(12, Qt.DescendingOrder)
+
+        self.setColor(model, 1)

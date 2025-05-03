@@ -67,12 +67,4 @@ class EquipmentInfoWindow(BaseInfoWindow):
                         else:
                             model.setItem(row, col, QStandardItem(character + "-" + pos))
 
-        # 设置交替行颜色
-        for row in range(model.rowCount()):
-            color = QColor(240, 240, 240) if (row // 2) % 2 == 0 else QColor(255, 255, 255)
-            for col in range(model.columnCount()):
-                standardItem = model.item(row, col)
-                if not standardItem:
-                    standardItem = QStandardItem()
-                    model.setItem(row, col, standardItem)
-                standardItem.setBackground(color)
+        self.setColor(model, 2)

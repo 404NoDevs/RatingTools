@@ -1,6 +1,6 @@
 import os
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QIcon, QStandardItemModel, QStandardItem
+from PySide6.QtGui import QIcon, QColor, QStandardItem
 from PySide6.QtWidgets import (
     QWidget,
     QGridLayout,
@@ -40,3 +40,14 @@ class BaseInfoWindow(QWidget):
 
     def update(self):
         pass
+
+    def setColor(self, model, divisor):
+        # 设置交替行颜色
+        for row in range(model.rowCount()):
+            color = QColor(240, 240, 240) if (row // divisor) % 2 == 0 else QColor(255, 255, 255)
+            for col in range(model.columnCount()):
+                standardItem = model.item(row, col)
+                if not standardItem:
+                    standardItem = QStandardItem()
+                    model.setItem(row, col, standardItem)
+                standardItem.setBackground(color)
