@@ -12,7 +12,7 @@ class BaseOCR:
 
         self.ocr = RapidOCR()
         self.start_time = 0
-        self.error_text = [" ", "+", "×", "X"] + sub_error_text
+        self.error_text = ["", "+", "×", "X"] + sub_error_text
 
     def orcImage(self, index, x, y, w, h):
         print(f"图像{index}识别开始...{time.time() - self.start_time}")
@@ -38,7 +38,7 @@ class BaseOCR:
         # 千位符（含误识别的.）兼容
         result = [re.sub(r'(?<=\d)[.,](\d{3})', r'\1', item) for item in result]
         # 将所有：替换为 .
-        result = [item.replace("：", ".") for item in result]
+        result = [item.replace("：", ".").replace(":", ".") for item in result]
         # 去空格
         result = [item.replace(" ", "") for item in result]
 

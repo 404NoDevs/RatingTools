@@ -7,9 +7,17 @@ python -m venv venv || (
     exit /b 1
 )
 
+'''
+python.exe -m pip install --upgrade pip
+pip install --upgrade pip setuptools wheel
+'''
+
 echo 激活虚拟环境并安装依赖...
 call venv\Scripts\activate && (
-    pip install ^
+    python -m pip install --upgrade ^
+    pip ^
+    setuptools ^
+    wheel ^
     PySide6 ^
     pyperclip ^
     pynput ^
