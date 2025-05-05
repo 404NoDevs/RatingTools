@@ -60,14 +60,11 @@ class OCR(BaseOCR):
 
         # 中文和数字正则
         subAttr = {}
-        pattern_chinese = '[\u4e00-\u9fa5]+'
-        pattern_digit = r'\d+(\.\d+)?'
         for item in result[-4:]:
             try:
-                # 词条名称
-                name = re.findall(pattern_chinese, item)[0]
-                # 数值 兼容千位符被识别为小数点的情况
-                digit = float(re.search(pattern_digit, item).group())
+                arr = re.split(r'\+|\+', item)
+                name = arr[0]
+                digit = float(arr[1].replace("%", ""))
 
                 if name in '暴击率':
                     subAttr['暴击率'] = digit

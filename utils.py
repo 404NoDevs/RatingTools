@@ -23,23 +23,24 @@ def checkWinowState(gameKey):
     int:
         0 - 窗口存在且宽高比正常。
         1 - 窗口不存在。
-        2 - 窗口不是1920*1080
+        2 - 窗口没有适配
     """
     windowParams = globalsData.gamesWindowParams[gameKey]
     window = win32gui.FindWindow(*windowParams)
     if window == 0:
         return 1
-    left, top, right, bottom = win32gui.GetWindowRect(window)
-    ratio = (right - left) / (bottom - top)
-    if ratio < 1.7 or ratio > 1.8:
+    client_rect = win32gui.GetClientRect(window)
+    client_size = (client_rect[2], client_rect[3])
+    adaptedSizes = globalsData.adaptedSizes
+    if client_size not in adaptedSizes:
         return 2
     return 0
 
 
-def strReplace(str, replacements):
+def strReplace(old_str, replacements):
     for wrong, right in replacements.items():
-        str = str.replace(wrong, right)
-    return str
+        new_str = old_str.replace(wrong, right)
+    return new_str
 
 
 def markPrint(*str, mark="*"):

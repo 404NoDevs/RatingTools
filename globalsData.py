@@ -14,3 +14,7 @@ gamesWindowParams = {
     "starRail": ["UnityWndClass", "崩坏：星穹铁道"],
     "zzz": ["UnityWndClass", "绝区零"]
 }
+adaptedSizes = [
+    (1920, 1080)
+]
+

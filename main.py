@@ -46,6 +46,7 @@ class MainWindow(QMainWindow):
             layout.addWidget(btnItem, counter, 0, 1, maxWidth)
             gameBtns[gamekey] = btnItem
             counter += 1
+
         # 提示文本
         self.tipsLabel = QLabel('请选择游戏')
         self.tipsLabel.setStyleSheet("qproperty-alignment: 'AlignCenter';color:red;")

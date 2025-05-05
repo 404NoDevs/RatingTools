@@ -4,8 +4,7 @@ from modules.base.base_location import BaseLocation
 class Location(BaseLocation):
     def __init__(self):
         super().__init__({
-            "window_type": 'UnityWndClass',
-            "window_name": '崩坏：星穹铁道',
+            "gameKey": "starRail",
             "1920x1080": {
                 # 背包面板
                 "bag": {

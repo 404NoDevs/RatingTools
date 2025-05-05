@@ -5,8 +5,7 @@ from PySide6.QtGui import QGuiApplication
 
 class BaseLocation:
     def __init__(self, params):
-        self.window_type = params.get('window_type', 'UnityWndClass')
-        self.window_name = params.get('window_name', '原神')
+        self.gameKey = params.get('gameKey', 'genshin')
         self.config_1920x1080 = params.get('1920x1080', {})
 
         self.SCALE = 0
@@ -22,7 +21,8 @@ class BaseLocation:
         self.SCALE = QGuiApplication.instance().devicePixelRatio()
 
         # 游戏窗口信息获取
-        window = win32gui.FindWindow(self.window_type, self.window_name)
+        windowParams = globalsData.gamesWindowParams.get(self.gameKey, [])
+        window = win32gui.FindWindow(*windowParams)
         # self.window_start = win32gui.FindWindow('START Cloud Game', 'START云游戏-Game')
         # self.window = self.window_sc or self.window_start
 
