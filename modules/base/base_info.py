@@ -12,10 +12,13 @@ class BaseInfoWindow(QWidget):
 
     def __init__(self, params):
         super().__init__()
-        # 子类参数
+        # 初始化子类参数
         self.data = params.get("data")
         self.position = params.get("position", (0, 0))
         self.size = params.get("size", (0, 0))
+
+        # 初始化参数
+        self.table_view = None
 
         # 初始化UI
         self.initUI()
