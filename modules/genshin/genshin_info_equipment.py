@@ -19,7 +19,7 @@ class EquipmentInfoWindow(BaseInfoWindow):
             if lastIndex >= 0:
                 header = "[" + str(config[-lastIndex - 1][0]) + ',' + str(item[0]) + ")"
                 headerList.append(header)
-        headerList.append(str(config[0][0]) + '以上')
+        headerList.append(">=" + str(config[0][0]))
 
         suitConfig = list(self.data.getSuitConfig().keys())
         tableData = self.data.get_table_data()

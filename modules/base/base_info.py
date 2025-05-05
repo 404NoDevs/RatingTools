@@ -50,4 +50,6 @@ class BaseInfoWindow(QWidget):
                 if not standardItem:
                     standardItem = QStandardItem()
                     model.setItem(row, col, standardItem)
-                standardItem.setBackground(color)
+
+                if standardItem.background().color() == QColor(0, 0, 0, 255):
+                    standardItem.setBackground(color)
