@@ -194,7 +194,7 @@ class BaseScoreWindow(QWidget):
                 for j in range(self.row):
                     window = ColorWindow()
                     window.init_window(
-                        j * self.row + i,
+                        j + i,
                         self.xarray[i][0],
                         self.yarray[j][0],
                         self.xarray[i][1] - self.xarray[i][0],

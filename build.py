@@ -1,7 +1,6 @@
 import PyInstaller.__main__
 from pathlib import Path
 import shutil
-import os
 
 new_version = "0.0.0"
 # 读取当前版本
@@ -71,6 +70,8 @@ def build_success_callback():
             new_version_content2.append(line2)  # 保持其他行不变
     with open(globals_file, 'w', encoding='utf-8') as f1:
         f1.writelines(new_version_content2)
+
+    print(f"构建成功: {new_name}")
 
 try:
     PyInstaller.__main__.run([

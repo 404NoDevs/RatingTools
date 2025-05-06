@@ -22,9 +22,9 @@ class ColorWindow(QWidget):
         # self.setGeometry(1000, 100, 100, 100)
 
 
-    def init_window(self, index, x, y, w, h):
+    def init_window(self, mark, x, y, w, h):
         # print(index, x, y, w, h)
-        if index % 2 == 0:
+        if mark % 2 == 0:
             self.color = QColor("lightblue")
         else:
             self.color = QColor("lightgreen")
