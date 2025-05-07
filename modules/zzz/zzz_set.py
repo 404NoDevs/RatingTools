@@ -3,8 +3,9 @@ from modules.base.base_set import BaseSetWindow
 from modules.zzz.zzz_data import data
 
 class SetWindow(BaseSetWindow):
-    def __init__(self):
+    def __init__(self, parent=None):
         super().__init__({
+            "parent": parent,
             "data": data,
             "position": [340, 0]
         })

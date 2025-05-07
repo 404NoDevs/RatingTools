@@ -67,5 +67,5 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='ratingTools-0.0.10'
+    name='ratingTools-0.0.14'
 )

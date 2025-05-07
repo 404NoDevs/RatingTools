@@ -17,6 +17,7 @@ class BaseSetWindow(QWidget):
         super().__init__()
 
         # 获取子类参数
+        self.parent = params.get("parent", None)
         self.data = params.get("data", {})
         self.position = params.get("position", (0, 0))
 
@@ -109,6 +110,9 @@ class BaseSetWindow(QWidget):
         tempConfig["core"] = [keyName for keyName in self.entryChild if self.entryChild[keyName]["checkBtn"].isChecked()]
 
         self.data.setCharacters(self.character, tempConfig)
+
+        if self.parent and self.parent.fresh_main_and_paste_window:
+            self.parent.fresh_main_and_paste_window()
 
         self.close()
 

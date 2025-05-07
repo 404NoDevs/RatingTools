@@ -5,8 +5,9 @@ from modules.genshin.genshin_data import data
 
 
 class SetWindow(BaseSetWindow):
-    def __init__(self):
+    def __init__(self, parent=None):
         super().__init__({
+            "parent": parent,
             "data": data,
             "position": [340, 0]
         })

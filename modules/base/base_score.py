@@ -226,9 +226,15 @@ class BaseScoreWindow(QWidget):
         self.reset()
 
     # 选择框选择角色事件
-    def current_index_changed(self, index):
+    def current_index_changed(self):
         self.character = self.combobox.currentText()
 
+        self.fresh_main_and_paste_window()
+
+        if self.setWindow:
+            self.setWindow.update(self.character)
+
+    def fresh_main_and_paste_window(self):
         # 更新评分贴图
         for i in range(len(self.pastes)):
             if self.pastes[i].isVisible() == True:
@@ -238,9 +244,6 @@ class BaseScoreWindow(QWidget):
         # 更新主程序评分详情
         if self.artifact != {}:
             self.fresh_main_window()
-
-        if self.setWindow:
-            self.setWindow.update(self.character)
 
     # 修改识别结果按钮
     def button_clicked(self):
@@ -418,7 +421,7 @@ class BaseScoreWindow(QWidget):
 
     def open_set_window(self):
         if not self.setWindow or not self.setWindow.isVisible():
-            self.setWindow = self.SetWindow()
+            self.setWindow = self.SetWindow(self)
             self.setWindow.update(self.character)
             self.setWindow.show()
         else:

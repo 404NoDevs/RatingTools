@@ -38,8 +38,9 @@ def checkWinowState(gameKey):
 
 
 def strReplace(old_str, replacements):
+    new_str = old_str
     for wrong, right in replacements.items():
-        new_str = old_str.replace(wrong, right)
+        new_str = new_str.replace(wrong, right)
     return new_str
 
 
