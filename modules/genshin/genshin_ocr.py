@@ -62,9 +62,10 @@ class OCR(BaseOCR):
         subAttr = {}
         for item in result[-4:]:
             try:
-                arr = re.split(r'\+|\+', item)
-                name = arr[0]
-                digit = float(arr[1].replace("%", ""))
+                # 词条名称
+                name = re.findall('[\u4e00-\u9fa5]+', item)[0]
+                # 数值
+                digit = float(re.search(r'\d+(\.\d+)?', item).group())
 
                 if name in '暴击率':
                     subAttr['暴击率'] = digit

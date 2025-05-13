@@ -1,6 +1,7 @@
 '''图像识别、文字处理，考虑多种ocr方式'''
 
-import re, time
+import re
+import time
 from PIL import ImageGrab
 from rapidocr_onnxruntime import RapidOCR
 

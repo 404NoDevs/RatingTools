@@ -1,6 +1,9 @@
-'''个人数据数据处理'''
-import json, os, shutil
+''' 个人数据数据处理 '''
+import json
+import os
+import shutil
 import globalsData
+
 
 class BaseData:
 

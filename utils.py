@@ -44,8 +44,8 @@ def strReplace(old_str, replacements):
     return new_str
 
 
-def markPrint(*str, mark="*"):
-    markStr = mark * 100
+def markPrint(*str, mark="*", title="未命名"):
+    markStr = mark * 40 + title + mark * 40
     print(markStr)
     for item in str:
         if isinstance(item, (dict, list)):

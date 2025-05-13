@@ -68,8 +68,8 @@ class OCR(BaseOCR):
             markPrint("数据长度不符合要求", result)
             return False
 
-        print("11111111")
-        print(result)
+        # print("11111111")
+        # print(result)
         new_result["name"] = strReplace(result[0], self.replace_dict_name)
         new_result["parts"] = strReplace(result[1], self.replace_dict_parts)
         new_result["mainAttr"] = result[3]
@@ -85,7 +85,7 @@ class OCR(BaseOCR):
             try:
                 # 词条名称
                 name = re.findall(pattern_chinese, item)[0]
-                # 数值 兼容千位符被识别为小数点情况
+                # 数值
                 digit = float(re.search(pattern_digit, item).group())
 
                 if name in '暴击率':
