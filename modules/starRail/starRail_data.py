@@ -43,10 +43,10 @@ class Data(BaseData):
         }
         self.combinationTypeIn = {
             "1+1": [
-                ["B", "B"]
+                ["D", "D"]
             ],
             "2": [
-                ["A", "A"]
+                ["C", "C"]
             ]
         }
         self.coefficient = {
@@ -224,13 +224,13 @@ class Data(BaseData):
 
         # 计算内圈
         suitIn = {
-            "A": {},
-            "B": {}
+            "C": {},
+            "D": {}
         }
         for posItem in self.posNameIn:
             arrayIn = {
-                "A": [],
-                "B": []
+                "C": [],
+                "D": []
             }
             for artifactKey, artifactValue in self.artifactList[posItem].items():
 
@@ -255,10 +255,10 @@ class Data(BaseData):
                 tempItem["score"] = self.newScore(artifactValue, params["character"])[1]
 
                 if combinationKeyIn == "1+1":
-                    arrayIn['B'].append(tempItem)
+                    arrayIn['D'].append(tempItem)
                 elif combinationKeyIn == "2":
                     if artifactValue["name"] == self.suitConfig["内圈"][params["suitC"]][posItem]:
-                        arrayIn["A"].append(tempItem)
+                        arrayIn["C"].append(tempItem)
 
             # 取出当前位置最大值
             for suitKey in suitIn.keys():
