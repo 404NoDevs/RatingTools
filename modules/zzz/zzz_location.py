@@ -9,23 +9,23 @@ class Location(BaseLocation):
                 # 背包面板
                 "bag": {
                     # 第一个贴图位置及每次偏移量
-                    "x_initial": 275,
-                    "y_initial": 321,
-                    "x_offset": 142,
-                    "y_offset": 181,
+                    "x_initial": 181,
+                    "y_initial": 304,
+                    "x_offset": 135,
+                    "y_offset": 174,
                     # 第一个圣遗物位置
-                    "x_left": 192,
-                    "x_right": 334,
-                    "y_top": 220,
-                    "y_bottom": 401,
+                    "x_left": 100,
+                    "x_right": 235,
+                    "y_top": 205,
+                    "y_bottom": 379,
                     # 截图位置 数组形式以便排除干扰区域
-                    "x_grab": [1396, 1396],
-                    "y_grab": [194, 387],
-                    "w_grab": [259, 448],
-                    "h_grab": [193, 321],
+                    "x_grab": [1400, 1400],
+                    "y_grab": [259, 453],
+                    "w_grab": [214, 448],
+                    "h_grab": [194, 319],
                     # 圣遗物行列数
                     "row": 4,
-                    "col": 8
+                    "col": 9
                 },
                 # 角色面板
                 "character": {
