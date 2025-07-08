@@ -149,7 +149,7 @@ class BaseSuitResultWindow(QWidget):
         # 添加下拉框item
         self.programmeCombobox.clear()
         for item in self.resultArray:
-            tempKey = item["combinationType"] + "_" + str(item["scoreSum"])
+            tempKey = item["combinationType"] + "-" + str(item["scoreSum"])
             self.programmeCombobox.addItem(tempKey)
 
     # 英雄名称

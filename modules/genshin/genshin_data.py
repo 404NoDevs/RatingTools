@@ -162,108 +162,158 @@ class Data(BaseData):
     # 推荐圣遗物
     def recommend(self, params):
         # 获取组合类型
-        if params["suitA"] == "选择套装" and params["suitB"] == "选择套装":
+        noneStr = "选择套装"
+        towMark = "两件套"
+        combinationKey = ""
+        if params["suitA"] == noneStr and params["suitB"] == noneStr:
             combinationKey = "1+1+1+1+1"
-        elif params["suitA"] == "选择套装" and params["suitB"] != "选择套装":
+        elif params["suitA"] == noneStr and params["suitB"] != noneStr:
             params["suitA"] = params["suitB"]
             combinationKey = "4+1"
-        elif params["suitA"] != "选择套装" and params["suitB"] == "选择套装":
+        elif params["suitA"] != noneStr and params["suitB"] == noneStr:
             combinationKey = "4+1"
-        elif params["suitA"] != "选择套装" and params["suitB"] != "选择套装":
-            if params["suitA"] == params["suitB"]:
+        elif params["suitA"] != noneStr and params["suitB"] != noneStr:
+
+            if towMark not in params["suitA"] and \
+               towMark not in params["suitB"] and \
+               params["suitA"] == params["suitB"]:
                 combinationKey = "4+1"
             else:
                 combinationKey = "2+2+1"
         else:
             combinationKey = "1+1+1+1+1"
 
-        # 筛选评分最大值套装
-        suit = {
-            "A": {},
-            "B": {},
-            "C": {},
-        }
-        for posItem in self.posName:
-            array = {
-                "A": [],
-                "B": [],
-                "C": [],
+        def tempFunction(suitA, suitB):
+
+            # 获取组合描述文本
+            combinationText = ""
+            if combinationKey == "4+1":
+                combinationText = f"4{suitA[:2]}+1散件"
+            elif combinationKey == "2+2+1":
+                combinationText = f"2{suitA[:2]}+2{suitB[:2]}+1散件"
+            else:
+                combinationText = "5散件"
+
+            # 筛选评分最大值套装
+            suit = {
+                "A": {},
+                "B": {},
+                "C": {},
             }
-            for artifactKey, artifactValue in self.artifactList[posItem].items():
+            for posItem in self.posName:
+                array = {
+                    "A": [],
+                    "B": [],
+                    "C": [],
+                }
+                for artifactKey, artifactValue in self.artifactList[posItem].items():
 
-                # 限制一 是否已装备
-                if params["selectType"] == 1:
-                    ownerCharacter = self.getOwnerCharacterByArtifactId(posItem, artifactKey)
-                    if ownerCharacter and ownerCharacter != params["character"]:
-                        # print("该装备已装备")
-                        continue
+                    # 限制一 是否已装备
+                    if params["selectType"] == 1:
+                        ownerCharacter = self.getOwnerCharacterByArtifactId(posItem, artifactKey)
+                        if ownerCharacter and ownerCharacter != params["character"]:
+                            # print("该装备已装备")
+                            continue
 
-                # 限制二 对比主词条
-                if posItem in self.mainAttrType:
-                    if artifactValue["mainAttr"] not in params["needMainAttr"][posItem]:
-                        # print("主词条不符合")
-                        continue
+                    # 限制二 对比主词条
+                    if posItem in self.mainAttrType:
+                        if artifactValue["mainAttr"] not in params["needMainAttr"][posItem]:
+                            # print("主词条不符合")
+                            continue
 
-                # 开始筛选
-                tempItem = {}
-                tempItem["artifactID"] = artifactKey
-                tempItem["name"] = artifactValue["name"]
-                tempItem["score"] = self.newScore(artifactValue, params["character"])[1]
+                    # 开始筛选
+                    tempItem = {}
+                    tempItem["artifactID"] = artifactKey
+                    tempItem["name"] = artifactValue["name"]
+                    tempItem["score"] = self.newScore(artifactValue, params["character"])[1]
 
-                if combinationKey == "1+1+1+1+1":
-                    array['C'].append(tempItem)
-                elif combinationKey == "4+1":
-                    if artifactValue["name"] == self.suitConfig[params["suitA"]][posItem]:
-                        array["A"].append(tempItem)
-                    else:
+                    if combinationKey == "1+1+1+1+1":
                         array['C'].append(tempItem)
-                elif combinationKey == "2+2+1":
-                    if artifactValue["name"] == self.suitConfig[params["suitA"]][posItem]:
-                        array["A"].append(tempItem)
-                    elif artifactValue["name"] == self.suitConfig[params["suitB"]][posItem]:
-                        array["B"].append(tempItem)
+                    elif combinationKey == "4+1":
+                        if artifactValue["name"] == self.suitConfig[suitA][posItem]:
+                            array["A"].append(tempItem)
+                        else:
+                            array['C'].append(tempItem)
+                    elif combinationKey == "2+2+1":
+                        if artifactValue["name"] == self.suitConfig[suitA][posItem]:
+                            array["A"].append(tempItem)
+                        elif artifactValue["name"] == self.suitConfig[suitB][posItem]:
+                            array["B"].append(tempItem)
+                        else:
+                            array['C'].append(tempItem)
+
+                # 取出当前位置最大值
+                for suitKey in suit.keys():
+                    suit[suitKey][posItem] = 0
+                    if len(array[suitKey]) > 0:
+                        array[suitKey].sort(key=lambda x: x["score"], reverse=True)
+                        suit[suitKey][posItem] = array[suitKey][0]
+
+            # print(suit)
+
+            # 根据组合类型选出来总分最大组合
+            tempScoreArray = []
+            combination = self.combinationType[combinationKey]
+            for combinationItem in combination:
+                combinationName = {}
+                tempFlag = 0
+                scoreSum = 0
+                for index in range(len(self.posName)):
+                    posItem = self.posName[index]
+                    combinationItemItem = combinationItem[index]
+                    if suit[combinationItemItem][posItem]:
+                        scoreNum = suit[combinationItemItem][posItem]["score"]
+                        combinationName[posItem] = suit[combinationItemItem][posItem]["artifactID"]
+                        scoreSum += scoreNum
                     else:
-                        array['C'].append(tempItem)
+                        # print( posItem +" 不存在 计分中止1")
+                        # tempFlag = 1
+                        # break
+                        pass
 
-            # 取出当前位置最大值
-            for suitKey in suit.keys():
-                suit[suitKey][posItem] = 0
-                if len(array[suitKey]) > 0:
-                    array[suitKey].sort(key=lambda x: x["score"], reverse=True)
-                    suit[suitKey][posItem] = array[suitKey][0]
+                # if tempFlag:
+                #     # print("圣遗物不存在 计分中止2")
+                #     continue
+                scoreItem = {}
+                scoreItem["combinationType"] = f"[{combinationText}]{''.join(combinationItem)}"
+                scoreItem["combinationName"] = combinationName
+                scoreItem["scoreSum"] = round(scoreSum, 1)
+                tempScoreArray.append(scoreItem)
+            return tempScoreArray
 
-        # print(suit)
 
-        # 根据组合类型选出来总分最大组合
+
+        # 添加散件套逻辑
         scoreArray = []
-        combination = self.combinationType[combinationKey]
-        for combinationItem in combination:
-            combinationName = {}
-            tempFlag = 0
-            scoreSum = 0
-            for index in range(len(self.posName)):
-                posItem = self.posName[index]
-                combinationItemItem = combinationItem[index]
-                if suit[combinationItemItem][posItem]:
-                    scoreNum = suit[combinationItemItem][posItem]["score"]
-                    combinationName[posItem] = suit[combinationItemItem][posItem]["artifactID"]
-                    scoreSum += scoreNum
-                else:
-                    # print( posItem +" 不存在 计分中止1")
-                    # tempFlag = 1
-                    # break
-                    pass
+        if combinationKey == "2+2+1":
+            if towMark in params["suitA"]:
+                suitA_arryay = self.suitConfig[params["suitA"]]
+            else:
+                suitA_arryay = [params["suitA"]]
 
-            # if tempFlag:
-            #     # print("圣遗物不存在 计分中止2")
-            #     continue
-            scoreItem = {}
-            scoreItem["combinationType"] = "".join(combinationItem)
-            scoreItem["combinationName"] = combinationName
-            scoreItem["scoreSum"] = round(scoreSum, 1)
-            scoreArray.append(scoreItem)
+            if towMark in params["suitB"]:
+                suitB_arryay = self.suitConfig[params["suitB"]]
+            else:
+                suitB_arryay = [params["suitB"]]
+
+            combinations = [list(item) for item in {
+                frozenset({x, y})  # 自动去重顺序
+                for x in suitA_arryay
+                for y in suitB_arryay
+                if x != y  # 禁止同元素组合
+            }]
+            # print(combinations)
+
+            for combinationItem in combinations:
+                scoreArray.extend(tempFunction(combinationItem[0], combinationItem[1]))  # 用 extend 合并子列表
+
+        else:
+            scoreArray = tempFunction(params["suitA"], params["suitB"])
+
+
         scoreArray.sort(key=lambda x: x["scoreSum"], reverse=True)
         # print(scoreArray)
+
         if len(scoreArray) > 0:
             return scoreArray, "推荐成功"
         else:

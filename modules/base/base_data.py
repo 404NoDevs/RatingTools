@@ -270,5 +270,6 @@ class BaseData:
     # 获取评价配置
     def get_evaluate_config(self):
         pass
+
     def get_evaluate(self):
         pass
