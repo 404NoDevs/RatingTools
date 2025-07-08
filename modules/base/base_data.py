@@ -73,6 +73,16 @@ class BaseData:
     def getSuitConfig(self):
         return self.suitConfig
 
+    # 检查圣遗物是否存在
+    def checkArtifactName(self, name, parts):
+        result = False
+        for item in self.suitConfig:
+            if isinstance(self.suitConfig[item], dict):
+                if self.suitConfig[item][parts] == name:
+                    result = True
+                    break
+        return result
+
     # 获取英雄配置
     def getCharacters(self):
         return self.characters
@@ -127,6 +137,11 @@ class BaseData:
 
     # 保存圣遗物
     def saveArtifactList(self, data):
+
+        if not self.checkArtifactName(data["name"], data["parts"]):
+            print("装备不合法 " + data["name"])
+            return False
+
         # 判定数据是否被矫正过
         if "isCorrected" in data:
             if data["isCorrected"]:
