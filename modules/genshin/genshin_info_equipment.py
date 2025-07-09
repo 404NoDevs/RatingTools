@@ -1,5 +1,6 @@
 from modules.base.base_info import BaseInfoWindow
 from modules.genshin.genshin_data import data
+from modules.genshin.genshin_constants import *
 from PySide6.QtGui import QFont, QColor, QStandardItemModel, QStandardItem
 
 class EquipmentInfoWindow(BaseInfoWindow):
@@ -24,7 +25,7 @@ class EquipmentInfoWindow(BaseInfoWindow):
         suitConfig = [key for key in self.data.getSuitConfig().keys()]
         tableData = self.data.get_table_data()
 
-        model = QStandardItemModel(sum(1 for item in suitConfig if "两件套" not in item), len(headerList))
+        model = QStandardItemModel(sum(1 for item in suitConfig if TWO_PIECE_SET_KEY not in item), len(headerList))
         model.setHorizontalHeaderLabels(headerList)
         self.table_view.horizontalHeader().setFont(QFont("Microsoft YaHei", 8, QFont.Bold))
 
@@ -35,7 +36,7 @@ class EquipmentInfoWindow(BaseInfoWindow):
             self.table_view.setColumnWidth(index, 110)
 
         for row, suitName in enumerate(suitConfig):
-            if "两件套" not in suitName:
+            if TWO_PIECE_SET_KEY not in suitName:
                 nameItem = QStandardItem(suitName)
                 nameItem.setFont(QFont("Microsoft YaHei", 8, QFont.Bold))
                 model.setItem(row, 0, nameItem)
@@ -46,7 +47,7 @@ class EquipmentInfoWindow(BaseInfoWindow):
         for character, tableItem in tableData.items():
             for suitName in suitArray:
                 if tableItem[suitName] in suitConfig:
-                    if "两件套" in tableItem[suitName]:
+                    if TWO_PIECE_SET_KEY in tableItem[suitName]:
                         if suitName == "suitB" and tableItem[suitName] == tableItem["suitA"]:
                             # AB相同 去重
                             continue

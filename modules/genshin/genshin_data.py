@@ -1,6 +1,7 @@
 '''个人数据数据处理'''
 
 from modules.base.base_data import BaseData
+from modules.genshin.genshin_constants import *
 from utils import markPrint
 
 
@@ -163,7 +164,6 @@ class Data(BaseData):
     def recommend(self, params):
         # 获取组合类型
         noneStr = "选择套装"
-        towMark = "两件套"
         combinationKey = ""
         if params["suitA"] == noneStr and params["suitB"] == noneStr:
             combinationKey = "1+1+1+1+1"
@@ -174,8 +174,8 @@ class Data(BaseData):
             combinationKey = "4+1"
         elif params["suitA"] != noneStr and params["suitB"] != noneStr:
 
-            if towMark not in params["suitA"] and \
-               towMark not in params["suitB"] and \
+            if TWO_PIECE_SET_KEY not in params["suitA"] and \
+               TWO_PIECE_SET_KEY not in params["suitB"] and \
                params["suitA"] == params["suitB"]:
                 combinationKey = "4+1"
             else:
@@ -286,12 +286,12 @@ class Data(BaseData):
         # 添加散件套逻辑
         scoreArray = []
         if combinationKey == "2+2+1":
-            if towMark in params["suitA"]:
+            if TWO_PIECE_SET_KEY in params["suitA"]:
                 suitA_arryay = self.suitConfig[params["suitA"]]
             else:
                 suitA_arryay = [params["suitA"]]
 
-            if towMark in params["suitB"]:
+            if TWO_PIECE_SET_KEY in params["suitB"]:
                 suitB_arryay = self.suitConfig[params["suitB"]]
             else:
                 suitB_arryay = [params["suitB"]]
