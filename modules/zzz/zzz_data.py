@@ -1,5 +1,6 @@
 '''个人数据数据处理'''
 from modules.base.base_data import BaseData
+from modules.zzz.zzz_constants import *
 
 
 class Data(BaseData):
@@ -113,7 +114,7 @@ class Data(BaseData):
     # 推荐圣遗物
     def recommend(self, params):
         # 获取组合类型
-        if params["suitA"] != "选择套装" and params["suitB"] != "选择套装":
+        if params["suitA"] != NO_SELECT_KEY and params["suitB"] != NO_SELECT_KEY:
             if params["suitA"] != params["suitB"]:
                 combinationKey = "4+2"
                 flag = True

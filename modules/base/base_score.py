@@ -338,7 +338,6 @@ class BaseScoreWindow(QWidget):
 
         if "isCorrected" in self.artifact[str(self.id)] and self.artifact[str(self.id)]["isCorrected"]:
             self.tipsLabel.setText("识别失败，请手动修改")
-            print("识别异常，停止保存")
         else:
             self.tipsLabel.setText("评分成功")
             # 自动保存遗器

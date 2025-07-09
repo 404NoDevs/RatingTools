@@ -1,5 +1,6 @@
 ''' 个人数据数据处理 '''
 from modules.base.base_data import BaseData
+from modules.starRail.starRail_constants import *
 from utils import markPrint
 
 
@@ -145,15 +146,23 @@ class Data(BaseData):
 
     # 推荐圣遗物
     def recommend(self, params):
+
         # 获取组合类型
-        if params["suitA"] == "选择套装" and params["suitB"] == "选择套装":
+        if params["suitA"] == "":
+            params["suitA"] = NO_SELECT_KEY
+        if params["suitB"] == "":
+            params["suitB"] = NO_SELECT_KEY
+        if params["suitC"] == "":
+            params["suitC"] = NO_SELECT_KEY
+
+        if params["suitA"] == NO_SELECT_KEY and params["suitB"] == NO_SELECT_KEY:
             combinationKeyOut = "1+1+1+1"
-        elif params["suitA"] == "选择套装" and params["suitB"] != "选择套装":
+        elif params["suitA"] == NO_SELECT_KEY and params["suitB"] != NO_SELECT_KEY:
             params["suitA"] = params["suitB"]
             combinationKeyOut = "4"
-        elif params["suitA"] != "选择套装" and params["suitB"] == "选择套装":
+        elif params["suitA"] != NO_SELECT_KEY and params["suitB"] == NO_SELECT_KEY:
             combinationKeyOut = "4"
-        elif params["suitA"] != "选择套装" and params["suitB"] != "选择套装":
+        elif params["suitA"] != NO_SELECT_KEY and params["suitB"] != NO_SELECT_KEY:
             if params["suitA"] == params["suitB"]:
                 combinationKeyOut = "4"
             else:
@@ -161,9 +170,9 @@ class Data(BaseData):
         else:
             combinationKeyOut = "1+1+1+1"
 
-        if params["suitC"] == "选择套装":
+        if params["suitC"] == NO_SELECT_KEY:
             combinationKeyIn = "1+1"
-        elif params["suitC"] != "选择套装":
+        elif params["suitC"] != NO_SELECT_KEY:
             combinationKeyIn = "2"
 
         # 筛选评分最大值套装

@@ -1,5 +1,6 @@
 from modules.base.base_info import BaseInfoWindow
 from modules.zzz.zzz_data import data
+from modules.zzz.zzz_constants import *
 from PySide6.QtGui import QFont, QColor, QStandardItemModel, QStandardItem
 from PySide6.QtCore import Qt
 
@@ -48,7 +49,7 @@ class CharacterInfoWindow(BaseInfoWindow):
             for col, item in enumerate(characterData):
                 if item == "suitA" or item == "suitB":
                     suitStr = characterData[item]
-                    if suitStr == "选择套装":
+                    if suitStr == NO_SELECT_KEY:
                         suitStr = "无"
 
                     colConfig = {

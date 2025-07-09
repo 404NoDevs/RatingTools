@@ -9,6 +9,8 @@ from modules.starRail.starRail_set import SetWindow
 from modules.starRail.starRail_suit_result import SuitResultWindow
 from modules.starRail.starRail_info_character import CharacterInfoWindow
 from modules.starRail.starRail_info_equipment import EquipmentInfoWindow
+from modules.starRail.starRail_constants import *
+
 
 class SuitWindow(BaseSuitWindow):
 
@@ -32,8 +34,8 @@ class SuitWindow(BaseSuitWindow):
         self.layout.addWidget(QLabel('外圈B'), 12, 1, 1, 1)
         self.suitComboboxA = QComboBox()
         self.suitComboboxB = QComboBox()
-        self.suitComboboxA.addItem("选择套装")
-        self.suitComboboxB.addItem("选择套装")
+        self.suitComboboxA.addItem(NO_SELECT_KEY)
+        self.suitComboboxB.addItem(NO_SELECT_KEY)
         for key in data.getSuitConfig("外圈"):
             self.suitComboboxA.addItem(key)
             self.suitComboboxB.addItem(key)
@@ -41,7 +43,7 @@ class SuitWindow(BaseSuitWindow):
         self.layout.addWidget(self.suitComboboxB, 12, 2, 1, 2)
         self.layout.addWidget(QLabel('内圈C'), 13, 1, 1, 1)
         self.suitComboboxC = QComboBox()
-        self.suitComboboxC.addItem("选择套装")
+        self.suitComboboxC.addItem(NO_SELECT_KEY)
         for key in data.getSuitConfig("内圈"):
             self.suitComboboxC.addItem(key)
         self.layout.addWidget(self.suitComboboxC, 13, 2, 1, 2)
@@ -63,9 +65,12 @@ class SuitWindow(BaseSuitWindow):
     # 推荐方案
     def startRating(self):
         params = {}
-        params["suitA"] = self.suitComboboxA.currentText()
-        params["suitB"] = self.suitComboboxB.currentText()
-        params["suitC"] = self.suitComboboxC.currentText()
+        current_text_a = self.suitComboboxA.currentText()
+        params["suitA"] = "" if current_text_a == NO_SELECT_KEY else current_text_a
+        current_text_b = self.suitComboboxB.currentText()
+        params["suitB"] = "" if current_text_b == NO_SELECT_KEY else current_text_b
+        current_text_c = self.suitComboboxC.currentText()
+        params["suitC"] = "" if current_text_c == NO_SELECT_KEY else current_text_c
         needMainAttr = {}
         for key in self.mainAttrCombobox:
             mainAttr = self.mainAttrCombobox[key].get_selected()

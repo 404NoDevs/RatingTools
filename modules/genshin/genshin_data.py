@@ -162,18 +162,21 @@ class Data(BaseData):
 
     # 推荐圣遗物
     def recommend(self, params):
+        if params["suitA"] == "":
+            params["suitA"] = NO_SELECT_KEY
+        if params["suitB"] == "":
+            params["suitB"] = NO_SELECT_KEY
+
         # 获取组合类型
-        noneStr = "选择套装"
         combinationKey = ""
-        if params["suitA"] == noneStr and params["suitB"] == noneStr:
+        if params["suitA"] == NO_SELECT_KEY and params["suitB"] == NO_SELECT_KEY:
             combinationKey = "1+1+1+1+1"
-        elif params["suitA"] == noneStr and params["suitB"] != noneStr:
+        elif params["suitA"] == NO_SELECT_KEY and params["suitB"] != NO_SELECT_KEY:
             params["suitA"] = params["suitB"]
             combinationKey = "4+1"
-        elif params["suitA"] != noneStr and params["suitB"] == noneStr:
+        elif params["suitA"] != NO_SELECT_KEY and params["suitB"] == NO_SELECT_KEY:
             combinationKey = "4+1"
-        elif params["suitA"] != noneStr and params["suitB"] != noneStr:
-
+        elif params["suitA"] != NO_SELECT_KEY and params["suitB"] != NO_SELECT_KEY:
             if TWO_PIECE_SET_KEY not in params["suitA"] and \
                TWO_PIECE_SET_KEY not in params["suitB"] and \
                params["suitA"] == params["suitB"]:

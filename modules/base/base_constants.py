@@ -1,1 +1,2 @@
 TWO_PIECE_SET_KEY = "两件套"
+NO_SELECT_KEY = "未选择"

@@ -9,6 +9,7 @@ from modules.zzz.zzz_set import SetWindow
 from modules.zzz.zzz_suit_result import SuitResultWindow
 from modules.zzz.zzz_info_character import CharacterInfoWindow
 from modules.zzz.zzz_info_equipment import EquipmentInfoWindow
+from modules.zzz.zzz_constants import *
 
 class SuitWindow(BaseSuitWindow):
     def __init__(self, params):
@@ -31,8 +32,8 @@ class SuitWindow(BaseSuitWindow):
         self.layout.addWidget(QLabel('二件套'), 12, 1, 1, 1)
         self.suitCombobox1 = QComboBox()
         self.suitCombobox2 = QComboBox()
-        self.suitCombobox1.addItem("选择套装")
-        self.suitCombobox2.addItem("选择套装")
+        self.suitCombobox1.addItem(NO_SELECT_KEY)
+        self.suitCombobox2.addItem(NO_SELECT_KEY)
         for key in data.getSuitConfig():
             self.suitCombobox1.addItem(key)
             self.suitCombobox2.addItem(key)
@@ -55,8 +56,10 @@ class SuitWindow(BaseSuitWindow):
     # 推荐方案
     def startRating(self):
         params = {}
-        params["suitA"] = self.suitCombobox1.currentText()
-        params["suitB"] = self.suitCombobox2.currentText()
+        current_text_a = self.suitCombobox1.currentText()
+        params["suitA"] = "" if current_text_a == NO_SELECT_KEY else current_text_a
+        current_text_b = self.suitCombobox2.currentText()
+        params["suitB"] = "" if current_text_b == NO_SELECT_KEY else current_text_b
         needMainAttr = {}
         for key in self.mainAttrCombobox:
             mainAttr = self.mainAttrCombobox[key].get_selected()
