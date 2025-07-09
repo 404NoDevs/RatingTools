@@ -21,10 +21,10 @@ class EquipmentInfoWindow(BaseInfoWindow):
                 headerList.append(header)
         headerList.append(">=" + str(config[0][0]))
 
-        suitConfig = list(self.data.getSuitConfig().keys())
+        suitConfig = [key for key in self.data.getSuitConfig().keys()]
         tableData = self.data.get_table_data()
 
-        model = QStandardItemModel(len(suitConfig), len(headerList))
+        model = QStandardItemModel(sum(1 for item in suitConfig if "两件套" not in item), len(headerList))
         model.setHorizontalHeaderLabels(headerList)
         self.table_view.horizontalHeader().setFont(QFont("Microsoft YaHei", 8, QFont.Bold))
 
@@ -35,36 +35,48 @@ class EquipmentInfoWindow(BaseInfoWindow):
             self.table_view.setColumnWidth(index, 110)
 
         for row, suitName in enumerate(suitConfig):
-            nameItem = QStandardItem(suitName)
-            nameItem.setFont(QFont("Microsoft YaHei", 8, QFont.Bold))
-            model.setItem(row, 0, nameItem)
+            if "两件套" not in suitName:
+                nameItem = QStandardItem(suitName)
+                nameItem.setFont(QFont("Microsoft YaHei", 8, QFont.Bold))
+                model.setItem(row, 0, nameItem)
+            else:
+                pass
 
         suitArray = ["suitA", "suitB"]
         for character, tableItem in tableData.items():
             for suitName in suitArray:
                 if tableItem[suitName] in suitConfig:
-                    row = suitConfig.index(tableItem[suitName])
-                    standard_item = model.item(row, 1)
-                    if standard_item:
-                        text = standard_item.text() + "\n" + character
-                        standard_item.setText(text)
+                    if "两件套" in tableItem[suitName]:
+                        if suitName == "suitB" and tableItem[suitName] == tableItem["suitA"]:
+                            # AB相同 去重
+                            continue
+                        suit_list = self.data.getSuitListByKey(tableItem[suitName])
                     else:
-                        model.setItem(row, 1, QStandardItem(character))
+                        suit_list = [tableItem[suitName]]
 
-                    for pos, posItem in tableItem["equipment"].items():
-                        artifactItem = self.data.getArtifactItem(pos, posItem)
-                        score = self.data.newScore(artifactItem, character)[1]
-                        col = 1
-                        for configItem in reversed(config):
-                            if score >= configItem[0]:
-                                col += 1
-                            else:
-                                break
-                        standardItem = model.item(row, col)
-                        if standardItem:
-                            text = standardItem.text() + "\n" + character + "-" + pos
-                            standardItem.setText(text)
+                    for suitNameItem in suit_list:
+                        row = suitConfig.index(suitNameItem)
+                        standard_item = model.item(row, 1)
+                        if standard_item:
+                            text = standard_item.text() + "\n" + character
+                            standard_item.setText(text)
                         else:
-                            model.setItem(row, col, QStandardItem(character + "-" + pos))
+                            model.setItem(row, 1, QStandardItem(character))
+
+                        for pos, posItem in tableItem["equipment"].items():
+                            artifactItem = self.data.getArtifactItem(pos, posItem)
+                            score = self.data.newScore(artifactItem, character)[1]
+                            col = 1
+                            for configItem in reversed(config):
+                                if score >= configItem[0]:
+                                    col += 1
+                                else:
+                                    break
+                            standardItem = model.item(row, col)
+                            if standardItem:
+                                text = standardItem.text() + "\n" + character + "-" + pos
+                                standardItem.setText(text)
+                            else:
+                                model.setItem(row, col, QStandardItem(character + "-" + pos))
 
         self.setColor(model, 2)

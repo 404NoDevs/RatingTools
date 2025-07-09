@@ -73,6 +73,12 @@ class BaseData:
     def getSuitConfig(self):
         return self.suitConfig
 
+    # 获取两件套列表
+    def getSuitListByKey(self, key):
+        if key in self.suitConfig and isinstance(self.suitConfig[key], list):
+            return self.suitConfig[key]
+        return []
+
     # 检查圣遗物是否存在
     def checkArtifactName(self, name, parts):
         result = False
