@@ -189,7 +189,6 @@ class Data(BaseData):
         def tempFunction(suitA, suitB):
 
             # 获取组合描述文本
-            combinationText = ""
             if combinationKey == "4+1":
                 combinationText = f"4{suitA[:2]}+1散件"
             elif combinationKey == "2+2+1":
@@ -284,8 +283,6 @@ class Data(BaseData):
                 tempScoreArray.append(scoreItem)
             return tempScoreArray
 
-
-
         # 添加散件套逻辑
         scoreArray = []
         if combinationKey == "2+2+1":
@@ -309,7 +306,6 @@ class Data(BaseData):
 
             for combinationItem in combinations:
                 scoreArray.extend(tempFunction(combinationItem[0], combinationItem[1]))  # 用 extend 合并子列表
-
         else:
             scoreArray = tempFunction(params["suitA"], params["suitB"])
 

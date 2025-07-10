@@ -35,7 +35,8 @@ class SuitWindow(BaseSuitWindow):
         self.suitCombobox1.addItem(NO_SELECT_KEY)
         self.suitCombobox2.addItem(NO_SELECT_KEY)
         for key in data.getSuitConfig():
-            self.suitCombobox1.addItem(key)
+            if TWO_PIECE_SET_KEY not in key:
+                self.suitCombobox1.addItem(key)
             self.suitCombobox2.addItem(key)
         self.layout.addWidget(self.suitCombobox1, 11, 2, 1, 2)
         self.layout.addWidget(self.suitCombobox2, 12, 2, 1, 2)
@@ -68,6 +69,7 @@ class SuitWindow(BaseSuitWindow):
 
         # 保存方案
         saveParams = copy.deepcopy(params)
+        # print(saveParams)
         data.setCharacters(self.character, saveParams)
 
         params["needMainAttr"] = needMainAttr

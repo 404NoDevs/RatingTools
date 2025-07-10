@@ -21,7 +21,7 @@ class BaseData:
         self.folder_root = os.path.expanduser('~/Documents') + f'/RatingTools/{self.module_name}'
         self.character_path = self.folder_root + '/character.json'
         if globalsData.debug:
-            self.character_path = f"src/{self.module_name}/character.json"
+            self.character_path = self.defaulCharacter_path
         self.artifact_path = self.folder_root + '/artifacts.json'
         self.artifactOwner_path = self.folder_root + '/artifactOwner.json'
 
