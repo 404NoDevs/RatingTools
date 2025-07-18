@@ -79,16 +79,6 @@ class BaseData:
             return self.suitConfig[key]
         return []
 
-    # 检查圣遗物是否存在
-    def checkArtifactName(self, name, parts):
-        result = False
-        for item in self.suitConfig:
-            if isinstance(self.suitConfig[item], dict):
-                if self.suitConfig[item][parts] == name:
-                    result = True
-                    break
-        return result
-
     # 获取英雄配置
     def getCharacters(self):
         return self.characters
@@ -266,31 +256,35 @@ class BaseData:
 
     # 获取属性词条枚举
     def getEntryArray(self):
-        pass
+        print("方法 getEntryArray 未在子类实现")
 
     # 获取圣遗物类型配置
     def getMainAttrType(self):
-        pass
+        print("方法 getMainAttrType 未在子类实现")
 
     # 获取圣遗物位置名称
     def getPosName(self):
-        pass
+        print("方法 getPosName 未在子类实现")
 
     # 获取系数
     def getCoefficient(self):
-        pass
+        print("方法 getCoefficient 未在子类实现")
 
     # 获取平均分
     def getAverage(self):
-        pass
+        print("方法 getAverage 未在子类实现")
 
     # 获取分析数据
     def getAnalyzeData(self, ocr_result):
-        pass
+        print("方法 getAnalyzeData 未在子类实现")
 
     # 获取评价配置
     def get_evaluate_config(self):
-        pass
+        print("方法 get_evaluate_config 未在子类实现")
 
     def get_evaluate(self):
-        pass
+        print("方法 get_evaluate 未在子类实现")
+
+    # 检查圣遗物是否存在
+    def checkArtifactName(self, name, parts):
+        print("方法 checkArtifactName 未在子类实现")

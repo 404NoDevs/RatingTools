@@ -95,6 +95,12 @@ class Data(BaseData):
             if score >= item[0]:
                 return item
 
+    def checkArtifactName(self, name, parts):
+        result = False
+        if name in self.suitConfig:
+            result = True
+        return result
+
     # 获取下标
     def getIndexByCharacter(self, character):
         result = {"suitA": 0, "suitB": 0, "分区4": [], "分区5": [], "分区6": []}
@@ -219,6 +225,7 @@ class Data(BaseData):
                 scoreItem["combinationName"] = combinationName
                 scoreItem["scoreSum"] = round(scoreSum, 1)
                 tempScoreArray.append(scoreItem)
+            print(tempScoreArray)
             return tempScoreArray
 
 
@@ -226,15 +233,21 @@ class Data(BaseData):
         scoreArray = []
         if combinationKey == "4+2":
             suitA_arryay = [params["suitA"]]
-            suitB_arryay = self.suitConfig[params["suitB"]]
+            if TWO_PIECE_SET_KEY in params["suitB"]:
+                suitB_arryay = self.suitConfig[params["suitB"]]
+            else:
+                suitB_arryay = [params["suitB"]]
 
-            combinations = [list(item) for item in {
-                frozenset({x, y})  # 自动去重顺序
-                for x in suitA_arryay
-                for y in suitB_arryay
-                if x != y  # 禁止同元素组合
-            }]
-            # print(combinations)
+            # combinations = [list(item) for item in {
+            #     frozenset({x, y})  # 自动去重顺序
+            #     for x in suitA_arryay
+            #     for y in suitB_arryay
+            #     if x != y  # 禁止同元素组合
+            # }]
+
+            # 因为zzz中AB不会重复 去掉去重逻辑
+            combinations = [[x, y] for x in suitA_arryay for y in suitB_arryay if x != y]
+            print(combinations)
 
             for combinationItem in combinations:
                 scoreArray.extend(tempFunction(combinationItem[0], combinationItem[1]))  # 用 extend 合并子列表

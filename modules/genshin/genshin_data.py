@@ -146,6 +146,15 @@ class Data(BaseData):
             if score >= item[0]:
                 return item
 
+    def checkArtifactName(self, name, parts):
+        result = False
+        for item in self.suitConfig:
+            if isinstance(self.suitConfig[item], dict):
+                if self.suitConfig[item][parts] == name:
+                    result = True
+                    break
+        return result
+
     # 获取下标
     def getIndexByCharacter(self, character):
         result = {"suitA": 0, "suitB": 0, "时之沙": [], "空之杯": [], "理之冠": []}
