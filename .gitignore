@@ -1,6 +1,7 @@
 .idea/
 __pycache__/
 src/grab[0-9]*.png
+out.png
 test.py
 build/
 dist/

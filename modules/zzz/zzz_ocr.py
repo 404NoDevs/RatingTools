@@ -1,8 +1,10 @@
 '''图像识别、文字处理，考虑多种ocr方式'''
 
 import re
+from collections import OrderedDict
 from modules.base.base_ocr import BaseOCR
-from utils import markPrint, strReplace
+from modules.zzz.zzz_data import data
+from utils import markPrint, SpellCorrector
 
 
 class OCR(BaseOCR):
@@ -17,16 +19,8 @@ class OCR(BaseOCR):
         })
 
         self.data_length = 12
-        self.replace_dict_name = {
-            '【': '[',
-            '】': ']',
-            "［": '[',
-            '咳木鸟': '啄木鸟',
-            '云如我': '云岿如我',
-            '云游如我': '云岿如我',
-        }
-        self.replace_dict_parts = {
-        }
+        self.nameSpellCorrector = SpellCorrector(data.getArtifactNameDict())
+        self.mainAttrSpellCorrector = SpellCorrector(data.getMainAttrDict())
 
     def process_result(self, result):
         # 公共处理
@@ -55,10 +49,10 @@ class OCR(BaseOCR):
             return False
 
         markPrint("数据整理前检查", result)
-        temp_name = strReplace(result[0], self.replace_dict_name)
+        temp_name = self.nameSpellCorrector.correct_word(result[0])
         new_result["name"] = temp_name.split("[")[0]
         new_result["parts"] = "分区" + temp_name.split("[")[1][0]
-        new_result["mainAttr"] = result[2]
+        new_result["mainAttr"] = self.mainAttrSpellCorrector.correct_word(result[2])
         new_result["mainDigit"] = result[3]
         new_result["lvl"] = re.findall(r'\d+', result[1])[0]
 
@@ -100,7 +94,7 @@ class OCR(BaseOCR):
                     subAttr[item] = 0
             except:
                 subAttr[item] = 0
-        new_result["subAttr"] = subAttr
+        new_result["subAttr"] = OrderedDict(subAttr)
 
         markPrint(new_result)
         return new_result

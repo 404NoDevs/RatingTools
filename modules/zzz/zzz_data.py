@@ -5,14 +5,6 @@ from modules.zzz.zzz_constants import *
 
 class Data(BaseData):
     def __init__(self):
-        super().__init__({
-            "module_name": "zzz",
-            "maxLevel": 15,
-            "maxScore": 43.2,  # 标准最大值
-            "maxScore2": 43.2,  # 理论最大值
-            "oneMaxScore": 28.8,  # 单词条标准最大值
-            "oneMaxScore2": 28.8   # 单词条理论最大值
-        })
 
         self.entryArray = ["暴击率", "暴击伤害", "攻击力", "生命值", "防御力", "异常精通", "穿透值"]
         self.posName = ["分区1", "分区2", "分区3", "分区4", "分区5", "分区6"]
@@ -71,6 +63,15 @@ class Data(BaseData):
             (10, (238, 121, 118), "不及格"),
             (0, (255, 0, 0), "无用")
         ]
+
+        super().__init__({
+            "module_name": "zzz",
+            "maxLevel": 15,
+            "maxScore": 43.2,  # 标准最大值
+            "maxScore2": 43.2,  # 理论最大值
+            "oneMaxScore": 28.8,  # 单词条标准最大值
+            "oneMaxScore2": 28.8  # 单词条理论最大值
+        })
 
     def getEntryArray(self):
         return self.entryArray
@@ -418,5 +419,12 @@ class Data(BaseData):
         # markPrint(result)
         return result
 
+    # 获取装备名称词典
+    def getArtifactNameDict(self):
+        result = set()
+        for item in self.suitConfig:
+            if isinstance(self.suitConfig[item], dict):
+                result.add(item)  # 添加到set
+        return result
 
 data = Data()

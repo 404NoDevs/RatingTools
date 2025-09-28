@@ -1,8 +1,10 @@
 '''图像识别、文字处理，考虑多种ocr方式'''
 
 import re
+from collections import OrderedDict
 from modules.base.base_ocr import BaseOCR
-from utils import markPrint, strReplace
+from modules.genshin.genshin_data import data
+from utils import markPrint, SpellCorrector
 
 
 class OCR(BaseOCR):
@@ -12,27 +14,9 @@ class OCR(BaseOCR):
         })
 
         self.data_length = 9
-        self.replace_dict_name = {
-            "深廊的赐之宴": "深廊的饫赐之宴",
-            "黄金之夜的喧器": "黄金之夜的喧嚣",
-            "浮溯之玉": "浮溯之珏",
-            '阳之遗': '阳辔之遗',
-            '遮雷之姿': '虺雷之姿',
-            '他雷之姿': '虺雷之姿',
-            '海之冠': '海祇之冠',
-            '海祗之冠': '海祇之冠',
-            '海低之冠': '海祇之冠',
-            '海张之冠': '海祇之冠',
-            '梦醒之飘': '梦醒之瓢',
-            '明威之': '明威之镡',
-            '金铜时唇': '金铜时晷',
-            "将帅兜鳌": "将帅兜鍪",
-            "将帅兜整": "将帅兜鍪",
-            "将帅兜鑒": "将帅兜鍪",
-            '雷灾的子遗': '雷灾的孑遗',
-            '宗室银': '宗室银瓮',
-            '宗室银瓷': '宗室银瓮'
-        }
+        self.nameSpellCorrector = SpellCorrector(data.getArtifactNameDict())
+        self.partsSpellCorrector = SpellCorrector(data.getArtifactPosDict())
+        self.mainAttrSpellCorrector = SpellCorrector(data.getMainAttrDict())
 
     def process_result(self, result):
         # 公共处理
@@ -47,9 +31,9 @@ class OCR(BaseOCR):
             markPrint("数据长度不符合要求", result)
             return False
 
-        new_result["name"] = strReplace(result[0], self.replace_dict_name)
-        new_result["parts"] = result[1]
-        new_result["mainAttr"] = result[2]
+        new_result["name"] = self.nameSpellCorrector.correct_word(result[0])
+        new_result["parts"] = self.partsSpellCorrector.correct_word(result[1])
+        new_result["mainAttr"] = self.mainAttrSpellCorrector.correct_word(result[2])
         new_result["mainDigit"] = result[3]
         new_result["lvl"] = re.findall(r'\d+', result[4])[0]
 
@@ -86,7 +70,7 @@ class OCR(BaseOCR):
                     subAttr[item] = 0
             except:
                 subAttr[item] = 0
-        new_result["subAttr"] = subAttr
+        new_result["subAttr"] = OrderedDict(subAttr)
 
         markPrint(new_result)
         return new_result

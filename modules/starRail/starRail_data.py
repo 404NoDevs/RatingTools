@@ -6,15 +6,8 @@ from utils import markPrint
 
 class Data(BaseData):
     def __init__(self):
-        super().__init__({
-            "module_name": "starRail",
-            "maxLevel": 15,
-            "maxScore": 52.4,  # 标准最大值
-            "maxScore2": 58.5,  # 理论最大值
-            "oneMaxScore": 34.98,  # 单词条标准最大值
-            "oneMaxScore2": 38.88   # 单词条理论最大值
-        })
 
+        # 先初始化常量
         self.entryArray = ["速度", "生命值", "攻击力", "防御力", "暴击率", "暴击伤害", "击破特攻", "效果命中", "效果抵抗"]
         self.posNameOut = ["头部", "手部", "躯干", "脚部"]
         self.posNameIn = ["位面球", "连结绳"]
@@ -86,6 +79,16 @@ class Data(BaseData):
             (0, (255, 0, 0), "屁用没有")
         ]
 
+        # 后初始化父类
+        super().__init__({
+            "module_name": "starRail",
+            "maxLevel": 15,
+            "maxScore": 52.4,  # 标准最大值
+            "maxScore2": 58.5,  # 理论最大值
+            "oneMaxScore": 34.98,  # 单词条标准最大值
+            "oneMaxScore2": 38.88   # 单词条理论最大值
+        })
+
     def getSuitConfig(self, type="all"):
         result = {}
         if type == "all":
@@ -109,6 +112,7 @@ class Data(BaseData):
         else:
             result += []
         return result
+
     def getMainAttrType(self):
         return self.mainAttrType
 

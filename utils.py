@@ -36,14 +36,6 @@ def checkWinowState(gameKey):
         return 2
     return 0
 
-
-def strReplace(old_str, replacements):
-    new_str = old_str
-    for wrong, right in replacements.items():
-        new_str = new_str.replace(wrong, right)
-    return new_str
-
-
 def markPrint(*str, mark="*", title="未命名"):
     markStr = mark * 40 + title + mark * 40
     print(markStr)
@@ -52,7 +44,6 @@ def markPrint(*str, mark="*", title="未命名"):
             item = json.dumps(item, indent=4, ensure_ascii=False)
         print(item)
     print(markStr)
-
 
 def debugPrint(*str):
     # 获取当前栈帧
@@ -65,3 +56,52 @@ def debugPrint(*str):
     function_name = caller_frame.f_code.co_name
 
     markPrint(filename, line_number, function_name, *str, mark="--debug")
+
+# 纠错工具
+class SpellCorrector:
+    def __init__(self, dictionary, max_distance=2):
+        self.dictionary = dictionary
+        self.max_distance = max_distance
+
+    def correct_word(self, word):
+        # 如果单词正确，直接返回
+        if word in self.dictionary:
+            return word
+
+        # 寻找最佳候选
+        best_candidate = word
+        min_distance = float('inf')
+
+        for correct_word in self.dictionary:
+            distance = self.levenshtein_distance(word, correct_word)
+            if distance < min_distance and distance <= self.max_distance:
+                min_distance = distance
+                best_candidate = correct_word
+
+        return best_candidate if min_distance <= self.max_distance else word
+
+    def levenshtein_distance(self, s1, s2):
+        # 使用上面的DP实现
+        m, n = len(s1), len(s2)
+        dp = [[0] * (n + 1) for _ in range(m + 1)]
+
+        for i in range(m + 1):
+            dp[i][0] = i
+        for j in range(n + 1):
+            dp[0][j] = j
+
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                cost = 0 if s1[i - 1] == s2[j - 1] else 1
+                dp[i][j] = min(
+                    dp[i - 1][j] + 1,  # 删除
+                    dp[i][j - 1] + 1,  # 插入
+                    dp[i - 1][j - 1] + cost  # 替换
+                )
+        return dp[m][n]
+
+    def correct_text(self, text):
+        """纠正整个文本"""
+        words = text.split()
+        corrected_words = [self.correct_word(word) for word in words]
+        return ' '.join(corrected_words)

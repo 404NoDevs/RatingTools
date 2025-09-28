@@ -1,47 +1,23 @@
 '''图像识别、文字处理，考虑多种ocr方式'''
 
 import re
+from collections import OrderedDict
 from modules.base.base_ocr import BaseOCR
-from utils import markPrint, strReplace
+from modules.starRail.starRail_data import data
+from utils import markPrint, SpellCorrector
 
 
 class OCR(BaseOCR):
     def __init__(self):
         super().__init__({
-            "error_text": ["孩", "软"]
+            "error_text": ["孩", "软", "沃"]
         })
 
         self.data_length = 13
-        self.replace_dict_name = {
-            '者的复明义眼': '莳者的复明义眼',
-            '者的机巧木手': '莳者的机巧木手',
-            '者的承露羽衣': '莳者的承露羽衣',
-            '者的天人丝履': '莳者的天人丝履',
-            '蔚者的机巧木手': '莳者的机巧木手',
-            '勇烈的飞翎瓷申': '勇烈的飞翎瓷甲',
-            '铁骑的银影装申': '铁骑的银影装甲',
-            "哀地里亚的名祭碑": "哀地里亚的殁名祭碑",
-            "诗人的萝花冠": "诗人的莳萝花冠",
-            "神悟树庭的沉思巨根": "神悟树庭的沉思巨桹",
+        self.nameSpellCorrector = SpellCorrector(data.getArtifactNameDict())
+        self.partsSpellCorrector = SpellCorrector(data.getArtifactPosDict())
+        self.mainAttrSpellCorrector = SpellCorrector(data.getMainAttrDict())
 
-            '臂罐': '臂鞲',
-            '臂購': '臂鞲',
-            '臂講': '臂鞲',
-            '绝足锁': '绝足锁桎',
-            '黑塔，': '黑塔',
-            '黑塔」': '黑塔',
-            '圳裂缆索': '坼裂缆索',
-            '系因': '系囚',
-            '铅石桔': '铅石梏铐',
-            '铅石枱': '铅石梏铐',
-            '护腔': '护胫',
-            '玄号': '玄枵',
-            "器兽缰": "器兽缰辔",
-            "司锋的": "司铎的"
-        }
-        self.replace_dict_parts = {
-            '躯于': '躯干'
-        }
 
     def process_result(self, result):
         # 公共处理
@@ -71,9 +47,9 @@ class OCR(BaseOCR):
 
         # print("11111111")
         # print(result)
-        new_result["name"] = strReplace(result[0], self.replace_dict_name)
-        new_result["parts"] = strReplace(result[1], self.replace_dict_parts)
-        new_result["mainAttr"] = result[3]
+        new_result["name"] = self.nameSpellCorrector.correct_word(result[0])
+        new_result["parts"] = self.partsSpellCorrector.correct_word(result[1])
+        new_result["mainAttr"] = self.mainAttrSpellCorrector.correct_word(result[3])
         new_result["mainDigit"] = result[4]
         new_result["lvl"] = re.findall(r'\d+', result[2])[0]
 
@@ -117,7 +93,7 @@ class OCR(BaseOCR):
                     subAttr[item] = 0
             except:
                 subAttr[item] = 0
-        new_result["subAttr"] = subAttr
+        new_result["subAttr"] = OrderedDict(subAttr)
 
         markPrint(new_result)
         return new_result

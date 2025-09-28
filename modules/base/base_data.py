@@ -40,6 +40,10 @@ class BaseData:
             if os.path.exists(self.artifact_path):
                 with open(self.artifact_path, 'r', encoding='utf-8') as fp:
                     self.artifactList = json.load(fp)
+            else:
+                for posItem in self.getPosName():
+                    self.artifactList[posItem] = {}
+
             # 读取圣遗物装备者保存数据
             if os.path.exists(self.artifactOwner_path):
                 with open(self.artifactOwner_path, 'r', encoding='utf-8') as fp:
@@ -165,14 +169,14 @@ class BaseData:
         parts = data["parts"]
 
         if nameStr in self.artifactList[parts]:
-            print("当前圣遗物已存在")
+            print(nameStr + " 已存在")
             return False
 
         # 存储数据
         self.artifactList[parts][nameStr] = data
         with open(self.artifact_path, 'w', encoding='utf-8') as fp:
             json.dump(self.artifactList, fp, ensure_ascii=False, indent=4)
-            print("保存成功")
+            print(nameStr + " 保存成功")
 
     def getCharacterIndex(self, character):
         resultIndex = 0
@@ -256,35 +260,61 @@ class BaseData:
 
     # 获取属性词条枚举
     def getEntryArray(self):
-        print("方法 getEntryArray 未在子类实现")
+        return []
 
     # 获取圣遗物类型配置
     def getMainAttrType(self):
-        print("方法 getMainAttrType 未在子类实现")
+        return {}
 
     # 获取圣遗物位置名称
     def getPosName(self):
-        print("方法 getPosName 未在子类实现")
+        return {}
 
     # 获取系数
     def getCoefficient(self):
-        print("方法 getCoefficient 未在子类实现")
+        return {}
 
     # 获取平均分
     def getAverage(self):
-        print("方法 getAverage 未在子类实现")
+        return {}
 
     # 获取分析数据
     def getAnalyzeData(self, ocr_result):
-        print("方法 getAnalyzeData 未在子类实现")
+        return {}
 
     # 获取评价配置
     def get_evaluate_config(self):
-        print("方法 get_evaluate_config 未在子类实现")
+        return {}
 
     def get_evaluate(self):
-        print("方法 get_evaluate 未在子类实现")
+        return {}
 
     # 检查圣遗物是否存在
     def checkArtifactName(self, name, parts):
-        print("方法 checkArtifactName 未在子类实现")
+        return True
+
+    # 获取装备名称词典
+    def getArtifactNameDict(self):
+        def extract_leaf_values(obj):
+            result = set()
+
+            def traverse(current):
+                if isinstance(current, dict):
+                    for value in current.values():
+                        traverse(value)  # 递归遍历
+                else:
+                    if isinstance(current, str):
+                        result.add(current)  # 添加到set
+
+            traverse(obj)
+            return result
+
+        return extract_leaf_values(self.suitConfig)
+
+    # 获取装备部位名称词典
+    def getArtifactPosDict(self):
+        return {*self.getPosName()}
+
+    # 获取主属性名称词典
+    def getMainAttrDict(self):
+        return {item for sublist in self.getMainAttrType().values() for item in sublist}
