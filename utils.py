@@ -36,6 +36,7 @@ def checkWinowState(gameKey):
         return 2
     return 0
 
+
 def markPrint(*str, mark="*", title="未命名"):
     markStr = mark * 40 + title + mark * 40
     print(markStr)
@@ -44,6 +45,7 @@ def markPrint(*str, mark="*", title="未命名"):
             item = json.dumps(item, indent=4, ensure_ascii=False)
         print(item)
     print(markStr)
+
 
 def debugPrint(*str):
     # 获取当前栈帧
@@ -56,6 +58,7 @@ def debugPrint(*str):
     function_name = caller_frame.f_code.co_name
 
     markPrint(filename, line_number, function_name, *str, mark="--debug")
+
 
 # 纠错工具
 class SpellCorrector:
@@ -105,3 +108,34 @@ class SpellCorrector:
         words = text.split()
         corrected_words = [self.correct_word(word) for word in words]
         return ' '.join(corrected_words)
+
+
+# 事件管理器
+class EventManager:
+    # 事件名称
+    MOVE_MOUSE = "move_Mouse",
+
+    def __init__(self):
+        self._listeners = {}
+
+    def register(self, event_type, listener):
+        """注册事件监听器"""
+        if event_type not in self._listeners:
+            self._listeners[event_type] = []
+        self._listeners[event_type].append(listener)
+
+    def unregister(self, event_type, listener=None):
+        """取消注册事件监听器"""
+        if event_type in self._listeners:
+            if listener:
+                self._listeners[event_type].remove(listener)
+            else:
+                del self._listeners[event_type]
+
+    def emit(self, event_type, *args, **kwargs):
+        """触发事件"""
+        if event_type in self._listeners:
+            for listener in self._listeners[event_type]:
+                listener(*args, **kwargs)
+event_manager = EventManager()
+

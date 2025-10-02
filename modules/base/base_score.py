@@ -1,6 +1,8 @@
 '''圣遗物评分界面'''
 
 import os
+import time
+
 from pynput import keyboard
 
 import globalsData
@@ -17,6 +19,7 @@ from PySide6.QtWidgets import (
 )
 
 from color_window import ColorWindow
+from utils import event_manager
 
 
 class BaseScoreWindow(QWidget):
@@ -35,6 +38,7 @@ class BaseScoreWindow(QWidget):
         self.AnalyzeResultWindow = params.get('AnalyzeResultWindow')
 
         # 初始化参数
+        self.id = -1
         self.position = []
         self.row = 0
         self.col = 0
@@ -45,6 +49,7 @@ class BaseScoreWindow(QWidget):
         self.w_grab = 0
         self.h_grab = 0
         self.temp = []
+        self.isMouseMoved = False
 
         self.initData()
         self.initUI()
@@ -58,8 +63,8 @@ class BaseScoreWindow(QWidget):
 
         # 背包/角色面板选择（Radio）
         self.radiobtn1 = QRadioButton('背包')
-        self.radiobtn1.setChecked(True)
         self.radiobtn2 = QRadioButton('角色')
+        self.radiobtn2.setChecked(True)
         self.suitButton = QPushButton('套装推荐→')
         # 角色选择框
         self.combobox = ExtendedComboBox()
@@ -148,7 +153,7 @@ class BaseScoreWindow(QWidget):
         self.setWindow = None
         self.analyzeWindow = None
 
-        self.setLocationData('bag')
+        self.setLocationData('character')
         self.SCALE = self.location.getScale()
 
         # 预先设定好贴图窗口组&每一个窗口的圣遗物数据
@@ -262,28 +267,27 @@ class BaseScoreWindow(QWidget):
     # 启动贴图弹窗
     def open_new_window(self, x, y):
 
-        x = x/self.SCALE
-        y = y/self.SCALE
+        x = x / self.SCALE
+        y = y / self.SCALE
 
         # 根据鼠标事件定位贴图
         for i in range(self.col):
             if x >= self.xarray[i][0] and x <= self.xarray[i][1]:
                 for j in range(self.row):
                     if y >= self.yarray[j][0] and y <= self.yarray[j][1]:
-                        print(self.character + 'detected')
-                        # 插入模式后移数据
-                        self.id = j * self.col + i
-                        # ocr识别与结果返回并刷新主面板、贴图
+
                         self.id = j * self.col + i
 
                         ocrResult = self.ocr.rapidocr(self.x_grab, self.y_grab, self.w_grab, self.h_grab)
+
                         if ocrResult:
+                            print("识别成功")
                             self.artifact[str(self.id)] = ocrResult
                             self.fresh_main_window()
                             self.fresh_paste_window()
                         else:
                             self.tipsLabel.setText("识别失败，请重试")
-                        break
+                        return ocrResult
                 break
 
     # 切换为套装推荐
@@ -297,8 +301,8 @@ class BaseScoreWindow(QWidget):
 
     # 根据鼠标左键选择的圣遗物刷新主窗口圣遗物副属性和评分
     def left_click_artifact(self, x, y):
-        x = x/self.SCALE
-        y = y/self.SCALE
+        x = x / self.SCALE
+        y = y / self.SCALE
         for i in range(self.col):
             if self.xarray[i][0] <= x <= self.xarray[i][1]:
                 for j in range(self.row):
@@ -415,7 +419,10 @@ class BaseScoreWindow(QWidget):
             if self.analyzeWindow and self.analyzeWindow.isVisible():
                 self.analyzeWindow.update({})
 
-        self.hotKeyManager = keyboard.GlobalHotKeys({'<ctrl>+<shift>+x': on_activate})
+        self.hotKeyManager = keyboard.GlobalHotKeys({
+            '<ctrl>+<shift>+x': on_activate,
+            '<ctrl>+<shift>+c': self.autoScore
+        })
         self.hotKeyManager.start()
 
     def open_set_window(self):
@@ -442,3 +449,31 @@ class BaseScoreWindow(QWidget):
         else:
             self.analyzeWindow.close()
             self.analyzeWindow = None
+
+    # 自动评分
+    def autoScore(self):
+        # 开始监听运行期间用户是否主动移动鼠标
+        def setFlag(): self.isMouseMoved = True
+        event_manager.register(event_manager.MOVE_MOUSE, setFlag)
+
+        xPointList = [(a + b) / 2 for a, b in self.xarray]
+        yPointList = [(a + b) / 2 for a, b in self.yarray]
+
+        pointList = []
+        for i in yPointList:
+            for j in xPointList:
+                pointList.append((j * self.SCALE, i * self.SCALE))
+
+        for pointItem in pointList:
+            if self.isMouseMoved:
+                self.isMouseMoved = False
+                print("发现鼠标移动 循环中止")
+                break
+            self.mouseManager.click_left(pointItem)
+            x, y = pointItem
+            self.open_new_window(x, y)
+            time.sleep(2)
+
+        print("循环完成 逻辑中止")
+        event_manager.unregister(event_manager.MOVE_MOUSE)
+

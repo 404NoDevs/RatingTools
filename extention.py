@@ -3,27 +3,52 @@
 from PySide6.QtGui import Qt
 from PySide6.QtCore import QObject, Signal, Qt, QSortFilterProxyModel
 from PySide6.QtWidgets import QComboBox, QCompleter, QListWidget, QCheckBox, QListWidgetItem, QLineEdit
-from pynput import mouse
+from pynput.mouse import Controller, Button, Listener
+from utils import event_manager
 
 
 # 外部/系统级鼠标事件处理
 class OutsideMouseManager(QObject):
+    mouse = Controller()
     right_click = Signal(int, int)
     left_click = Signal(int, int)
+    set_position = None
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self._listener = mouse.Listener(on_click=self._handle_click)
+        self._listener = Listener(
+            on_click=self._handle_click,
+            on_move=self._on_move
+        )
         self._listener.start()
 
     def _handle_click(self, x, y, button, pressed):
-        if button == mouse.Button.right and pressed:
+        if button == Button.right and pressed:
             self.right_click.emit(x, y)
-        if button == mouse.Button.left and pressed:
+        if button == Button.left and pressed:
             self.left_click.emit(x, y)
+
+    def _on_move(self, x, y):
+        # 忽略第一次调用
+        if self.set_position is None:
+            return
+
+        # 计算鼠标移动距离 允许一定误差
+        x1, y1 = self.set_position
+        distance = ((x1 - x) ** 2 + (y1 - y) ** 2) ** 0.5
+        if distance > 5:
+            self.user_moved = True
+            self.set_position = None
+            event_manager.emit(event_manager.MOVE_MOUSE)
 
     def stop(self):
         self._listener.stop()
+
+    def click_left(self, point):
+        self.set_position = point
+        self.mouse.position = point
+        self.mouse.click(Button.left, 1)
+
 
 
 # 增强选择框
