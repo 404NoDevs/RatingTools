@@ -1,3 +1,4 @@
 NO_SELECT_KEY = "未选择"
 TWO_PIECE_SET_KEY = "两件套"
+DEFAULT_CHARACTER = "全属性"
 

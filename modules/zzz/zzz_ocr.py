@@ -49,9 +49,9 @@ class OCR(BaseOCR):
             return False
 
         markPrint("数据整理前检查", result)
-        temp_name = self.nameSpellCorrector.correct_word(result[0])
-        new_result["name"] = temp_name.split("[")[0]
-        new_result["parts"] = "分区" + temp_name.split("[")[1][0]
+        temp_list = result[0].replace("【", "[").split("[")
+        new_result["name"] = self.nameSpellCorrector.correct_word(temp_list[0])
+        new_result["parts"] = "分区" + temp_list[1][0]
         new_result["mainAttr"] = self.mainAttrSpellCorrector.correct_word(result[2])
         new_result["mainDigit"] = result[3]
         new_result["lvl"] = re.findall(r'\d+', result[1])[0]

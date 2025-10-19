@@ -1,6 +1,7 @@
 '''圣遗物推荐方案生成弹窗'''
 
-import os, pyperclip
+import os
+import pyperclip
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
@@ -10,6 +11,7 @@ from PySide6.QtWidgets import (
     QGridLayout,
     QComboBox
 )
+from modules.base.base_constants import *
 
 
 class BaseSuitResultWindow(QWidget):
@@ -22,7 +24,7 @@ class BaseSuitResultWindow(QWidget):
         self.position = params.get("position", (0, 0))
 
         # 初始化变量
-        self.character = "全属性"
+        self.character = DEFAULT_CHARACTER
         self.score_array = []
         self.resultArray = []
 

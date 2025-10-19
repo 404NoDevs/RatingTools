@@ -10,40 +10,48 @@ class CharacterInfoWindow(BaseInfoWindow):
         super().__init__({
             "data": data,
             "position": (300, 0),
-            "size": (955, 375)
+            "size": (1000, 400)
         })
 
     def update(self):
         tableData = self.data.get_table_data()
         headerList = [
             '角色',  # 0
-            '套装一',  # 1
-            '套装二',  # 2
-            '沙-主',  # 3
-            "杯-主",  # 4
-            "冠-主",  # 5
-            "得分权重",  # 6
-            "花",  # 7
-            "羽",  # 8
-            "沙",  # 9
-            "杯",  # 10
-            "冠",  # 11
-            "总分"  # 12
+            '版本',  # 1
+            '套装一',  # 2
+            '套装二',  # 3
+            '沙-主',  # 4
+            "杯-主",  # 5
+            "冠-主",  # 6
+            "得分权重",  # 7
+            "花",  # 8
+            "羽",  # 9
+            "沙",  # 10
+            "杯",  # 11
+            "冠",  # 12
+            "总分"  # 13
         ]
         model = QStandardItemModel(len(tableData), len(headerList))
         model.setHorizontalHeaderLabels(headerList)
         self.table_view.horizontalHeader().setFont(QFont("Microsoft YaHei", 8, QFont.Bold))
 
         self.table_view.setModel(model)
-        self.table_view.setColumnWidth(0, 70)
-        for index in range(7, 12):
+        self.table_view.setColumnWidth(headerList.index("角色"), 70)
+        self.table_view.setColumnWidth(headerList.index("版本"), 35)
+        for index in range(headerList.index("套装一"), headerList.index("得分权重")):
+            self.table_view.setColumnWidth(index, 100)
+        for index in range(headerList.index("花"), headerList.index("冠")+1):
             self.table_view.setColumnWidth(index, 35)
-        self.table_view.setColumnWidth(12, 40)
+        self.table_view.setColumnWidth(headerList.index("总分"), 40)
 
         for row, characterItem in enumerate(tableData):
             nameItem = QStandardItem(characterItem)
             nameItem.setFont(QFont("Microsoft YaHei", 8, QFont.Bold))
-            model.setItem(row, 0, nameItem)
+            model.setItem(row, headerList.index("角色"), nameItem)
+            versionItem = QStandardItem(tableData[characterItem]["version"])
+            versionItem.setData(tableData[characterItem]["version"], Qt.DisplayRole)
+            model.setItem(row, headerList.index("版本"), versionItem)
+
             characterData = tableData[characterItem]
             for col, item in enumerate(characterData):
                 if item == "suitA" or item == "suitB":
@@ -52,8 +60,8 @@ class CharacterInfoWindow(BaseInfoWindow):
                         suitStr = "无"
 
                     colConfig = {
-                        "suitA": 1,
-                        "suitB": 2
+                        "suitA": headerList.index("套装一"),
+                        "suitB": headerList.index("套装二")
                     }
                     model.setItem(row, colConfig[item], QStandardItem(suitStr))
                 elif item in self.data.getMainAttrType():
@@ -72,7 +80,7 @@ class CharacterInfoWindow(BaseInfoWindow):
                         if value > 0:
                             weightStr += key + ":" + str(value) + "\n"
 
-                    model.setItem(row, 6, QStandardItem(weightStr))
+                    model.setItem(row, headerList.index("得分权重"), QStandardItem(weightStr))
                 elif item == "equipment":
                     scoreSum = 0
                     for index, posItem in enumerate(self.data.getPosName()):
@@ -92,10 +100,10 @@ class CharacterInfoWindow(BaseInfoWindow):
                     sumScoreItem = QStandardItem(str(round(scoreSum, 1)))
                     sumScoreItem.setData(round(float(scoreSum), 1), Qt.DisplayRole)  # 强制转为flot类型用于后续排序
                     sumScoreItem.setBackground(QColor(*self.data.get_evaluate(scoreSum / len(self.data.getPosName()))[1]))
-                    model.setItem(row, 12, sumScoreItem)
+                    model.setItem(row, headerList.index("总分"), sumScoreItem)
                 else:
                     pass
 
-        model.sort(12, Qt.DescendingOrder)
+        model.sort(headerList.index("版本"), Qt.DescendingOrder)
 
         self.setColor(model, 1)

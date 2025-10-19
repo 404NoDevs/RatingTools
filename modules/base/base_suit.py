@@ -11,6 +11,7 @@ from PySide6.QtWidgets import (
     QWidget,
     QGridLayout
 )
+from modules.base.base_constants import *
 
 
 class BaseSuitWindow(QWidget):
@@ -20,7 +21,7 @@ class BaseSuitWindow(QWidget):
 
         # 子类参数
         self.enter_params = params.get("enterParam", 0)
-        self.character = params.get("character", "全属性")
+        self.character = params.get("character", DEFAULT_CHARACTER)
         self.equipment_name = params.get('equipmentName', "圣遗物")
         self.data = params.get("data")
         self.SuitResultWindow = params.get("SuitResultWindow")
