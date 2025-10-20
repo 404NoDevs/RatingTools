@@ -73,7 +73,6 @@ class SpellCorrector:
             self.length_groups[length].append(word)
 
     def correct_word(self, word):
-        print("纠正前文本", word)
         if word in self.dictionary:
             return word
 

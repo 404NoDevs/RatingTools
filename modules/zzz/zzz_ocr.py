@@ -10,7 +10,7 @@ from utils import markPrint, SpellCorrector
 class OCR(BaseOCR):
     def __init__(self):
         super().__init__({
-            "error_text": ["S", "s", "A", "a", "主属性", "副属性",
+            "error_text": ["S", "s", "A", "a", "主属性", "副属性", "?",
                            "1", "2", "3", "4", "5", "6",
                            "+1", "+2", "+3", "+4", "+5",
                            "1+1", "1+2", "1+3", "1+4", "1+5",
