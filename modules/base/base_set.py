@@ -54,28 +54,34 @@ class BaseSetWindow(QWidget):
         # 添加保存按钮
         self.saveButton = QPushButton('确认修改')
 
-        # 注意事项
-        self.tipsLabel1 = QLabel('注意事项：')
-        self.tipsLabel1.setStyleSheet("color:red;")
-        self.tipsLabel2 = QLabel('1.小词条（固定值）得分为大词条（百分比）的一半')
-        self.tipsLabel2.setStyleSheet("color:red;")
+        # # 注意事项
+        # self.tipsLabel1 = QLabel('注意事项：')
+        # self.tipsLabel1.setStyleSheet("color:red;")
+        # self.tipsLabel2 = QLabel('1.小词条（固定值）得分为大词条（百分比）的一半')
+        # self.tipsLabel2.setStyleSheet("color:red;")
 
         # 弹窗内容
         layout = QGridLayout()
-        layout.addWidget(self.openFileButton, 0, 0, 1, 1)
-        layout.addWidget(self.dataUpdateButton, 0, 1, 1, 1)
+        layout.addWidget(self.openFileButton, 0, 0, 1, 2)
+        layout.addWidget(self.dataUpdateButton, 0, 2, 1, 2)
         layout.addWidget(QLabel('当前角色：'), 1, 0, Qt.AlignRight)
-        layout.addWidget(self.heroNameLabel, 1, 1)
+        layout.addWidget(self.heroNameLabel, 1, 1, 1, 3)
         # layout.addWidget(QLabel('核心词条'), 1, 2, Qt.AlignCenter)
-        counter = 2
+        counter = 0
         for keyName in self.entryChild:
-            layout.addWidget(QLabel(keyName + "："), counter, 0, Qt.AlignRight)
-            layout.addWidget(self.entryChild[keyName]["entryNum"], counter, 1, Qt.AlignLeft)
+            init_row = 2
+            row = init_row + counter // 2
+            col = (counter % 2) * 2
+
+            layout.addWidget(QLabel(keyName + "："), row, col, Qt.AlignRight)
+            layout.addWidget(self.entryChild[keyName]["entryNum"], row, col + 1, Qt.AlignLeft)
             # layout.addWidget(self.entryChild[keyName]["checkBtn"], counter, 2, Qt.AlignCenter)
+
             counter += 1
-        layout.addWidget(self.saveButton, 100, 0, 1, 2)
-        layout.addWidget(self.tipsLabel1, 101, 0, 1, 2)
-        layout.addWidget(self.tipsLabel2, 102, 0, 1, 2)
+
+        layout.addWidget(self.saveButton, 100, 0, 1, 4)
+        # layout.addWidget(self.tipsLabel1, 101, 0, 1, 2)
+        # layout.addWidget(self.tipsLabel2, 102, 0, 1, 2)
         self.setLayout(layout)
 
         # 注册按钮事件

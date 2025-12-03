@@ -9,7 +9,7 @@ MODIFY_GENSHIN = 1
 MODIFY_STARRAIL = 2
 MODIFY_ZZZ = 3
 
-modify_module_name = MODIFY_ZZZ
+modify_module_name = MODIFY_STARRAIL
 
 if modify_module_name == MODIFY_GENSHIN:
 
@@ -28,14 +28,14 @@ if modify_module_name == MODIFY_GENSHIN:
             new_weight = {
                 "暴击率": old_weight.get("暴击率", 0.0),
                 "暴击伤害": old_weight.get("暴击伤害", 0.0),
-                "生命值百分比": old_weight.get("生命值", 0.0),
-                "攻击力百分比": old_weight.get("攻击力", 0.0),
-                "防御力百分比": old_weight.get("防御力", 0.0),
-                "生命值": 0.0,
-                "攻击力": 0.0,
-                "防御力": 0.0,
-                "元素精通": old_weight.get("攻击力", 0.0),
-                "元素充能效率": old_weight.get("攻击力", 0.0)
+                "生命值": old_weight.get("生命值", 0.0),
+                "生命值百分比": old_weight.get("生命值百分比", 0.0),
+                "攻击力": old_weight.get("攻击力", 0.0),
+                "攻击力百分比": old_weight.get("攻击力百分比", 0.0),
+                "防御力": old_weight.get("防御力", 0.0),
+                "防御力百分比": old_weight.get("防御力百分比", 0.0),
+                "元素精通": old_weight.get("元素精通", 0.0),
+                "元素充能效率": old_weight.get("元素充能效率", 0.0)
             }
 
             character_data['weight'] = new_weight
@@ -64,12 +64,12 @@ elif modify_module_name == MODIFY_STARRAIL:
             new_weight = {
                 "暴击率": old_weight.get("暴击率", 0.0),
                 "暴击伤害": old_weight.get("暴击伤害", 0.0),
-                "生命值百分比": old_weight.get("生命值", 0.0),
-                "攻击力百分比": old_weight.get("攻击力", 0.0),
-                "防御力百分比": old_weight.get("防御力", 0.0),
-                "生命值": 0.0,
-                "攻击力": 0.0,
-                "防御力": 0.0,
+                "生命值": old_weight.get("生命值", 0.0),
+                "生命值百分比": old_weight.get("生命值百分比", 0.0),
+                "攻击力": old_weight.get("攻击力", 0.0),
+                "攻击力百分比": old_weight.get("攻击力百分比", 0.0),
+                "防御力": old_weight.get("防御力", 0.0),
+                "防御力百分比": old_weight.get("防御力百分比", 0.0),
                 "速度": old_weight.get("速度", 0.0),
                 "击破特攻": old_weight.get("击破特攻", 0.0),
                 "效果命中": old_weight.get("效果命中", 0.0),
@@ -102,12 +102,12 @@ elif modify_module_name == MODIFY_ZZZ:
             new_weight = {
                 "暴击率": old_weight.get("暴击率", 0.0),
                 "暴击伤害": old_weight.get("暴击伤害", 0.0),
-                "生命值百分比": old_weight.get("生命值", 0.0),
-                "攻击力百分比": old_weight.get("攻击力", 0.0),
-                "防御力百分比": old_weight.get("防御力", 0.0),
-                "生命值": 0.0,
-                "攻击力": 0.0,
-                "防御力": 0.0,
+                "生命值": old_weight.get("生命值", 0.0),
+                "生命值百分比": old_weight.get("生命值百分比", 0.0),
+                "攻击力": old_weight.get("攻击力", 0.0),
+                "攻击力百分比": old_weight.get("攻击力百分比", 0.0),
+                "防御力": old_weight.get("防御力", 0.0),
+                "防御力百分比": old_weight.get("防御力百分比", 0.0),
                 "异常精通": old_weight.get("异常精通", 0.0),
                 "穿透值": old_weight.get("穿透值", 0.0)
             }

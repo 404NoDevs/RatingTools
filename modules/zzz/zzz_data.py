@@ -6,7 +6,7 @@ from modules.zzz.zzz_constants import *
 class Data(BaseData):
     def __init__(self):
 
-        self.entryArray = ["暴击率", "暴击伤害", "攻击力", "生命值", "防御力", "异常精通", "穿透值"]
+        self.entryArray = ["暴击率", "暴击伤害", "生命值", "生命值百分比", "攻击力", "攻击力百分比", "防御力", "防御力百分比", "异常精通", "穿透值"]
         self.posName = ["分区1", "分区2", "分区3", "分区4", "分区5", "分区6"]
         self.mainAttrType = {
             "分区4": ["生命值", "攻击力", "防御力", "暴击率", "暴击伤害", "异常精通"],
@@ -354,11 +354,11 @@ class Data(BaseData):
                     for key, value in self.characters[character]["weight"].items():
                         # if key in ["攻击力", "生命值", "防御力"]:
                         #     key += "百分比"
-                        if value > 1.5:  # 超级词条
+                        if value >= 1.5:  # 超级词条
                             super.append(key)
-                        if value > 0.75:  # 核心词条
+                        if value >= 0.75:  # 核心词条
                             core.append(key)
-                        elif value > 0.375:  # 辅助词条
+                        elif value >= 0.375:  # 辅助词条
                             aux.append(key)
                         else:
                             # 无效词条
@@ -407,7 +407,7 @@ class Data(BaseData):
             if ocr_result["lvl"] == str(self.maxLevel):
                 # 已满级 进行分析
                 for item in tempList:
-                    if item["current_score"] >= self.maxScore / 2:
+                    if item["current_score"] >= self.maxScore * 0.4:
                         result["tips"] = "还行，能用"
                         break
                     else:

@@ -8,7 +8,7 @@ class Data(BaseData):
     def __init__(self):
 
         # 先初始化常量
-        self.entryArray = ["速度", "生命值", "攻击力", "防御力", "暴击率", "暴击伤害", "击破特攻", "效果命中", "效果抵抗"]
+        self.entryArray = ["暴击率", "暴击伤害", "生命值", "生命值百分比", "攻击力", "攻击力百分比", "防御力", "防御力百分比", "速度", "击破特攻", "效果命中", "效果抵抗"]
         self.posNameOut = ["头部", "手部", "躯干", "脚部"]
         self.posNameIn = ["位面球", "连结绳"]
         self.mainAttrType = {
@@ -460,11 +460,11 @@ class Data(BaseData):
                     for key, value in self.characters[character]["weight"].items():
                         # if key in ["攻击力", "生命值", "防御力"]:
                         #     key += "百分比"
-                        if value > 1.5:  # 超级词条
+                        if value >= 1.5:  # 超级词条
                             super.append(key)
-                        if value > 0.75:  # 核心词条
+                        if value >= 0.75:  # 核心词条
                             core.append(key)
-                        elif value > 0.375:  # 辅助词条
+                        elif value >= 0.375:  # 辅助词条
                             aux.append(key)
                         else:
                             # 无效词条
@@ -512,7 +512,7 @@ class Data(BaseData):
             if ocr_result["lvl"] == str(self.maxLevel):
                 # 已满级 进行分析
                 for item in tempList:
-                    if item["current_score"] >= self.maxScore / 2:
+                    if item["current_score"] >= self.maxScore * 0.4:
                         result["tips"] = "还行，能用"
                         break
                     else:
