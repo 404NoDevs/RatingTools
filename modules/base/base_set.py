@@ -64,18 +64,18 @@ class BaseSetWindow(QWidget):
         layout = QGridLayout()
         layout.addWidget(self.openFileButton, 0, 0, 1, 1)
         layout.addWidget(self.dataUpdateButton, 0, 1, 1, 1)
-        layout.addWidget(QLabel('当前角色：'), 1, 0)
+        layout.addWidget(QLabel('当前角色：'), 1, 0, Qt.AlignRight)
         layout.addWidget(self.heroNameLabel, 1, 1)
-        layout.addWidget(QLabel('核心词条'), 1, 2, Qt.AlignCenter)
+        # layout.addWidget(QLabel('核心词条'), 1, 2, Qt.AlignCenter)
         counter = 2
         for keyName in self.entryChild:
-            layout.addWidget(QLabel(keyName), counter, 0)
-            layout.addWidget(self.entryChild[keyName]["entryNum"], counter, 1)
-            layout.addWidget(self.entryChild[keyName]["checkBtn"], counter, 2, Qt.AlignCenter)
+            layout.addWidget(QLabel(keyName + "："), counter, 0, Qt.AlignRight)
+            layout.addWidget(self.entryChild[keyName]["entryNum"], counter, 1, Qt.AlignLeft)
+            # layout.addWidget(self.entryChild[keyName]["checkBtn"], counter, 2, Qt.AlignCenter)
             counter += 1
-        layout.addWidget(self.saveButton, 100, 0, 1, 3)
-        layout.addWidget(self.tipsLabel1, 101, 0, 1, 3)
-        layout.addWidget(self.tipsLabel2, 102, 0, 1, 3)
+        layout.addWidget(self.saveButton, 100, 0, 1, 2)
+        layout.addWidget(self.tipsLabel1, 101, 0, 1, 2)
+        layout.addWidget(self.tipsLabel2, 102, 0, 1, 2)
         self.setLayout(layout)
 
         # 注册按钮事件
@@ -107,7 +107,7 @@ class BaseSetWindow(QWidget):
         for keyName in self.entryChild:
             tempConfig["weight"][keyName] = round(self.entryChild[keyName]["entryNum"].value(), 2)
 
-        tempConfig["core"] = [keyName for keyName in self.entryChild if self.entryChild[keyName]["checkBtn"].isChecked()]
+        # tempConfig["core"] = [keyName for keyName in self.entryChild if self.entryChild[keyName]["checkBtn"].isChecked()]
 
         self.data.setCharacters(self.character, tempConfig)
 

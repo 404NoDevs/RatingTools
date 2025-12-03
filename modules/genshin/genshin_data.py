@@ -89,9 +89,10 @@ class Data(BaseData):
             '攻击力百分比': 1.331429,
             '生命值百分比': 1.331429,
             '防御力百分比': 1.066362,
-            '攻击力': 0.398291 * 0.15,
-            '生命值': 0.025990 * 0.15,
-            '防御力': 0.335252 * 0.15,
+            '攻击力': 0.398291,
+            '生命值': 0.02599,
+            '防御力': 0.335252,
+
             '元素精通': 0.332857,
             '元素充能效率': 1.197943
         }
@@ -415,8 +416,8 @@ class Data(BaseData):
                     core = []
                     aux = []
                     for key, value in self.characters[character]["weight"].items():
-                        if key in ["攻击力", "生命值", "防御力"]:
-                            key += "百分比"
+                        # if key in ["攻击力", "生命值", "防御力"]:
+                        #     key += "百分比"
                         if value > 1.5:  # 超级词条
                             super.append(key)
                         if value > 0.75:  # 核心词条
@@ -430,8 +431,8 @@ class Data(BaseData):
                     mainInSub = False
                     if suitData["suitPart"] in self.mainAttrType:
                         mainAttr = ocr_result["mainAttr"]
-                        if mainAttr in ["攻击力", "生命值", "防御力"]:
-                            mainAttr += "百分比"
+                        # if mainAttr in ["攻击力", "生命值", "防御力"]:
+                        #     mainAttr += "百分比"
                         if mainAttr in core or mainAttr in aux:
                             mainInSub = True
 

@@ -135,7 +135,6 @@ class SpellCorrector:
         return 1 - abs(len1 - len2) / max(len1, len2)
 
     def levenshtein_distance(self, s1, s2):
-        # 保持原有实现
         m, n = len(s1), len(s2)
         dp = [[0] * (n + 1) for _ in range(m + 1)]
 
