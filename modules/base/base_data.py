@@ -4,6 +4,8 @@ import os
 import shutil
 import globalsData
 
+from utils import debugPrint
+
 
 class BaseData:
 
@@ -190,6 +192,7 @@ class BaseData:
         return self.folder_root
 
     def newScore(self, ocr_result, character):
+        # debugPrint("评分开始")
         config = self.characters[character]["weight"]
 
         scores = []
@@ -204,20 +207,18 @@ class BaseData:
             # 检查主词条是否合规
             if ocr_result['parts'] in self.getMainAttrType():
                 attrList = [key for key, value in config.items() if value > 0]
+
                 if ocr_result['mainAttr'] in attrList:
-                    addScore = (self.oneMaxScore / 4) * config[ocr_result['mainAttr']]
+                    addScore = (self.oneMaxScore / 2) * config[ocr_result['mainAttr']]
+
+        # print("主词条补分", addScore)
         # debugPrint("主词条补分", addScore)
 
         for key, value in ocr_result['subAttr'].items():
-            # 兼容角色配置未区分百分比的情况
-            if key == '生命值百分比' or key == '攻击力百分比' or key == '防御力百分比':
-                key_s = key[:3]
-            else:
-                key_s = key
 
             # key值存在误识别情况，则判定为0
             coefficient = self.getCoefficient()
-            score = round(value * config[key_s] * coefficient[key], 1)
+            score = round(value * config[key] * coefficient[key], 1)
             scores.append(score)
             sums += score
 
@@ -225,7 +226,7 @@ class BaseData:
             average = self.getAverage()
             powerup = round(value / average[key]) - 1
             powerupArray.append(powerup)
-            if key_s in config and config[key_s] > 0:
+            if key in config and config[key] > 0:
                 entries = value / average[key]
                 # print(key, entries)
                 entriesSum += entries

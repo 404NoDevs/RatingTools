@@ -35,6 +35,8 @@ class OCR(BaseOCR):
         new_result["parts"] = self.partsSpellCorrector.correct_word(result[1])
         new_result["mainAttr"] = self.mainAttrSpellCorrector.correct_word(result[2])
         new_result["mainDigit"] = result[3]
+        if new_result["mainAttr"] in ["攻击力", "生命值", "防御力"] and "%" in new_result["mainDigit"]:
+            new_result["mainAttr"] += "百分比"
         new_result["lvl"] = re.findall(r'\d+', result[4])[0]
 
         # 中文和数字正则
