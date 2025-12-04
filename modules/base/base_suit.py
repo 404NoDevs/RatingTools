@@ -36,6 +36,11 @@ class BaseSuitWindow(QWidget):
         self.equipmentInfoWindow = None
         self.selectType = 1
 
+        # UI参数
+        self.topIndex = 0
+        self.middleIndex = 20
+        self.bottomIndex = 50
+
         self.initUI()
         self.updateUI()
 
@@ -52,35 +57,37 @@ class BaseSuitWindow(QWidget):
         # 上半部分
         self.showEquipmentInfoButton = QPushButton('查看装备需求')
         self.showCharacterInfoButton = QPushButton('查看角色装备')
-        self.layout.addWidget(self.showEquipmentInfoButton, 0, 0, 1, 2)
-        self.layout.addWidget(self.showCharacterInfoButton, 0, 2, 1, 2)
+        self.layout.addWidget(self.showEquipmentInfoButton, self.topIndex + 0, 0, 1, 2)
+        self.layout.addWidget(self.showCharacterInfoButton, self.topIndex + 0, 2, 1, 2)
         self.checkButton = QPushButton('检查更新')
-        self.layout.addWidget(self.checkButton, 1, 0, 1, 2)
+        self.layout.addWidget(self.checkButton, self.topIndex + 1, 0, 1, 2)
         self.scoreButton = QPushButton(f'{self.equipment_name}评分→')
-        self.layout.addWidget(self.scoreButton, 1, 2, 1, 2)
-        self.layout.addWidget(QLabel('当前角色：'), 2, 0, 1, 1)
+        self.layout.addWidget(self.scoreButton, self.topIndex + 1, 2, 1, 2)
+        self.layout.addWidget(QLabel('当前角色：'), self.topIndex + 2, 0, 1, 1)
         self.heroNameCombobox = ExtendedComboBox()
         characters = self.data.getCharacters()
         for herName in characters:
             if characters[herName].get('isHide', False):
                 continue
             self.heroNameCombobox.addItem(herName)
-        self.layout.addWidget(self.heroNameCombobox, 2, 1, 1, 2)
+        self.layout.addWidget(self.heroNameCombobox, self.topIndex + 2, 1, 1, 2)
         self.setButton = QPushButton('设置>')
-        self.layout.addWidget(self.setButton, 2, 3, 1, 1)
+        self.layout.addWidget(self.setButton, self.topIndex + 2, 3, 1, 1)
+
+        # 中间部分(由子类各自实现)
 
         # 下半部分
-        self.layout.addWidget(QLabel('其他选择:'), 20, 0, 1, 1)
+        self.layout.addWidget(QLabel('其他选择:'), self.bottomIndex + 0, 0, 1, 1)
         self.radiobtn1 = QRadioButton('仅未装备')
         self.radiobtn2 = QRadioButton('全部')
         self.radiobtn1.setChecked(True)
-        self.layout.addWidget(self.radiobtn1, 21, 1, 1, 1)
-        self.layout.addWidget(self.radiobtn2, 21, 2, 1, 1)
+        self.layout.addWidget(self.radiobtn1, self.bottomIndex + 1, 1, 1, 1)
+        self.layout.addWidget(self.radiobtn2, self.bottomIndex + 1, 2, 1, 1)
         self.startButton = QPushButton('生成方案')
-        self.layout.addWidget(self.startButton, 22, 0, 1, 4)
+        self.layout.addWidget(self.startButton, self.bottomIndex + 2, 0, 1, 4)
         self.tipsLabel = QLabel('提示文本')
         self.tipsLabel.setStyleSheet("qproperty-alignment: 'AlignCenter';color:red;")
-        self.layout.addWidget(self.tipsLabel, 23, 0, 1, 4)
+        self.layout.addWidget(self.tipsLabel, self.bottomIndex + 3, 0, 1, 4)
 
         # 注册事件
         self.scoreButton.clicked.connect(self.swichMainWindow)

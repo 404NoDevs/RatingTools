@@ -9,39 +9,55 @@ MODIFY_GENSHIN = 1
 MODIFY_STARRAIL = 2
 MODIFY_ZZZ = 3
 
-modify_module_name = MODIFY_STARRAIL
+modify_module_name = MODIFY_ZZZ
 
 if modify_module_name == MODIFY_GENSHIN:
 
     json_path = "../src/genshin/character.json"
+
     # 读取数据
     with open(json_path, 'r', encoding='utf-8') as f:
         data = json.load(f)
 
-    print(data)
     # 更新每个角色的 weight 结构
     for character_name, character_data in data.items():
-        if 'weight' in character_data:
-            old_weight = character_data['weight']
 
-            # 创建新的 weight 结构
-            new_weight = {
-                "暴击率": old_weight.get("暴击率", 0.0),
-                "暴击伤害": old_weight.get("暴击伤害", 0.0),
-                "生命值": old_weight.get("生命值", 0.0),
-                "生命值百分比": old_weight.get("生命值百分比", 0.0),
-                "攻击力": old_weight.get("攻击力", 0.0),
-                "攻击力百分比": old_weight.get("攻击力百分比", 0.0),
-                "防御力": old_weight.get("防御力", 0.0),
-                "防御力百分比": old_weight.get("防御力百分比", 0.0),
-                "元素精通": old_weight.get("元素精通", 0.0),
-                "元素充能效率": old_weight.get("元素充能效率", 0.0)
-            }
+        # if "时之沙" in character_data:
+        #     for index, item in enumerate(character_data["时之沙"]):
+        #         if item in ["攻击力", "生命值", "防御力"]:
+        #             character_data["时之沙"][index] += "百分比"
+        # if "空之杯" in character_data:
+        #     for index, item in enumerate(character_data["空之杯"]):
+        #         if item in ["攻击力", "生命值", "防御力"]:
+        #             character_data["空之杯"][index] += "百分比"
+        # if "理之冠" in character_data:
+        #     for index, item in enumerate(character_data["理之冠"]):
+        #         if item in ["攻击力", "生命值", "防御力"]:
+        #             character_data["理之冠"][index] += "百分比"
 
-            character_data['weight'] = new_weight
+        # if 'weight' in character_data:
+        #     old_weight = character_data['weight']
+        #
+        #     # 创建新的 weight 结构
+        #     new_weight = {
+        #         "暴击率": old_weight.get("暴击率", 0.0),
+        #         "暴击伤害": old_weight.get("暴击伤害", 0.0),
+        #         "生命值": old_weight.get("生命值", 0.0),
+        #         "生命值百分比": old_weight.get("生命值百分比", 0.0),
+        #         "攻击力": old_weight.get("攻击力", 0.0),
+        #         "攻击力百分比": old_weight.get("攻击力百分比", 0.0),
+        #         "防御力": old_weight.get("防御力", 0.0),
+        #         "防御力百分比": old_weight.get("防御力百分比", 0.0),
+        #         "元素精通": old_weight.get("元素精通", 0.0),
+        #         "元素充能效率": old_weight.get("元素充能效率", 0.0)
+        #     }
+        #
+        #     character_data['weight'] = new_weight
+        #
+        # if "core" in character_data:
+        #     del character_data["core"]
 
-        if "core" in character_data:
-            del character_data["core"]
+        pass
 
     # 保存更新后的数据
     with open(json_path, 'w', encoding='utf-8') as f:
@@ -54,33 +70,50 @@ elif modify_module_name == MODIFY_STARRAIL:
     with open(json_path, 'r', encoding='utf-8') as f:
         data = json.load(f)
 
-    print(data)
     # 更新每个角色的 weight 结构
     for character_name, character_data in data.items():
-        if 'weight' in character_data:
-            old_weight = character_data['weight']
 
-            # 创建新的 weight 结构
-            new_weight = {
-                "暴击率": old_weight.get("暴击率", 0.0),
-                "暴击伤害": old_weight.get("暴击伤害", 0.0),
-                "生命值": old_weight.get("生命值", 0.0),
-                "生命值百分比": old_weight.get("生命值百分比", 0.0),
-                "攻击力": old_weight.get("攻击力", 0.0),
-                "攻击力百分比": old_weight.get("攻击力百分比", 0.0),
-                "防御力": old_weight.get("防御力", 0.0),
-                "防御力百分比": old_weight.get("防御力百分比", 0.0),
-                "速度": old_weight.get("速度", 0.0),
-                "击破特攻": old_weight.get("击破特攻", 0.0),
-                "效果命中": old_weight.get("效果命中", 0.0),
-                "效果抵抗": old_weight.get("效果抵抗", 0.0)
-            }
+        # if "躯干" in character_data:
+        #     for index, item in enumerate(character_data["躯干"]):
+        #         if item in ["攻击力", "生命值", "防御力"]:
+        #             character_data["躯干"][index] += "百分比"
+        # if "脚部" in character_data:
+        #     for index, item in enumerate(character_data["脚部"]):
+        #         if item in ["攻击力", "生命值", "防御力"]:
+        #             character_data["脚部"][index] += "百分比"
+        # if "位面球" in character_data:
+        #     for index, item in enumerate(character_data["位面球"]):
+        #         if item in ["攻击力", "生命值", "防御力"]:
+        #             character_data["位面球"][index] += "百分比"
+        # if "连结绳" in character_data:
+        #     for index, item in enumerate(character_data["连结绳"]):
+        #         if item in ["攻击力", "生命值", "防御力"]:
+        #             character_data["连结绳"][index] += "百分比"
 
-            character_data['weight'] = new_weight
-
-        if "core" in character_data:
-            del character_data["core"]
-
+        # if 'weight' in character_data:
+        #     old_weight = character_data['weight']
+        #
+        #     # 创建新的 weight 结构
+        #     new_weight = {
+        #         "暴击率": old_weight.get("暴击率", 0.0),
+        #         "暴击伤害": old_weight.get("暴击伤害", 0.0),
+        #         "生命值": old_weight.get("生命值", 0.0),
+        #         "生命值百分比": old_weight.get("生命值百分比", 0.0),
+        #         "攻击力": old_weight.get("攻击力", 0.0),
+        #         "攻击力百分比": old_weight.get("攻击力百分比", 0.0),
+        #         "防御力": old_weight.get("防御力", 0.0),
+        #         "防御力百分比": old_weight.get("防御力百分比", 0.0),
+        #         "速度": old_weight.get("速度", 0.0),
+        #         "击破特攻": old_weight.get("击破特攻", 0.0),
+        #         "效果命中": old_weight.get("效果命中", 0.0),
+        #         "效果抵抗": old_weight.get("效果抵抗", 0.0)
+        #     }
+        #
+        #     character_data['weight'] = new_weight
+        #
+        # if "core" in character_data:
+        #     del character_data["core"]
+        pass
     # 保存更新后的数据
     with open(json_path, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
@@ -95,28 +128,42 @@ elif modify_module_name == MODIFY_ZZZ:
     print(data)
     # 更新每个角色的 weight 结构
     for character_name, character_data in data.items():
-        if 'weight' in character_data:
-            old_weight = character_data['weight']
 
-            # 创建新的 weight 结构
-            new_weight = {
-                "暴击率": old_weight.get("暴击率", 0.0),
-                "暴击伤害": old_weight.get("暴击伤害", 0.0),
-                "生命值": old_weight.get("生命值", 0.0),
-                "生命值百分比": old_weight.get("生命值百分比", 0.0),
-                "攻击力": old_weight.get("攻击力", 0.0),
-                "攻击力百分比": old_weight.get("攻击力百分比", 0.0),
-                "防御力": old_weight.get("防御力", 0.0),
-                "防御力百分比": old_weight.get("防御力百分比", 0.0),
-                "异常精通": old_weight.get("异常精通", 0.0),
-                "穿透值": old_weight.get("穿透值", 0.0)
-            }
+        # if "分区4" in character_data:
+        #     for index, item in enumerate(character_data["分区4"]):
+        #         if item in ["攻击力", "生命值", "防御力"]:
+        #             character_data["分区4"][index] += "百分比"
+        # if "分区5" in character_data:
+        #     for index, item in enumerate(character_data["分区5"]):
+        #         if item in ["攻击力", "生命值", "防御力"]:
+        #             character_data["分区5"][index] += "百分比"
+        # if "分区6" in character_data:
+        #     for index, item in enumerate(character_data["分区6"]):
+        #         if item in ["攻击力", "生命值", "防御力"]:
+        #             character_data["分区6"][index] += "百分比"
 
-            character_data['weight'] = new_weight
-
-        if "core" in character_data:
-            del character_data["core"]
-
+        # if 'weight' in character_data:
+        #     old_weight = character_data['weight']
+        #
+        #     # 创建新的 weight 结构
+        #     new_weight = {
+        #         "暴击率": old_weight.get("暴击率", 0.0),
+        #         "暴击伤害": old_weight.get("暴击伤害", 0.0),
+        #         "生命值": old_weight.get("生命值", 0.0),
+        #         "生命值百分比": old_weight.get("生命值百分比", 0.0),
+        #         "攻击力": old_weight.get("攻击力", 0.0),
+        #         "攻击力百分比": old_weight.get("攻击力百分比", 0.0),
+        #         "防御力": old_weight.get("防御力", 0.0),
+        #         "防御力百分比": old_weight.get("防御力百分比", 0.0),
+        #         "异常精通": old_weight.get("异常精通", 0.0),
+        #         "穿透值": old_weight.get("穿透值", 0.0)
+        #     }
+        #
+        #     character_data['weight'] = new_weight
+        #
+        # if "core" in character_data:
+        #     del character_data["core"]
+        pass
     # 保存更新后的数据
     with open(json_path, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)

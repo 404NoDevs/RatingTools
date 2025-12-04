@@ -29,9 +29,9 @@ class SuitWindow(BaseSuitWindow):
     def initUI(self):
         super().initUI()
 
-        self.layout.addWidget(QLabel('套装类型:'), 10, 0, 1, 1)
-        self.layout.addWidget(QLabel('外圈A'), 11, 1, 1, 1)
-        self.layout.addWidget(QLabel('外圈B'), 12, 1, 1, 1)
+        self.layout.addWidget(QLabel('套装类型:'), self.middleIndex + 0, 0, 1, 1)
+        self.layout.addWidget(QLabel('外圈A'), self.middleIndex + 1, 1, 1, 1)
+        self.layout.addWidget(QLabel('外圈B'), self.middleIndex + 2, 1, 1, 1)
         self.suitComboboxA = QComboBox()
         self.suitComboboxB = QComboBox()
         self.suitComboboxA.addItem(NO_SELECT_KEY)
@@ -39,24 +39,26 @@ class SuitWindow(BaseSuitWindow):
         for key in data.getSuitConfig("外圈"):
             self.suitComboboxA.addItem(key)
             self.suitComboboxB.addItem(key)
-        self.layout.addWidget(self.suitComboboxA, 11, 2, 1, 2)
-        self.layout.addWidget(self.suitComboboxB, 12, 2, 1, 2)
-        self.layout.addWidget(QLabel('内圈C'), 13, 1, 1, 1)
+        self.layout.addWidget(self.suitComboboxA, self.middleIndex + 1, 2, 1, 2)
+        self.layout.addWidget(self.suitComboboxB, self.middleIndex + 2, 2, 1, 2)
+        self.layout.addWidget(QLabel('内圈C'), self.middleIndex + 3, 1, 1, 1)
         self.suitComboboxC = QComboBox()
         self.suitComboboxC.addItem(NO_SELECT_KEY)
         for key in data.getSuitConfig("内圈"):
             self.suitComboboxC.addItem(key)
-        self.layout.addWidget(self.suitComboboxC, 13, 2, 1, 2)
+        self.layout.addWidget(self.suitComboboxC, self.middleIndex + 3, 2, 1, 2)
 
-        self.layout.addWidget(QLabel('主要属性:'), 15, 0, 1, 1)
-        self.layout.addWidget(QLabel('(不选默认不限制主词条)'), 15, 1, 1, 4)
+        self.layout.addWidget(QLabel('主要属性:'), self.middleIndex + 5, 0, 1, 1)
+        self.layout.addWidget(QLabel('(不选默认不限制主词条)'), self.middleIndex + 5, 1, 1, 4)
         self.mainAttrCombobox = {}
         MainAttrType = data.getMainAttrType()
         for index, (key, values) in enumerate(MainAttrType.items()):
-            self.layout.addWidget(QLabel(key), 16 + index, 1, 1, 2)
+            if len(values) <= 1:
+                continue
+            self.layout.addWidget(QLabel(key), self.middleIndex + 6 + index, 1, 1, 2)
             mainAttrCombobox = XCombobox("任意属性")
             mainAttrCombobox.add_items(values)
-            self.layout.addWidget(mainAttrCombobox, 16 + index, 2, 1, 2)
+            self.layout.addWidget(mainAttrCombobox, self.middleIndex + 6 + index, 2, 1, 2)
             self.mainAttrCombobox[key] = mainAttrCombobox
 
         # 根据创建参数调整页面

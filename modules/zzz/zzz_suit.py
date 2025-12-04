@@ -27,9 +27,9 @@ class SuitWindow(BaseSuitWindow):
     def initUI(self):
         super().initUI()
 
-        self.layout.addWidget(QLabel('套装类型:'), 10, 0, 1, 1)
-        self.layout.addWidget(QLabel('四件套'), 11, 1, 1, 1)
-        self.layout.addWidget(QLabel('二件套'), 12, 1, 1, 1)
+        self.layout.addWidget(QLabel('套装类型:'), self.middleIndex + 0, 0, 1, 1)
+        self.layout.addWidget(QLabel('四件套'), self.middleIndex + 1, 1, 1, 1)
+        self.layout.addWidget(QLabel('二件套'), self.middleIndex + 2, 1, 1, 1)
         self.suitCombobox1 = QComboBox()
         self.suitCombobox2 = QComboBox()
         self.suitCombobox1.addItem(NO_SELECT_KEY)
@@ -38,18 +38,20 @@ class SuitWindow(BaseSuitWindow):
             if TWO_PIECE_SET_KEY not in key:
                 self.suitCombobox1.addItem(key)
             self.suitCombobox2.addItem(key)
-        self.layout.addWidget(self.suitCombobox1, 11, 2, 1, 2)
-        self.layout.addWidget(self.suitCombobox2, 12, 2, 1, 2)
+        self.layout.addWidget(self.suitCombobox1, self.middleIndex + 1, 2, 1, 2)
+        self.layout.addWidget(self.suitCombobox2, self.middleIndex + 2, 2, 1, 2)
 
-        self.layout.addWidget(QLabel('主要属性:'), 15, 0, 1, 1)
+        self.layout.addWidget(QLabel('主要属性:'), self.middleIndex + 5, 0, 1, 1)
         self.layout.addWidget(QLabel('(不选默认不限制主词条)'), 15, 1, 1, 4)
         self.mainAttrCombobox = {}
         MainAttrType = data.getMainAttrType()
         for index, (key, values) in enumerate(MainAttrType.items()):
-            self.layout.addWidget(QLabel(key), 16 + index, 1, 1, 2)
+            if len(values) <= 1:
+                continue
+            self.layout.addWidget(QLabel(key), self.middleIndex + 6 + index, 1, 1, 2)
             mainAttrCombobox = XCombobox("任意属性")
             mainAttrCombobox.add_items(values)
-            self.layout.addWidget(mainAttrCombobox, 16 + index, 2, 1, 2)
+            self.layout.addWidget(mainAttrCombobox, self.middleIndex + 6 + index, 2, 1, 2)
             self.mainAttrCombobox[key] = mainAttrCombobox
 
         # 根据创建参数调整页面
