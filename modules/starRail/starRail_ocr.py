@@ -45,7 +45,6 @@ class OCR(BaseOCR):
             markPrint("数据长度不符合要求", result)
             return False
 
-        # print("11111111")
         # print(result)
         new_result["name"] = self.nameSpellCorrector.correct_word(result[0])
         new_result["parts"] = self.partsSpellCorrector.correct_word(result[1])

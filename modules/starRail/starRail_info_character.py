@@ -39,7 +39,7 @@ class CharacterInfoWindow(BaseInfoWindow):
         self.table_view.horizontalHeader().setFont(QFont("Microsoft YaHei", 8, QFont.Bold))
 
         self.table_view.setModel(model)
-        self.table_view.setColumnWidth(0, 70)
+        self.table_view.setColumnWidth(0, 80)
         self.table_view.setColumnWidth(1, 50)
         for index in range(2, 4):
             self.table_view.setColumnWidth(index, 105)

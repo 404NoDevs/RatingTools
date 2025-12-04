@@ -9,9 +9,6 @@ class Data(BaseData):
         self.entryArray = ["暴击率", "暴击伤害", "生命值", "生命值百分比", "攻击力", "攻击力百分比", "防御力", "防御力百分比", "异常精通", "穿透值"]
         self.posName = ["分区1", "分区2", "分区3", "分区4", "分区5", "分区6"]
         self.mainAttrType = {
-            "分区1": ["生命值"],
-            "分区2": ["攻击力"],
-            "分区3": ["防御力"],
             "分区4": ["生命值百分比", "攻击力百分比", "防御力百分比",  "暴击率", "暴击伤害", "异常精通"],
             "分区5": ["生命值百分比", "攻击力百分比", "防御力百分比",  "穿透率", "物理伤害加成", "火属性伤害加成", "冰属性伤害加成", "电属性伤害加成", "以太伤害加成"],
             "分区6": ["生命值百分比", "攻击力百分比", "防御力百分比",  "异常掌控", "冲击力", "能量自动回复"],
@@ -171,7 +168,7 @@ class Data(BaseData):
                             continue
 
                     # 限制二 对比主词条
-                    if posItem in params["needMainAttr"] and len(params["needMainAttr"][posItem]) > 1:
+                    if posItem in self.mainAttrType:
                         if artifactValue["mainAttr"] not in params["needMainAttr"][posItem]:
                             # print("主词条不符合")
                             continue

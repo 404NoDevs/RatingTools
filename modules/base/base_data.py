@@ -318,4 +318,4 @@ class BaseData:
 
     # 获取主属性名称词典
     def getMainAttrDict(self):
-        return {item for sublist in self.getMainAttrType().values() for item in sublist}
+        return {item for sublist in self.getMainAttrType().values() for item in sublist} | {"攻击力", "生命值", "防御力"}

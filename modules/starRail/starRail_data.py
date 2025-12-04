@@ -12,8 +12,6 @@ class Data(BaseData):
         self.posNameOut = ["头部", "手部", "躯干", "脚部"]
         self.posNameIn = ["位面球", "连结绳"]
         self.mainAttrType = {
-            "头部": ["生命值"],
-            "手部": ["攻击力"],
             "躯干": ["生命值百分比", "攻击力百分比", "防御力百分比", "暴击率", "暴击伤害", "治疗量加成", "效果命中"],
             "脚部": ["生命值百分比", "攻击力百分比", "防御力百分比", "速度"],
             "位面球": ["生命值百分比", "攻击力百分比", "防御力百分比", "物理属性伤害提高", "火属性伤害提高", "冰属性伤害提高", "雷属性伤害提高", "风属性伤害提高", "量子属性伤害提高", "虚数属性伤害提高"],
@@ -202,7 +200,7 @@ class Data(BaseData):
                         continue
 
                 # 限制二 对比主词条
-                if posItem in params["needMainAttr"] and len(params["needMainAttr"][posItem]) > 1:
+                if posItem in self.mainAttrType:
                     if artifactValue["mainAttr"] not in params["needMainAttr"][posItem]:
                         # print("主词条不符合")
                         continue
@@ -256,7 +254,7 @@ class Data(BaseData):
                         continue
 
                 # 限制二 对比主词条
-                if posItem in params["needMainAttr"] and len(params["needMainAttr"][posItem]) > 1:
+                if posItem in self.mainAttrType:
                     if artifactValue["mainAttr"] not in params["needMainAttr"][posItem]:
                         # print("主词条不符合")
                         continue
