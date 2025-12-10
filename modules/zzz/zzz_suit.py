@@ -42,7 +42,7 @@ class SuitWindow(BaseSuitWindow):
         self.layout.addWidget(self.suitCombobox2, self.middleIndex + 2, 2, 1, 2)
 
         self.layout.addWidget(QLabel('主要属性:'), self.middleIndex + 5, 0, 1, 1)
-        self.layout.addWidget(QLabel('(不选默认不限制主词条)'), 15, 1, 1, 4)
+        self.layout.addWidget(QLabel('(不选默认不限制主词条)'), self.middleIndex + 5, 1, 1, 4)
         self.mainAttrCombobox = {}
         MainAttrType = data.getMainAttrType()
         for index, (key, values) in enumerate(MainAttrType.items()):

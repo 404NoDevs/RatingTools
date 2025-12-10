@@ -1,26 +1,23 @@
 from modules.base.base_info import BaseInfoWindow
 from modules.zzz.zzz_data import data
 from modules.zzz.zzz_constants import *
-from PySide6.QtGui import QFont, QColor, QStandardItemModel, QStandardItem
+from PySide6.QtGui import QFont, QStandardItemModel, QStandardItem
 
 class EquipmentInfoWindow(BaseInfoWindow):
     def __init__(self):
         super().__init__({
             "data": data,
             "position": (300, 0),
-            "size": (770, 375)
+            "size": (770, 990)
         })
 
     def update(self):
         headerList = ['名称', "穿戴者"]
         config = self.data.get_evaluate_config()
-        for index, item in enumerate(reversed(config)):
-            lastIndex = index - 1
 
-            if lastIndex >= 0:
-                header = "[" + str(config[-lastIndex - 1][0]) + ',' + str(item[0]) + ")"
-                headerList.append(header)
-        headerList.append(">=" + str(config[0][0]))
+        for index, item in enumerate(reversed(config)):
+            header = item[2]
+            headerList.append(header)
 
         suitConfig = list(self.data.getSuitConfig().keys())
         tableData = self.data.get_table_data()

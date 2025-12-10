@@ -10,7 +10,7 @@ class CharacterInfoWindow(BaseInfoWindow):
         super().__init__({
             "data": data,
             "position": (305, 0),
-            "size": (1290, 425)
+            "size": (1290, 990)
         })
 
     def update(self):
@@ -39,20 +39,22 @@ class CharacterInfoWindow(BaseInfoWindow):
         self.table_view.horizontalHeader().setFont(QFont("Microsoft YaHei", 8, QFont.Bold))
 
         self.table_view.setModel(model)
-        self.table_view.setColumnWidth(0, 80)
-        self.table_view.setColumnWidth(1, 50)
-        for index in range(2, 4):
+        self.table_view.setColumnWidth(headerList.index("角色"), 80)
+        self.table_view.setColumnWidth(headerList.index("版本"), 50)
+        for index in range(headerList.index("外圈一"), headerList.index("内圈") + 1):
             self.table_view.setColumnWidth(index, 105)
-        for index in range(10, 16):
+        for index in range(headerList.index("躯干-主"), headerList.index("得分权重") + 1):
+            self.table_view.setColumnWidth(index, 100)
+        for index in range(headerList.index("头部"), headerList.index("连结绳") + 1):
             self.table_view.setColumnWidth(index, 40)
-        self.table_view.setColumnWidth(16, 50)
+        self.table_view.setColumnWidth(headerList.index("总分"), 50)
 
         for row, characterItem in enumerate(data):
             nameItem = QStandardItem(characterItem)
             nameItem.setFont(QFont("Microsoft YaHei", 8, QFont.Bold))
             model.setItem(row, headerList.index("角色"), nameItem)
-            versionItem = QStandardItem(data[characterItem]["version"])
-            versionItem.setData(data[characterItem]["version"], Qt.DisplayRole)
+            versionItem = QStandardItem(str(data[characterItem]["version"]))
+            # versionItem.setData(data[characterItem]["version"], Qt.DisplayRole)
             model.setItem(row, headerList.index("版本"), versionItem)
 
             characterData = data[characterItem]
@@ -101,7 +103,7 @@ class CharacterInfoWindow(BaseInfoWindow):
                             scoreSum += score
 
                     sumScoreItem = QStandardItem(str(round(scoreSum, 1)))
-                    sumScoreItem.setData(round(float(scoreSum), 1), Qt.DisplayRole)  # 强制转为flot类型用于后续排序
+                    # sumScoreItem.setData(round(float(scoreSum), 1), Qt.DisplayRole)  # 强制转为flot类型用于后续排序
                     sumScoreItem.setBackground(QColor(*self.data.get_evaluate(scoreSum / len(self.data.getPosName()))[1]))
                     model.setItem(row, headerList.index("总分"), sumScoreItem)
                 else:
