@@ -45,9 +45,9 @@ class EquipmentInfoWindow(BaseInfoWindow):
             for suitName in suitArray:
                 if tableItem[suitName] in suitConfig:
                     if TWO_PIECE_SET_KEY in tableItem[suitName]:
-                        if suitName == "suitB" and tableItem[suitName] == tableItem["suitA"]:
-                            # AB相同 去重
-                            continue
+                        # if suitName == "suitB" and tableItem[suitName] == tableItem["suitA"]:
+                        #     # AB相同 去重
+                        #     continue
                         suit_list = self.data.getSuitListByKey(tableItem[suitName])
                     else:
                         suit_list = [tableItem[suitName]]
@@ -56,7 +56,10 @@ class EquipmentInfoWindow(BaseInfoWindow):
                         row = suitConfig.index(suitNameItem)
                         standard_item = model.item(row, 1)
                         if standard_item:
-                            text = standard_item.text() + "\n" + character
+                            text = standard_item.text()
+                            if character in text:
+                                continue
+                            text += "\n" + character
                             standard_item.setText(text)
                         else:
                             model.setItem(row, 1, QStandardItem(character))

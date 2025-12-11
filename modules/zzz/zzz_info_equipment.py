@@ -53,7 +53,10 @@ class EquipmentInfoWindow(BaseInfoWindow):
                         row = suitConfig.index(suitNameItem)
                         standard_item = model.item(row, 1)
                         if standard_item:
-                            text = standard_item.text() + "\n" + character
+                            text = standard_item.text()
+                            if character in text:
+                                continue
+                            text += "\n" + character
                             standard_item.setText(text)
                         else:
                             model.setItem(row, 1, QStandardItem(character))

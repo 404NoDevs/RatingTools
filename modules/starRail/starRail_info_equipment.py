@@ -7,7 +7,7 @@ class EquipmentInfoWindow(BaseInfoWindow):
         super().__init__({
             "data": data,
             "position": (305, 0),
-            "size": (770, 990)
+            "size": (850, 990)
         })
 
     def update(self):
@@ -26,10 +26,10 @@ class EquipmentInfoWindow(BaseInfoWindow):
         self.table_view.horizontalHeader().setFont(QFont("Microsoft YaHei", 8, QFont.Bold))
 
         self.table_view.setModel(model)
-        self.table_view.setColumnWidth(0, 90)
-        self.table_view.setColumnWidth(1, 70)
+        self.table_view.setColumnWidth(headerList.index("名称"), 90)
+        self.table_view.setColumnWidth(headerList.index("穿戴者"), 85)
         for index in range(2, 6):
-            self.table_view.setColumnWidth(index, 110)
+            self.table_view.setColumnWidth(index, 125)
 
         for row, suitName in enumerate(suitConfig):
             nameItem = QStandardItem(suitName)
@@ -44,7 +44,10 @@ class EquipmentInfoWindow(BaseInfoWindow):
                     row = suitConfig.index(tableItem[suitName])
                     standard_item = model.item(row, 1)
                     if standard_item:
-                        text = standard_item.text() + "\n" + character
+                        text = standard_item.text()
+                        if character in text:
+                            continue
+                        text += "\n" + character
                         standard_item.setText(text)
                     else:
                         model.setItem(row, 1, QStandardItem(character))
