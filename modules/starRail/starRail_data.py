@@ -85,7 +85,7 @@ class Data(BaseData):
             (52.4 * 0.75, (255, 217, 0), "良好"),
             (52.4 * 0.60, (163, 224, 67), "及格"),
             (52.4 * 0.30, (238, 121, 118), "不及格"),
-            (52.4 * 0.00, (255, 0, 0), "急需替换")
+            (52.4 * 0.00, (255, 0, 0), "废品")
         ]
 
         # 后初始化父类
@@ -513,21 +513,20 @@ class Data(BaseData):
                         tempList.append(tempResult)
 
         if len(tempList) == 0:
-            result["tips"] = "未找到适配的角色"
+            result["tips"] = "暂时没有适配的角色"
         else:
             if ocr_result["lvl"] == str(self.maxLevel):
                 # 已满级 进行分析
+                level = 10
                 for item in tempList:
-                    if item["current_score"] >= self.maxScore * 0.4:
-                        result["tips"] = "还行，能用"
-                        break
-                    else:
-                        result["tips"] = "建议分解"
+                    temp_level, evaluate_item = self.get_evaluate(item["current_score"])
+                    if temp_level < level:
+                        level = temp_level
+                        result["tips"] = evaluate_item[2]
             else:
                 result["tips"] = "当前装备未满级"
 
         result["list"] = tempList
-
         markPrint(result)
         return result
 

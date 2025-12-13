@@ -182,7 +182,7 @@ class BaseScoreWindow(QWidget):
         self.w_grab = locationData.get("w_grab", 0)
         self.h_grab = locationData.get("h_grab", 0)
 
-        if globalsData.debug:
+        if globalsData.debug or True:
             #  debug模式下，显示鼠标判定区域
             self.temp = []
             # window = ColorWindow()

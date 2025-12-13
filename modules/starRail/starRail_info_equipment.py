@@ -7,7 +7,7 @@ class EquipmentInfoWindow(BaseInfoWindow):
         super().__init__({
             "data": data,
             "position": (305, 0),
-            "size": (850, 990)
+            "size": (865, 990)
         })
 
     def update(self):
@@ -26,7 +26,7 @@ class EquipmentInfoWindow(BaseInfoWindow):
         self.table_view.horizontalHeader().setFont(QFont("Microsoft YaHei", 8, QFont.Bold))
 
         self.table_view.setModel(model)
-        self.table_view.setColumnWidth(headerList.index("名称"), 90)
+        self.table_view.setColumnWidth(headerList.index("名称"), 110)
         self.table_view.setColumnWidth(headerList.index("穿戴者"), 85)
         for index in range(2, 6):
             self.table_view.setColumnWidth(index, 125)

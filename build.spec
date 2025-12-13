@@ -16,8 +16,8 @@ module_zzz_files = glob.glob(os.path.join('modules', 'zzz', '*.py'))
 
 # 数据文件和配置文件
 datas = [
-    ('venv/Lib/site-packages/rapidocr_onnxruntime/config.yaml', 'rapidocr_onnxruntime'),
-    ('venv/Lib/site-packages/rapidocr_onnxruntime/models', 'rapidocr_onnxruntime/models'),
+    (os.path.join('venv', 'Lib', 'site-packages', 'rapidocr'), 'rapidocr'),  # 打包整个目录
+    (os.path.join('venv', 'Lib', 'site-packages', 'rapidocr_onnxruntime'), 'rapidocr_onnxruntime'),  # 打包整个目录
     ('src', 'src')
 ]
 
@@ -67,5 +67,5 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='ratingTools-0.0.14'
+    name='ratingTools-0.0.20'
 )
