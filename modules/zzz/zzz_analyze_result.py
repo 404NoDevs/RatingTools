@@ -1,6 +1,6 @@
-'''圣遗物推荐方案生成弹窗'''
-
+# 圣遗物推荐方案生成弹窗
 from modules.base.base_analyze_result import BaseAnalyzeResultWindow
+
 
 class AnalyzeResultWindow(BaseAnalyzeResultWindow):
 
@@ -8,4 +8,3 @@ class AnalyzeResultWindow(BaseAnalyzeResultWindow):
         super().__init__({
             "position": (0, 283)
         })
-

@@ -92,6 +92,7 @@ class CharacterInfoWindow(BaseInfoWindow):
                                 score = self.data.newScore(artifactItem, characterItem)[1]
 
                             scoreItem = QStandardItem(str(score))
+                            # in
                             scoreItem.setBackground(QColor(*self.data.get_evaluate(score)[1]))
                             model.setItem(row, headerList.index(posItem[2]), scoreItem)
                             scoreSum += score

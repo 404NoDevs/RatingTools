@@ -58,21 +58,21 @@ class Data(BaseData):
             "穿透值": 9
         }
 
-        # self.evaluate = [
-        #     (35, (230, 179, 34), "卓越"),
-        #     (25, (255, 217, 0), "优秀"),
-        #     (20, (163, 224, 67), "及格"),
-        #     (10, (238, 121, 118), "不及格"),
-        #     (0, (255, 0, 0), "无用")
-        # ]
-
         self.evaluate = [
-            (43.2 * 0.90, (230, 179, 34), "优秀"),
-            (43.2 * 0.75, (255, 217, 0), "良好"),
-            (43.2 * 0.60, (163, 224, 67), "及格"),
-            (43.2 * 0.30, (238, 121, 118), "不及格"),
-            (43.2 * 0.00, (255, 0, 0), "废品")
+            (35, (230, 179, 34), "卓越"),
+            (25, (255, 217, 0), "优秀"),
+            (20, (163, 224, 67), "合格"),
+            (10, (238, 121, 118), "不合格"),
+            (0, (255, 0, 0), "废品")
         ]
+
+        # self.evaluate = [
+        #     (38.4 * 0.90, (230, 179, 34), "优秀"),
+        #     (38.4 * 0.75, (255, 217, 0), "良好"),
+        #     (38.4 * 0.60, (163, 224, 67), "及格"),
+        #     (38.4 * 0.30, (238, 121, 118), "不及格"),
+        #     (38.4 * 0.00, (255, 0, 0), "废品")
+        # ]
 
         super().__init__({
             "module_name": "zzz",
@@ -414,13 +414,15 @@ class Data(BaseData):
             result["tips"] = "暂时没有适配的角色"
         else:
             if ocr_result["lvl"] == str(self.maxLevel):
-                # 已满级 进行分析
-                level = 10
-                for item in tempList:
-                    temp_level, evaluate_item = self.get_evaluate(item["current_score"])
-                    if temp_level < level:
-                        level = temp_level
-                        result["tips"] = evaluate_item[2]
+                # # 已满级 进行分析
+                # level = 10
+                # for item in tempList:
+                #     temp_level, evaluate_item = self.get_evaluate(item["current_score"])
+                #     if temp_level < level:
+                #         level = temp_level
+                #         result["tips"] = evaluate_item[2]
+
+                result["tips"] = "分析系统升级中..."
             else:
                 result["tips"] = "当前装备未满级"
 

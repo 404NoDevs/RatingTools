@@ -1,7 +1,5 @@
 import os
 import sys
-import globalsData
-import utils
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon, QFont
@@ -14,6 +12,9 @@ from PySide6.QtWidgets import (
     QApplication
 )
 
+from globalsData import *
+from utils import *
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -21,7 +22,7 @@ class MainWindow(QMainWindow):
 
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
         self.setWindowIcon(QIcon(os.path.join(os.path.dirname(__file__), 'src/keqing.ico')))
-        self.setWindowTitle(globalsData.appName)
+        self.setWindowTitle(appName)
         self.setFocusPolicy(Qt.StrongFocus)
         self.move(0, 0)
 
@@ -33,14 +34,14 @@ class MainWindow(QMainWindow):
         maxWidth = 20
         layout = QGridLayout()
         # 标题
-        title = QLabel(globalsData.appName)
+        title = QLabel(appName)
         title.setFont(QFont('微软雅黑', 30, QFont.Bold))
         title.setStyleSheet("qproperty-alignment: 'AlignCenter';")
         layout.addWidget(title, 0, 0, 1, maxWidth)
         # 游戏按钮
         counter = 1
         gameBtns = {}
-        for gamekey, gameName in globalsData.gamesMap.items():
+        for gamekey, gameName in gamesMap.items():
             btnItem = QPushButton(gameName)
             btnItem.clicked.connect(self.onClickGameBtn)
             layout.addWidget(btnItem, counter, 0, 1, maxWidth)
@@ -60,10 +61,10 @@ class MainWindow(QMainWindow):
     def onClickGameBtn(self):
         sender_button = self.sender()  # 获取发送信号的按钮对象
         gameName = sender_button.text()
-        gameKey = utils.getKeyByValue(globalsData.gamesMap, gameName)
+        gameKey = getKeyByValue(gamesMap, gameName)
 
         global mainWindow
-        window_state = utils.checkWinowState(gameKey)
+        window_state = checkWinowState(gameKey)
         if window_state == 0:
             ScoreWindow = None
             if gameKey == "genshin":
@@ -104,7 +105,7 @@ def main():
     # 任务栏图标问题
     try:
         from ctypes import windll  # Only exists on Windows.
-        windll.shell32.SetCurrentProcessExplicitAppUserModelID(globalsData.version)
+        windll.shell32.SetCurrentProcessExplicitAppUserModelID(version)
     except ImportError:
         pass
 

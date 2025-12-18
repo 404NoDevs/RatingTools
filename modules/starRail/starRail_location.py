@@ -1,10 +1,10 @@
 from modules.base.base_location import BaseLocation
-
+from modules.starRail.starRail_constants import *
 
 class Location(BaseLocation):
     def __init__(self):
         super().__init__({
-            "gameKey": "starRail",
+            "gameKey": MODULE_NAME,
             "1920x1080": {
                 # 背包面板
                 "bag": {

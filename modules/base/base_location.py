@@ -1,11 +1,12 @@
 import win32gui
 import globalsData
 from PySide6.QtGui import QGuiApplication
+from modules.base.base_constants import *
 
 
 class BaseLocation:
     def __init__(self, params):
-        self.gameKey = params.get('gameKey', 'genshin')
+        self.gameKey = params.get('gameKey', MODULE_NAME)
         self.config_1920x1080 = params.get('1920x1080', {})
 
         self.SCALE = 0

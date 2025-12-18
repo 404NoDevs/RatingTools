@@ -1,10 +1,11 @@
 from modules.base.base_location import BaseLocation
+from modules.zzz.zzz_constants import *
 
 
 class Location(BaseLocation):
     def __init__(self):
         super().__init__({
-            "gameKey": "zzz",
+            "gameKey": MODULE_NAME,
             "1920x1080": {
                 # 背包面板
                 "bag": {

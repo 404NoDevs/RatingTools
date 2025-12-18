@@ -2,9 +2,8 @@
 import json
 import os
 import shutil
-import globalsData
 
-from utils import debugPrint
+import globalsData
 
 
 class BaseData:

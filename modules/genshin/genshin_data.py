@@ -8,6 +8,16 @@ from utils import markPrint
 class Data(BaseData):
     def __init__(self):
 
+        # 初始化父类
+        super().__init__({
+            "module_name": MODULE_NAME,
+            "maxLevel": 20,
+            "maxScore": 59.4,       # 标准最大值
+            "maxScore2": 70.2,      # 理论最大值
+            "oneMaxScore": 39.6,    # 单词条标准最大值
+            "oneMaxScore2": 46.6    # 单词条理论最大值
+        })
+
         self.entryArray = ["暴击率", "暴击伤害", "生命值", "生命值百分比", "攻击力", "攻击力百分比", "防御力", "防御力百分比", "元素精通", "元素充能效率"]
         self.posName = ["生之花", "死之羽", "时之沙", "空之杯", "理之冠"]
         self.mainAttrType = {
@@ -108,31 +118,13 @@ class Data(BaseData):
             '元素精通': 19.75,
             '元素充能效率': 5.5
         }
-
-        # self.evaluate = [
-        #     (50, (230, 179, 34), "传世珍品"),
-        #     (40, (255, 217, 0), "十分宝贵"),
-        #     (30, (163, 224, 67), "基本合格"),
-        #     (20, (238, 121, 118), "有点屁用"),
-        #     (0, (255, 0, 0), "屁用没有")
-        # ]
-
         self.evaluate = [
-            (59.4 * 0.90, (230, 179, 34), "优秀"),
-            (59.4 * 0.75, (255, 217, 0), "良好"),
-            (59.4 * 0.60, (163, 224, 67), "及格"),
-            (59.4 * 0.30, (238, 121, 118), "不及格"),
-            (59.4 * 0.00, (255, 0, 0), "废品")
+            (50, (230, 179, 34), "卓越"),
+            (40, (255, 217, 0), "优秀"),
+            (30, (163, 224, 67), "合格"),
+            (20, (238, 121, 118), "不合格"),
+            (0, (255, 0, 0), "废品")
         ]
-
-        super().__init__({
-            "module_name": "genshin",
-            "maxLevel": 20,
-            "maxScore": 59.4,  # 标准最大值
-            "maxScore2": 70.2,  # 理论最大值
-            "oneMaxScore": 39.6,  # 单词条标准最大值
-            "oneMaxScore2": 46.6   # 单词条理论最大值
-        })
 
     def getEntryArray(self):
         return self.entryArray
@@ -153,9 +145,9 @@ class Data(BaseData):
         return self.evaluate
 
     def get_evaluate(self, score):
-        for index, item in enumerate(self.evaluate):
+        for item in self.evaluate:
             if score >= item[0]:
-                return index, item
+                return item
 
     def checkArtifactName(self, name, parts):
         result = False
