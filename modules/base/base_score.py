@@ -37,7 +37,7 @@ class BaseScoreWindow(QWidget):
         self.SetWindow = params.get('SetWindow')
         self.AnalyzeResultWindow = params.get('AnalyzeResultWindow')
 
-        # 初始化参数
+        # 初始化变量
         self.id = -1
         self.position = []
         self.row = 0
@@ -51,6 +51,7 @@ class BaseScoreWindow(QWidget):
         self.temp = []
         self.isMouseMoved = False
 
+        # 初始化数据和UI
         self.initData()
         self.initUI()
 
@@ -182,7 +183,7 @@ class BaseScoreWindow(QWidget):
         self.w_grab = locationData.get("w_grab", 0)
         self.h_grab = locationData.get("h_grab", 0)
 
-        if globalsData.debug or True:
+        if globalsData.debug:
             #  debug模式下，显示鼠标判定区域
             self.temp = []
             # window = ColorWindow()
@@ -444,7 +445,7 @@ class BaseScoreWindow(QWidget):
             if self.id != -1:
                 params = self.data.getAnalyzeData(self.artifact[str(self.id)])
             self.analyzeWindow = self.AnalyzeResultWindow()
-            self.analyzeWindow.update(params)
+            self.analyzeWindow.updateData(params)
             self.analyzeWindow.show()
         else:
             self.analyzeWindow.close()

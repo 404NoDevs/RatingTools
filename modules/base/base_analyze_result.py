@@ -17,7 +17,7 @@ class BaseAnalyzeResultWindow(QWidget):
     def __init__(self, params):
         super().__init__()
 
-        self.position = params.get("position", (0, 0))
+        self.position = params.get("position", [0, 0])
 
         self.analyzeResult = []
         self.tips = "提示文本"
@@ -26,7 +26,7 @@ class BaseAnalyzeResultWindow(QWidget):
         self.initUI()
         self.updateUI()
 
-    def update(self, params):
+    def updateData(self, params):
         if params:
             self.analyzeResult = params.get("list", [])
             self.tips = params.get("tips", "提示文本")

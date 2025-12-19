@@ -1,5 +1,3 @@
-'''圣遗物推荐方案生成弹窗'''
-
 import os
 import pyperclip
 from PySide6.QtCore import Qt
@@ -15,13 +13,12 @@ from modules.base.base_constants import *
 
 
 class BaseSuitResultWindow(QWidget):
-
     def __init__(self, params):
         super().__init__()
 
         # 获取子类参数
         self.data = params.get("data", {})
-        self.position = params.get("position", (0, 0))
+        self.position = params.get("position", [0, 0])
 
         # 初始化变量
         self.character = DEFAULT_CHARACTER
@@ -108,7 +105,6 @@ class BaseSuitResultWindow(QWidget):
                 self.artifactScoreLabel1[posItem].setText("0")
                 oldScore = 0
 
-
             if posItem in newArtifactsData:
                 self.artifactNameLabel2[posItem].setText(newArtifactsData[posItem])
                 newArtifactItem = self.data.getArtifactItem(posItem, newArtifactsData[posItem])
@@ -157,7 +153,6 @@ class BaseSuitResultWindow(QWidget):
     # 英雄名称
     def programmeCurrentIndexChanged(self):
         self.updateUI()
-
 
     def equip(self):
         posItem = self.sender().objectName()
