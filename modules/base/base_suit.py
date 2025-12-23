@@ -162,7 +162,6 @@ class BaseSuitWindow(QWidget):
         # self.infoWindow.update(self.character)
         self.equipmentInfoWindow.show()
 
-
     def startRating(self):
         pass
 
