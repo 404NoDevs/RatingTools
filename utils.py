@@ -60,7 +60,7 @@ def debugPrint(*str):
     markPrint(filename, line_number, function_name, *str, mark="--debug")
 
 
-# 纠错工具
+# 字典纠错工具
 class SpellCorrector:
     def __init__(self, dictionary, max_distance=3):
         self.dictionary = dictionary
@@ -72,45 +72,7 @@ class SpellCorrector:
                 self.length_groups[length] = []
             self.length_groups[length].append(word)
 
-    def correct_word(self, word):
-        if word in self.dictionary:
-            return word
-
-        candidates = self.get_candidate_words(word)
-
-        if not candidates:
-            return word
-
-        # 使用多种策略选择最佳候选词
-        scored_candidates = []
-
-        for candidate in candidates:
-            # 策略1: 编辑距离
-            edit_distance = self.levenshtein_distance(word, candidate)
-
-            # 策略2: 字符重叠度（对丢字情况更敏感）
-            overlap_score = self.character_overlap(word, candidate)
-
-            # 策略3: 长度相似度
-            length_similarity = self.length_similarity(word, candidate)
-
-            # 综合评分（可根据需要调整权重）
-            combined_score = (
-                    0.6 * (1 - edit_distance / max(len(word), len(candidate))) +
-                    0.3 * overlap_score +
-                    0.1 * length_similarity
-            )
-
-            scored_candidates.append((candidate, combined_score, edit_distance))
-
-        # 选择综合评分最高的候选词
-        scored_candidates.sort(key=lambda x: (x[1], -x[2]), reverse=True)
-
-        best_candidate, best_score, best_distance = scored_candidates[0]
-
-        return best_candidate if best_distance <= self.max_distance else word
-
-    def get_candidate_words(self, word):
+    def __get_candidate_words(self, word):
         """获取候选词，限制搜索范围提高效率"""
         word_len = len(word)
         candidates = []
@@ -122,19 +84,22 @@ class SpellCorrector:
 
         return candidates
 
-    def character_overlap(self, s1, s2):
+    @staticmethod
+    def __character_overlap(s1, s2):
         """计算字符重叠度，对丢字情况更敏感"""
         set1, set2 = set(s1), set(s2)
         intersection = set1 & set2
         union = set1 | set2
         return len(intersection) / len(union) if union else 0
 
-    def length_similarity(self, s1, s2):
+    @staticmethod
+    def __length_similarity(s1, s2):
         """计算长度相似度"""
         len1, len2 = len(s1), len(s2)
         return 1 - abs(len1 - len2) / max(len1, len2)
 
-    def levenshtein_distance(self, s1, s2):
+    @staticmethod
+    def __levenshtein_distance(s1, s2):
         m, n = len(s1), len(s2)
         dp = [[0] * (n + 1) for _ in range(m + 1)]
 
@@ -153,6 +118,46 @@ class SpellCorrector:
                 )
         return dp[m][n]
 
+    # 对单词进行字典纠错
+    def correct_word(self, word):
+        if word in self.dictionary:
+            return word
+
+        candidates = self.__get_candidate_words(word)
+
+        if not candidates:
+            return word
+
+        # 使用多种策略选择最佳候选词
+        scored_candidates = []
+
+        for candidate in candidates:
+            # 策略1: 编辑距离
+            edit_distance = self.__levenshtein_distance(word, candidate)
+
+            # 策略2: 字符重叠度（对丢字情况更敏感）
+            overlap_score = self.__character_overlap(word, candidate)
+
+            # 策略3: 长度相似度
+            length_similarity = self.__length_similarity(word, candidate)
+
+            # 综合评分（可根据需要调整权重）
+            combined_score = (
+                    0.6 * (1 - edit_distance / max(len(word), len(candidate))) +
+                    0.3 * overlap_score +
+                    0.1 * length_similarity
+            )
+
+            scored_candidates.append((candidate, combined_score, edit_distance))
+
+        # 选择综合评分最高的候选词
+        scored_candidates.sort(key=lambda x: (x[1], -x[2]), reverse=True)
+
+        best_candidate, best_score, best_distance = scored_candidates[0]
+
+        return best_candidate if best_distance <= self.max_distance else word
+
+    # 对文本进行字典纠错
     def correct_text(self, text):
         words = text.split()
         corrected_words = [self.correct_word(word) for word in words]

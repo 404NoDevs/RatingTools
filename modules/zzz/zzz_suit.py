@@ -11,6 +11,7 @@ from modules.zzz.zzz_info_character import CharacterInfoWindow
 from modules.zzz.zzz_info_equipment import EquipmentInfoWindow
 from modules.zzz.zzz_constants import *
 
+
 class SuitWindow(BaseSuitWindow):
     def __init__(self, params):
         super().__init__({
@@ -56,6 +57,7 @@ class SuitWindow(BaseSuitWindow):
 
         # 根据创建参数调整页面
         self.heroNameCombobox.setCurrentIndex(self.data.getCharacterIndex(self.character))
+    
     # 推荐方案
     def startRating(self):
         params = {}
@@ -99,6 +101,6 @@ class SuitWindow(BaseSuitWindow):
                 if key in self.mainAttrCombobox:
                     self.mainAttrCombobox[key].set_selected(indexObj[key])
 
-    def swichMainWindow(self):
+    def switchMainWindow(self):
         from modules.zzz.zzz_score import ScoreWindow
-        super().swichMainWindow(ScoreWindow)
+        super().switchMainWindow(ScoreWindow)

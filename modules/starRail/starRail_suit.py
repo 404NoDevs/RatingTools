@@ -111,6 +111,6 @@ class SuitWindow(BaseSuitWindow):
                     self.mainAttrCombobox[key].set_selected(indexObj[key])
 
     # 切换为评分
-    def swichMainWindow(self):
+    def switchMainWindow(self):
         from modules.starRail.starRail_score import ScoreWindow
-        super().swichMainWindow(ScoreWindow)
+        super().switchMainWindow(ScoreWindow)

@@ -99,6 +99,6 @@ class SuitWindow(BaseSuitWindow):
                 if key in self.mainAttrCombobox:
                     self.mainAttrCombobox[key].set_selected(indexObj[key])
 
-    def swichMainWindow(self):
+    def switchMainWindow(self):
         from modules.genshin.genshin_score import ScoreWindow
-        super().swichMainWindow(ScoreWindow)
+        super().switchMainWindow(ScoreWindow)

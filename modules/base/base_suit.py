@@ -90,7 +90,7 @@ class BaseSuitWindow(QWidget):
         self.layout.addWidget(self.tipsLabel, self.bottomIndex + 3, 0, 1, 4)
 
         # 注册事件
-        self.scoreButton.clicked.connect(self.swichMainWindow)
+        self.scoreButton.clicked.connect(self.switchMainWindow)
         self.heroNameCombobox.currentIndexChanged.connect(self.heroNameCurrentIndexChanged)
         self.radiobtn1.toggled.connect(lambda: self.radiobtn_state(self.radiobtn1))
         self.radiobtn2.toggled.connect(lambda: self.radiobtn_state(self.radiobtn2))
@@ -128,7 +128,7 @@ class BaseSuitWindow(QWidget):
         self.updateUI()
 
     # 切换为评分
-    def swichMainWindow(self, window):
+    def switchMainWindow(self, window):
         global mainWindow
         mainWindow = window()
         mainWindow.initCombobox(self.character)
