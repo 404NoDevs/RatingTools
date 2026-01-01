@@ -1,7 +1,11 @@
 '''工具方法文件'''
+# 导入系统文件
 import json
 import inspect
 import win32gui
+# 导入PySide6文件
+from PySide6.QtGui import QColor, QStandardItem
+# 导入自定义文件
 import globalsData
 
 
@@ -191,5 +195,28 @@ class EventManager:
         if event_type in self._listeners:
             for listener in self._listeners[event_type]:
                 listener(*args, **kwargs)
+
+
 event_manager = EventManager()
 
+
+# 设置交替行颜色
+def setColor(model, divisor):
+    for row in range(model.rowCount()):
+        color = QColor(240, 240, 240) if (row // divisor) % 2 == 0 else QColor(255, 255, 255)
+        for col in range(model.columnCount()):
+            standardItem = model.item(row, col)
+            if not standardItem:
+                standardItem = QStandardItem()
+                model.setItem(row, col, standardItem)
+
+            if standardItem.background().color() == QColor(0, 0, 0, 255):
+                standardItem.setBackground(color)
+
+
+# 设置表格文本
+def dealTableText(text, item, unit="个"):
+    textList = text.split("\n")[1:]
+    textList.append(item)
+    textList.insert(0, str(len(textList)) + unit)
+    return "\n".join(textList)

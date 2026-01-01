@@ -1,11 +1,12 @@
-from modules.base.base_info import BaseInfoWindow
+from modules.base.base_info_character import BaseInfoCharacterWindow
 from modules.zzz.zzz_data import data
 from modules.zzz.zzz_constants import *
 from PySide6.QtGui import QFont, QColor, QStandardItemModel, QStandardItem
 from PySide6.QtCore import Qt
+from utils import *
 
 
-class CharacterInfoWindow(BaseInfoWindow):
+class CharacterInfoWindow(BaseInfoCharacterWindow):
     def __init__(self):
         super().__init__({
             "data": data,
@@ -50,7 +51,6 @@ class CharacterInfoWindow(BaseInfoWindow):
             nameItem.setFont(QFont("Microsoft YaHei", 8, QFont.Bold))
             model.setItem(row, headerList.index("角色"), nameItem)
             versionItem = QStandardItem(str(data[characterItem]["version"]))
-            # versionItem.setData(data[characterItem]["version"], Qt.DisplayRole)
             model.setItem(row, headerList.index("版本"), versionItem)
 
             characterData = data[characterItem]
@@ -101,12 +101,10 @@ class CharacterInfoWindow(BaseInfoWindow):
                             model.setItem(row, headerList.index(posItem), scoreItem)
 
                     sumScoreItem = QStandardItem(str(round(scoreSum, 1)))
-                    # sumScoreItem.setData(round(float(scoreSum), 1), Qt.DisplayRole)  # 强制转为flot类型用于后续排序
                     sumScoreItem.setBackground(QColor(*self.data.get_evaluate(scoreSum / len(self.data.getPosName()))[1]))
                     model.setItem(row, headerList.index("总分"), sumScoreItem)
                 else:
                     pass
 
         model.sort(headerList.index("版本"), Qt.DescendingOrder)
-
-        self.setColor(model, 1)
+        setColor(model, 1)

@@ -1,11 +1,12 @@
-from modules.base.base_info import BaseInfoWindow
+from modules.base.base_info_character import BaseInfoCharacterWindow
 from modules.starRail.starRail_data import data
 from modules.starRail.starRail_constants import *
 from PySide6.QtGui import QFont, QColor, QStandardItemModel, QStandardItem
 from PySide6.QtCore import Qt
+from utils import *
 
 
-class CharacterInfoWindow(BaseInfoWindow):
+class CharacterInfoWindow(BaseInfoCharacterWindow):
     def __init__(self):
         super().__init__({
             "data": data,
@@ -110,5 +111,4 @@ class CharacterInfoWindow(BaseInfoWindow):
                     pass
 
         model.sort(headerList.index("版本"), Qt.DescendingOrder)
-
-        self.setColor(model, 1)
+        setColor(model, 1)

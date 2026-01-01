@@ -532,5 +532,11 @@ class Data(BaseData):
         markPrint(result)
         return result
 
+    # 获取两件套列表
+    def getSuitListByKey(self, key):
+        suitConfig = self.suitConfig.get("外圈", {})
+        if key in suitConfig and isinstance(suitConfig[key], list):
+            return self.suitConfig[key]
+        return []
 
 data = Data()
