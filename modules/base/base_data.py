@@ -224,6 +224,8 @@ class BaseData:
             # 计算强化次数 及 有效词条数量
             average = self.getAverage()
             powerup = round(value / average[key]) - 1
+            if powerup < 0:
+                powerup = "?"
             powerupArray.append(powerup)
             if key in config and config[key] > 0:
                 entries = value / average[key]

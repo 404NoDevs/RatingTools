@@ -10,6 +10,7 @@ from PySide6.QtWidgets import (
     QComboBox
 )
 from modules.base.base_constants import *
+from extention import ClickableLabel
 
 
 class BaseSuitResultWindow(QWidget):
@@ -40,9 +41,9 @@ class BaseSuitResultWindow(QWidget):
 
         layout.addWidget(QLabel("当前方案："), 0, 0, 1, 1)
         self.programmeCombobox = QComboBox()
-        layout.addWidget(self.programmeCombobox, 0, 1, 1, 5)
-        self.copyButton = QPushButton('复制得分')
-        layout.addWidget(self.copyButton, 0, 6, 1, 1)
+        layout.addWidget(self.programmeCombobox, 0, 1, 1, 2)
+        # self.copyButton = QPushButton('复制得分')
+        # layout.addWidget(self.copyButton, 0, 6, 1, 1)
 
         self.artifactNameLabel1 = {}
         self.artifactScoreLabel1 = {}
@@ -54,14 +55,16 @@ class BaseSuitResultWindow(QWidget):
         for index, posItem in enumerate(self.data.getPosName()):
             layout.addWidget(QLabel(posItem), 1 + 3 * index + 1, 0, 2, 1)
             layout.addWidget(QLabel("当前："), 1 + 3 * index + 1, 1, 1, 1)
-            self.artifactNameLabel1[posItem] = QLabel("无装备")
+            self.artifactNameLabel1[posItem] = ClickableLabel("无装备")
+            self.artifactNameLabel1[posItem].clicked.connect(self.on_label_clicked)
             layout.addWidget(self.artifactNameLabel1[posItem], 1 + 3 * index + 1, 2, 1, 1)
             self.artifactOwnerLabel1[posItem] = QLabel("0")
             layout.addWidget(self.artifactOwnerLabel1[posItem], 1 + 3 * index + 1, 3, 1, 1)
             self.artifactScoreLabel1[posItem] = QLabel("0")
             layout.addWidget(self.artifactScoreLabel1[posItem], 1 + 3 * index + 1, 4, 1, 1)
             layout.addWidget(QLabel("推荐："), 2 + 3 * index + 1, 1, 1, 1)
-            self.artifactNameLabel2[posItem] = QLabel("无装备")
+            self.artifactNameLabel2[posItem] = ClickableLabel("无装备")
+            self.artifactNameLabel2[posItem].clicked.connect(self.on_label_clicked)
             layout.addWidget(self.artifactNameLabel2[posItem], 2 + 3 * index + 1, 2, 1, 1)
             self.artifactOwnerLabel2[posItem] = QLabel("无人装备")
             layout.addWidget(self.artifactOwnerLabel2[posItem], 2 + 3 * index + 1, 3, 1, 1)
@@ -85,7 +88,7 @@ class BaseSuitResultWindow(QWidget):
         # 注册事件
         self.programmeCombobox.currentIndexChanged.connect(self.programmeCurrentIndexChanged)
         self.equipButton.clicked.connect(self.allEquip)
-        self.copyButton.clicked.connect(self.copyScore)
+        # self.copyButton.clicked.connect(self.copyScore)
 
     def updateUI(self):
         oldArtifactsData = self.data.getArtifactOwner(self.character)
@@ -176,3 +179,9 @@ class BaseSuitResultWindow(QWidget):
         text_to_copy = "	".join(str(score) for score in self.score_array)
         pyperclip.copy(text_to_copy)
         self.equipTipsLabel.setText("得分已复制到剪切板")
+
+    # 复制装备名称到剪切板
+    def on_label_clicked(self):
+        text_to_copy = self.sender().text()
+        pyperclip.copy(text_to_copy)
+        self.equipTipsLabel.setText(text_to_copy + " 已复制")

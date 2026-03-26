@@ -8,6 +8,7 @@ from PySide6.QtWidgets import (
     QPushButton,
     QWidget,
     QGridLayout,
+    QSpinBox,
     QDoubleSpinBox,
     QCheckBox
 )
@@ -39,34 +40,36 @@ class BaseSetWindow(QWidget):
         self.dataUpdateButton = QPushButton('更新数据')
         # 显示当前角色
         self.heroNameLabel = QLabel("")
+        self.heroPriority = QSpinBox()
+        self.heroPriority.setRange(0, 999)
+        self.heroPriority.setSingleStep(1)
+        self.heroPriority.setValue(999)
+        self.heroPriority.setAlignment(Qt.AlignRight)
+
         # 显示得分权重
         self.entryChild = {}
         for keyName in self.data.getEntryArray():
             numText = QDoubleSpinBox()
-            numText.setMinimum(-1)
-            numText.setMaximum(2)
+            numText.setRange(-1, 2)
             numText.setSingleStep(0.1)
             numText.setValue(0)
             numText.setAlignment(Qt.AlignRight)
             self.entryChild[keyName] = {}
             self.entryChild[keyName]["entryNum"] = numText
             self.entryChild[keyName]["checkBtn"] = QCheckBox("")
+
         # 添加保存按钮
         self.saveButton = QPushButton('确认修改')
-
-        # # 注意事项
-        # self.tipsLabel1 = QLabel('注意事项：')
-        # self.tipsLabel1.setStyleSheet("color:red;")
-        # self.tipsLabel2 = QLabel('1.小词条（固定值）得分为大词条（百分比）的一半')
-        # self.tipsLabel2.setStyleSheet("color:red;")
 
         # 弹窗内容
         layout = QGridLayout()
         layout.addWidget(self.openFileButton, 0, 0, 1, 2)
         layout.addWidget(self.dataUpdateButton, 0, 2, 1, 2)
         layout.addWidget(QLabel('当前角色：'), 1, 0, Qt.AlignRight)
-        layout.addWidget(self.heroNameLabel, 1, 1, 1, 3)
-        # layout.addWidget(QLabel('核心词条'), 1, 2, Qt.AlignCenter)
+        layout.addWidget(self.heroNameLabel, 1, 1, 1, 1)
+        layout.addWidget(QLabel('装备权重：'), 1, 2, Qt.AlignRight)
+        layout.addWidget(self.heroPriority, 1, 3, 1, 1)
+
         counter = 0
         for keyName in self.entryChild:
             init_row = 2
@@ -94,11 +97,13 @@ class BaseSetWindow(QWidget):
         # 兼容数据异常情况
         if self.character in herConfig and herConfig[self.character] != {}:
             self.heroNameLabel.setText(self.character)
+            self.heroPriority.setValue(herConfig[self.character].get("priority", 999))
             for keyName in self.entryChild:
                 self.entryChild[keyName]["entryNum"].setValue(herConfig[self.character]["weight"][keyName])
-                self.entryChild[keyName]["checkBtn"].setChecked(keyName in herConfig[self.character].get("core", []))
+
         else:
             self.heroNameLabel.setText("请正确的选择角色")
+            self.heroPriority.setValue(999)
             for keyName in self.entryChild:
                 self.entryChild[keyName]["entryNum"].setValue(0)
                 self.entryChild[keyName]["checkBtn"].setChecked(False)
@@ -109,11 +114,10 @@ class BaseSetWindow(QWidget):
 
     def btn_save(self):
         tempConfig = {}
+        tempConfig["priority"] = self.heroPriority.value()
         tempConfig["weight"] = {}
         for keyName in self.entryChild:
             tempConfig["weight"][keyName] = round(self.entryChild[keyName]["entryNum"].value(), 2)
-
-        # tempConfig["core"] = [keyName for keyName in self.entryChild if self.entryChild[keyName]["checkBtn"].isChecked()]
 
         self.data.setCharacters(self.character, tempConfig)
 

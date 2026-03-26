@@ -11,7 +11,7 @@ class CharacterInfoWindow(BaseInfoCharacterWindow):
         super().__init__({
             "data": data,
             "position": (300, 0),
-            "size": (1000, 990)
+            "size": (1050, 990)
         })
 
     def update(self):
@@ -19,18 +19,19 @@ class CharacterInfoWindow(BaseInfoCharacterWindow):
         headerList = [
             '角色',  # 0
             '版本',  # 1
-            '套装一',  # 2
-            '套装二',  # 3
-            '沙-主',  # 4
-            "杯-主",  # 5
-            "冠-主",  # 6
-            "得分权重",  # 7
-            "花",  # 8
-            "羽",  # 9
-            "沙",  # 10
-            "杯",  # 11
-            "冠",  # 12
-            "总分"  # 13
+            '优先级',  # 2
+            '套装一',  # 3
+            '套装二',  # 4
+            '沙-主',  # 5
+            "杯-主",  # 6
+            "冠-主",  # 7
+            "得分权重",  # 8
+            "花",  # 9
+            "羽",  # 10
+            "沙",  # 11
+            "杯",  # 12
+            "冠",  # 13
+            "总分"  # 14
         ]
         model = QStandardItemModel(len(tableData), len(headerList))
         model.setHorizontalHeaderLabels(headerList)
@@ -39,6 +40,7 @@ class CharacterInfoWindow(BaseInfoCharacterWindow):
         self.table_view.setModel(model)
         self.table_view.setColumnWidth(headerList.index("角色"), 70)
         self.table_view.setColumnWidth(headerList.index("版本"), 35)
+        self.table_view.setColumnWidth(headerList.index("优先级"), 40)
         for index in range(headerList.index("套装一"), headerList.index("得分权重")+1):
             self.table_view.setColumnWidth(index, 100)
         for index in range(headerList.index("花"), headerList.index("冠")+1):
@@ -52,6 +54,8 @@ class CharacterInfoWindow(BaseInfoCharacterWindow):
             versionItem = QStandardItem(str(tableData[characterItem]["version"]))
             # versionItem.setData(tableData[characterItem]["version"], Qt.DisplayRole)
             model.setItem(row, headerList.index("版本"), versionItem)
+            priorityItem = QStandardItem(str(tableData[characterItem]["priority"]))
+            model.setItem(row, headerList.index("优先级"), priorityItem)
 
             characterData = tableData[characterItem]
             for col, item in enumerate(characterData):

@@ -9,5 +9,5 @@ class SetWindow(BaseSetWindow):
         super().__init__({
             "parent": parent,
             "data": data,
-            "position": [340, 0]
+            "position": [0, 0]
         })

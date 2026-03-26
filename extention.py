@@ -2,7 +2,7 @@
 
 from PySide6.QtGui import Qt
 from PySide6.QtCore import QObject, Signal, Qt, QSortFilterProxyModel
-from PySide6.QtWidgets import QComboBox, QCompleter, QListWidget, QCheckBox, QListWidgetItem, QLineEdit
+from PySide6.QtWidgets import QLabel, QComboBox, QCompleter, QListWidget, QCheckBox, QListWidgetItem, QLineEdit
 from pynput.mouse import Controller, Button, Listener
 from utils import event_manager
 
@@ -48,7 +48,6 @@ class OutsideMouseManager(QObject):
         self.set_position = point
         self.mouse.position = point
         self.mouse.click(Button.left, 1)
-
 
 
 # 增强选择框
@@ -217,3 +216,16 @@ class XCombobox(QComboBox):
         # 显示下拉列表
         self.showPopup()
         event.accept()  # 处理事件
+
+
+# 自定义控件-可点击Label
+class ClickableLabel(QLabel):
+    clicked = Signal()  # 自定义一个点击信号
+
+    def __init__(self, text="", parent=None):
+        super().__init__(text, parent)
+
+    def mousePressEvent(self, event):
+        # 重写鼠标按下事件，触发信号
+        super().mousePressEvent(event)
+        self.clicked.emit()

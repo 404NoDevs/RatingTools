@@ -78,11 +78,14 @@ class BaseSuitWindow(QWidget):
 
         # 下半部分
         self.layout.addWidget(QLabel('其他选择:'), self.bottomIndex + 0, 0, 1, 1)
-        self.radiobtn1 = QRadioButton('仅未装备')
-        self.radiobtn2 = QRadioButton('全部')
+        self.radiobtn1 = QRadioButton('优先级')
+        self.radiobtn2 = QRadioButton('未装备')
+        self.radiobtn3 = QRadioButton('全部')
+
         self.radiobtn1.setChecked(True)
         self.layout.addWidget(self.radiobtn1, self.bottomIndex + 1, 1, 1, 1)
         self.layout.addWidget(self.radiobtn2, self.bottomIndex + 1, 2, 1, 1)
+        self.layout.addWidget(self.radiobtn3, self.bottomIndex + 1, 3, 1, 1)
         self.startButton = QPushButton('生成方案')
         self.layout.addWidget(self.startButton, self.bottomIndex + 2, 0, 1, 4)
         self.tipsLabel = QLabel('提示文本')
@@ -94,6 +97,7 @@ class BaseSuitWindow(QWidget):
         self.heroNameCombobox.currentIndexChanged.connect(self.heroNameCurrentIndexChanged)
         self.radiobtn1.toggled.connect(lambda: self.radiobtn_state(self.radiobtn1))
         self.radiobtn2.toggled.connect(lambda: self.radiobtn_state(self.radiobtn2))
+        self.radiobtn3.toggled.connect(lambda: self.radiobtn_state(self.radiobtn3))
         self.startButton.clicked.connect(self.startRating)
         self.setButton.clicked.connect(self.openSetWindow)
         self.checkButton.clicked.connect(self.checkButtonClicked)
@@ -115,10 +119,12 @@ class BaseSuitWindow(QWidget):
 
     # 单选框按钮
     def radiobtn_state(self, btn):
-        if btn.text() == '仅未装备' and btn.isChecked() == True:
+        if btn.text() == '优先级' and btn.isChecked():
             self.selectType = 1
-        elif btn.text() == '全部' and btn.isChecked() == True:
+        elif btn.text() == '未装备' and btn.isChecked():
             self.selectType = 2
+        elif btn.text() == '全部' and btn.isChecked():
+            self.selectType = 3
 
     # 英雄名称
     def heroNameCurrentIndexChanged(self):

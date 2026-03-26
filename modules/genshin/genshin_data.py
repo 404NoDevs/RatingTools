@@ -225,6 +225,14 @@ class Data(BaseData):
                     # 限制一 是否已装备
                     if params["selectType"] == 1:
                         ownerCharacter = self.getOwnerCharacterByArtifactId(posItem, artifactKey)
+                        ownerPriority = 999
+                        if ownerCharacter:
+                            ownerPriority = self.characters.get(ownerCharacter, {}).get("priority", 999)
+                        if ownerPriority <= self.characters.get(params["character"], {}).get("priority", 999):
+                            # print("该装备已装备")
+                            continue
+                    elif params["selectType"] == 2:
+                        ownerCharacter = self.getOwnerCharacterByArtifactId(posItem, artifactKey)
                         if ownerCharacter and ownerCharacter != params["character"]:
                             # print("该装备已装备")
                             continue
@@ -423,13 +431,11 @@ class Data(BaseData):
                     core = []
                     aux = []
                     for key, value in self.characters[character]["weight"].items():
-                        # if key in ["攻击力", "生命值", "防御力"]:
-                        #     key += "百分比"
                         if value >= 1.5:  # 超级词条
                             super.append(key)
-                        if value >= 0.75:  # 核心词条
+                        if value >= 0.8:  # 核心词条
                             core.append(key)
-                        elif value >= 0.375:  # 辅助词条
+                        elif value >= 0.4:  # 辅助词条
                             aux.append(key)
                         else:
                             # 无效词条
